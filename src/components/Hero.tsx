@@ -1,188 +1,135 @@
-import { useEffect, useState } from 'react'
-import { motion, useReducedMotion, type Variants } from 'motion/react'
+import { useRef } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { CountUp } from './CountUp'
-import { INTRO_DONE_EVENT } from './Intro'
 import { Seal } from './Seal'
 import { PlatformMark } from './Platforms'
 import { useContent } from '../content/store'
-import { springSoft, springSnappy } from '../lib/motion'
+import { cn } from '../lib/cn'
 
-const container: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
-}
+const HERO_IMAGE = '/asya/portrait.jpg'
 
-const word: Variants = {
-  hidden: { opacity: 0, y: '0.5em', filter: 'blur(10px)' },
-  show: { opacity: 1, y: '0em', filter: 'blur(0px)', transition: springSoft },
-}
-
-const rise: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: springSoft },
+/** CSS entrance helper: `reveal` class + a staggered delay. */
+function reveal(delay: number) {
+  return { className: 'reveal', style: { animationDelay: `${delay}s` } }
 }
 
 export function Hero() {
   const { hero: HERO, metrics: METRICS, contact: CONTACT, sealText, platforms } = useContent()
   const reduceMotion = useReducedMotion()
-  const [ready, setReady] = useState(false)
+  const ref = useRef<HTMLElement>(null)
 
-  // Hold the entrance until the intro curtain starts lifting, so the hero
-  // animates into view rather than sitting finished behind it.
-  useEffect(() => {
-    if (reduceMotion) {
-      setReady(true)
-      return
-    }
-    let seen = false
-    try {
-      seen = sessionStorage.getItem('asy-intro-seen') === '1'
-    } catch {
-      seen = false
-    }
-    if (seen) {
-      setReady(true)
-      return
-    }
-    const reveal = () => setReady(true)
-    window.addEventListener(INTRO_DONE_EVENT, reveal)
-    const safety = window.setTimeout(reveal, 2200)
-    return () => {
-      window.removeEventListener(INTRO_DONE_EVENT, reveal)
-      window.clearTimeout(safety)
-    }
-  }, [reduceMotion])
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '-16%'])
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.12])
+
+  const words = HERO.headline.flatMap((line, li) =>
+    line.split(' ').map((w, wi) => ({ w, key: `${li}-${wi}`, line: li })),
+  )
+  let idx = 0
 
   return (
-    <section
-      id="top"
-      className="relative flex min-h-[100svh] flex-col justify-center px-6 pt-32 pb-20 sm:px-10 sm:pt-40"
-    >
-      <motion.div
-        initial={reduceMotion ? undefined : { opacity: 0, rotate: -25 }}
-        animate={reduceMotion || ready ? { opacity: 1, rotate: 0 } : undefined}
-        transition={{ ...springSoft, delay: 0.3 }}
-        className="pointer-events-none absolute top-32 right-8 hidden text-ink/70 lg:block xl:right-16"
+    <section ref={ref} id="top" className="relative min-h-[100svh] overflow-hidden bg-paper">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -right-[6vw] -bottom-[12vh] font-display text-[42vw] leading-none font-extrabold text-ink/[0.05] select-none"
       >
-        <Seal text={sealText} className="h-28 w-28 xl:h-32 xl:w-32" />
-      </motion.div>
+        ×3
+      </span>
 
-      <motion.div
-        variants={container}
-        initial={reduceMotion ? undefined : 'hidden'}
-        animate={reduceMotion ? undefined : ready ? 'show' : 'hidden'}
-        className="mx-auto w-full max-w-[80rem]"
+      <div
+        {...reveal(0.6)}
+        className="pointer-events-none absolute top-24 right-6 z-20 text-ink/45 sm:top-28 sm:right-10 lg:right-14"
       >
-        <motion.p
-          variants={rise}
-          className="text-xs font-medium tracking-[0.24em] text-ink-faint uppercase"
-        >
-          {HERO.kicker}
-        </motion.p>
+        <Seal text={sealText} className="h-24 w-24 sm:h-28 sm:w-28 lg:h-32 lg:w-32" />
+      </div>
 
-        <h1 className="mt-8 text-display">
-          {HERO.headline.map((line, lineIndex) => (
-            <span key={lineIndex} className="block overflow-hidden">
-              {line.split(' ').map((w, wordIndex) => (
-                <motion.span
-                  key={`${lineIndex}-${wordIndex}`}
-                  variants={word}
-                  className="mr-[0.22em] inline-block"
-                >
-                  {w}
-                </motion.span>
-              ))}
-            </span>
-          ))}
-          <motion.span variants={rise} className="mt-3 block text-accent">
-            {HERO.emphasis}
-          </motion.span>
-        </h1>
-
-        <motion.p variants={rise} className="mt-10 max-w-2xl text-lead text-ink-soft text-balance">
-          {HERO.sub}
-        </motion.p>
-
-        <motion.div variants={rise} className="mt-12">
-          <motion.a
-            href={CONTACT.telegramUrl}
-            target="_blank"
-            rel="noreferrer noopener"
-            whileHover={reduceMotion ? undefined : { scale: 1.03 }}
-            whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-            transition={springSnappy}
-            className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-base font-medium text-paper"
-          >
-            Обсудить проект
-            <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
-          </motion.a>
-        </motion.div>
-
-        {platforms.length > 0 && (
-          <motion.div
-            variants={rise}
-            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2"
-          >
-            <span className="text-xs font-medium tracking-[0.2em] text-ink-faint uppercase">
-              Площадки
+      <div className="mx-auto grid min-h-[100svh] w-full max-w-[88rem] grid-cols-1 items-center gap-10 px-6 pt-32 pb-24 sm:px-10 sm:pt-36 lg:grid-cols-[1.35fr_0.65fr] lg:gap-12 lg:pb-28">
+        <div>
+          <div {...reveal(0.05)} className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <span className="text-xs font-medium tracking-[0.28em] text-ink-soft uppercase">
+              {HERO.kicker}
             </span>
             {platforms.map((p) => (
               <PlatformMark key={p} name={p} />
             ))}
-          </motion.div>
-        )}
+          </div>
 
-        {/* Headline metrics */}
-        <motion.dl
-          variants={rise}
-          className="mt-20 grid grid-cols-1 gap-x-10 gap-y-12 border-t border-line pt-12 sm:grid-cols-3"
+          <h1 className="mt-8 text-display">
+            {HERO.headline.map((line, li) => (
+              <span key={li} className="block overflow-hidden pb-[0.06em]">
+                {line.split(' ').map((w) => {
+                  const d = 0.12 + idx++ * 0.09
+                  return (
+                    <span
+                      key={w + d}
+                      className="reveal mr-[0.16em] inline-block"
+                      style={{ animationDelay: `${d}s` }}
+                    >
+                      {w}
+                    </span>
+                  )
+                })}
+              </span>
+            ))}
+          </h1>
+
+          <p {...reveal(0.12 + words.length * 0.09)} className="mt-6 text-work font-extrabold text-accent">
+            {HERO.emphasis}
+          </p>
+
+          <p {...reveal(0.3)} className="mt-8 max-w-xl text-lead text-ink-soft text-balance">
+            {HERO.sub}
+          </p>
+
+          <div {...reveal(0.4)} className="mt-10 flex flex-wrap items-center gap-4">
+            <a
+              href={CONTACT.telegramUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="group inline-flex items-center gap-3 rounded-full bg-accent px-7 py-4 text-base font-semibold text-accent-ink transition-transform hover:scale-[1.03] active:scale-95"
+            >
+              Обсудить проект
+              <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
+            </a>
+            <span className="text-sm text-ink-faint">{CONTACT.telegramHandle}</span>
+          </div>
+        </div>
+
+        {/* Portrait panel */}
+        <div
+          {...reveal(0.35)}
+          className="relative hidden aspect-[3/4] w-full overflow-hidden rounded-2xl border border-line lg:block"
         >
+          <motion.img
+            src={HERO_IMAGE}
+            alt={CONTACT.name}
+            style={reduceMotion ? undefined : { y: imgY, scale: imgScale }}
+            className="absolute inset-0 h-[118%] w-full object-cover object-[center_20%]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-paper/70 via-transparent to-transparent" />
+        </div>
+      </div>
+
+      <dl
+        className={cn(
+          'absolute inset-x-0 bottom-0 z-10 border-t border-line bg-paper/70 backdrop-blur-sm',
+          'reveal',
+        )}
+        style={{ animationDelay: '0.9s' }}
+      >
+        <div className="mx-auto grid max-w-[88rem] grid-cols-1 gap-x-10 gap-y-3 px-6 py-5 sm:grid-cols-3 sm:px-10">
           {METRICS.map((metric) => (
-            <div key={metric.label} className="flex flex-col">
-              <dt className="text-xs font-medium tracking-[0.18em] text-ink-faint uppercase">
-                {metric.label}
-              </dt>
-              <dd className="mt-5 font-display text-figure font-extrabold tracking-[-0.04em]">
+            <div key={metric.label} className="flex items-baseline gap-3">
+              <dd className="font-display text-xl font-extrabold tracking-[-0.03em] sm:text-2xl">
                 <CountUp value={metric.to} decimals={metric.decimals} suffix={metric.unit} />
               </dd>
-              <p className="mt-4 flex items-center gap-3 text-sm text-ink-soft">
-                {metric.single ? (
-                  <span>ключевой драйвер роста</span>
-                ) : (
-                  <>
-                    <span className="tabular-nums">
-                      было{' '}
-                      {metric.from.toLocaleString('ru-RU', {
-                        minimumFractionDigits: metric.decimals,
-                        maximumFractionDigits: metric.decimals,
-                      })}
-                      {metric.unit ? ` ${metric.unit}` : ''}
-                    </span>
-                    {metric.delta && (
-                      <span className="rounded-full border border-accent px-2 py-0.5 text-xs font-medium text-accent">
-                        {metric.delta}
-                      </span>
-                    )}
-                  </>
-                )}
-              </p>
+              <dt className="text-xs text-ink-faint">{metric.label}</dt>
             </div>
           ))}
-        </motion.dl>
-      </motion.div>
-
-      <motion.div
-        initial={reduceMotion ? undefined : { opacity: 0 }}
-        animate={reduceMotion || ready ? { opacity: 1 } : undefined}
-        transition={{ delay: 0.4, duration: 0.8 }}
-        className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 sm:block"
-      >
-        <span className="motion-safe:animate-nudge block text-xs tracking-[0.2em] text-ink-faint uppercase">
-          Листать
-        </span>
-      </motion.div>
+        </div>
+      </dl>
     </section>
   )
 }

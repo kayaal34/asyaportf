@@ -1,48 +1,26 @@
-import type { ReactNode } from 'react'
-import { motion, useReducedMotion, type Variants } from 'motion/react'
-import { springSoft, viewportOnce } from '../lib/motion'
+import { type ReactNode } from 'react'
 import { cn } from '../lib/cn'
 
 type RevealProps = {
   children: ReactNode
   className?: string
-  /** Extra delay before the entrance spring fires. */
+  /** Stagger delay in seconds. */
   delay?: number
-  /** Add a soft blur settle — reserve for hero-level moments. */
   blur?: boolean
-}
-
-const plain: Variants = {
-  hidden: { opacity: 0, y: 32 },
-  show: { opacity: 1, y: 0 },
-}
-
-const withBlur: Variants = {
-  hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
-  show: { opacity: 1, y: 0, filter: 'blur(0px)' },
+  as?: 'div' | 'li' | 'span'
 }
 
 /**
- * Wraps content in a spring-eased fade + slide-up that plays once when it
- * scrolls into view. Honours prefers-reduced-motion by rendering statically.
+ * Soft fade + rise entrance. Pure CSS keyframe (`reveal` utility, fill-mode
+ * both) so the content is guaranteed to end fully visible in every rendering
+ * context — no IntersectionObserver, no animation-library frame loop to stall.
+ * Respects prefers-reduced-motion via the utility's media query.
  */
-export function Reveal({ children, className, delay = 0, blur = false }: RevealProps) {
-  const reduceMotion = useReducedMotion()
-
-  if (reduceMotion) {
-    return <div className={className}>{children}</div>
-  }
-
+export function Reveal({ children, className, delay = 0, as = 'div' }: RevealProps) {
+  const Tag = as
   return (
-    <motion.div
-      className={cn(className)}
-      variants={blur ? withBlur : plain}
-      initial="hidden"
-      whileInView="show"
-      viewport={viewportOnce}
-      transition={{ ...springSoft, delay }}
-    >
+    <Tag className={cn('reveal', className)} style={{ animationDelay: `${delay}s` }}>
       {children}
-    </motion.div>
+    </Tag>
   )
 }

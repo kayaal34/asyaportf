@@ -1,23 +1,11 @@
-import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { Section } from './Section'
 import { SectionHeading } from './SectionHeading'
 import { Reveal } from './Reveal'
 import { BeforeAfter } from './BeforeAfter'
 import { useContent } from '../content/store'
-import { springSoft, viewportOnce } from '../lib/motion'
-
-const container: Variants = {
-  hidden: {},
-  shown: { transition: { staggerChildren: 0.08 } },
-}
-const card: Variants = {
-  hidden: { opacity: 0, y: 32 },
-  shown: { opacity: 1, y: 0, transition: springSoft },
-}
 
 export function WorkList() {
   const { work: WORK, workIntro: WORK_INTRO, contact: CONTACT } = useContent()
-  const reduceMotion = useReducedMotion()
 
   return (
     <Section id="work">
@@ -28,15 +16,9 @@ export function WorkList() {
 
       <BeforeAfter />
 
-      <motion.ul
-        variants={container}
-        initial={reduceMotion ? undefined : 'hidden'}
-        whileInView={reduceMotion ? undefined : 'shown'}
-        viewport={viewportOnce}
-        className="mt-14 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3"
-      >
-        {WORK.map((item) => (
-          <motion.li key={item.title} variants={card}>
+      <ul className="mt-14 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
+        {WORK.map((item, i) => (
+          <Reveal as="li" key={item.title} delay={(i % 3) * 0.07}>
             <a
               href={CONTACT.portfolioUrl}
               target="_blank"
@@ -65,9 +47,9 @@ export function WorkList() {
               </p>
               <p className="mt-2 text-sm text-ink-soft">{item.note}</p>
             </a>
-          </motion.li>
+          </Reveal>
         ))}
-      </motion.ul>
+      </ul>
 
       <Reveal className="mt-14">
         <a

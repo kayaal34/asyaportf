@@ -8,20 +8,20 @@
 @import '@fontsource/inter/500.css';
 
 :root {
-  /* Monochrome, stark-minimalist light system */
-  --paper: #f5f3ef; /* warm off-white ground */
-  --paper-raised: #fbfaf7; /* cards / raised surfaces */
-  --ink: #0b0b0b; /* near-black foreground */
-  --ink-soft: #6b6a66; /* muted body text */
-  --ink-faint: #9a9995; /* captions, meta */
-  --line: rgba(11, 11, 11, 0.12); /* hairline dividers */
-  --line-strong: rgba(11, 11, 11, 0.22);
+  /* Cinematic dark system. Token NAMES kept ("paper" = ground, "ink" = text)
+     so components read correctly while the palette is inverted and dramatic. */
+  --paper: #0a0a0b; /* near-black ground */
+  --paper-raised: #141417; /* cards / raised surfaces */
+  --ink: #f4f2ec; /* warm white foreground */
+  --ink-soft: #a6a49e; /* muted body text */
+  --ink-faint: #6b6a66; /* captions, meta */
+  --line: rgba(244, 242, 236, 0.14); /* hairline dividers */
+  --line-strong: rgba(244, 242, 236, 0.28);
 
-  /* One controlled accent — editorial vermilion, used only on a handful of
-     signals (the hero emphasis line, deltas, link underlines, live status). */
-  --accent: #d1341f;
-  --accent-ink: #f5f3ef; /* text that sits on --accent */
-  --accent-wash: rgba(209, 52, 31, 0.1);
+  /* Vermilion accent — glows against the black. */
+  --accent: #ff4326;
+  --accent-ink: #0a0a0b; /* text that sits on --accent */
+  --accent-wash: rgba(255, 67, 38, 0.14);
 
   --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -43,26 +43,30 @@
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
 
-  /* Fluid typographic scale — the numbers should read like modern art */
-  --text-mega: clamp(2.25rem, 6vw, 4.5rem);
+  /* Fluid typographic scale — oversized, cinematic. */
+  --text-mega: clamp(2.5rem, 7vw, 5.5rem);
   --text-mega--line-height: 1;
   --text-mega--letter-spacing: -0.03em;
 
-  --text-display: clamp(2.6rem, 8vw, 7rem);
-  --text-display--line-height: 0.98;
-  --text-display--letter-spacing: -0.04em;
+  --text-colossal: clamp(3.5rem, 18vw, 18rem);
+  --text-colossal--line-height: 0.82;
+  --text-colossal--letter-spacing: -0.05em;
 
-  --text-work: clamp(1.75rem, 4.6vw, 4rem);
-  --text-work--line-height: 1.04;
-  --text-work--letter-spacing: -0.03em;
+  --text-display: clamp(3rem, 11vw, 10rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.045em;
 
-  --text-figure: clamp(2.4rem, 6.5vw, 6rem);
-  --text-figure--line-height: 0.92;
-  --text-figure--letter-spacing: -0.04em;
+  --text-work: clamp(1.9rem, 5.2vw, 4.75rem);
+  --text-work--line-height: 1.02;
+  --text-work--letter-spacing: -0.035em;
 
-  --text-headline: clamp(1.9rem, 4vw, 3.6rem);
-  --text-headline--line-height: 1;
-  --text-headline--letter-spacing: -0.03em;
+  --text-figure: clamp(2.8rem, 8vw, 8rem);
+  --text-figure--line-height: 0.88;
+  --text-figure--letter-spacing: -0.045em;
+
+  --text-headline: clamp(2.1rem, 5vw, 4.75rem);
+  --text-headline--line-height: 0.98;
+  --text-headline--letter-spacing: -0.035em;
 
   --text-lead: clamp(1.05rem, 1.6vw, 1.5rem);
   --text-lead--line-height: 1.45;
@@ -75,9 +79,10 @@
   }
 
   html {
-    color-scheme: light;
+    color-scheme: dark;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    background: var(--paper);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -138,6 +143,54 @@
 
 @utility animate-nudge {
   animation: nudge 2s ease-in-out infinite;
+}
+
+/* CSS-driven entrance — reliable everywhere (unlike rAF animations in some
+   embedded preview contexts). Elements start hidden and rise into place. */
+/* Transform-only, so a context that freezes the animation clock still shows the
+   content (merely offset by a few px). Real browsers get the soft rise. */
+@keyframes reveal-up {
+  from {
+    transform: translateY(1.4rem);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@utility reveal {
+  animation: reveal-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Scroll-driven zoom for the Colossal beat, where supported. Pure progressive
+   enhancement — no effect (and no harm) when animation-timeline is unavailable. */
+@supports (animation-timeline: view()) {
+  @keyframes colossal-zoom {
+    from {
+      transform: scale(0.72) translateX(4%);
+    }
+    to {
+      transform: scale(1.2) translateX(-4%);
+    }
+  }
+  .colossal-zoom {
+    animation: colossal-zoom linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .colossal-zoom {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+  }
 }
 
 @keyframes marquee {

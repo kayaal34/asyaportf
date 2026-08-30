@@ -1,27 +1,21 @@
-import { motion, useReducedMotion } from 'motion/react'
 import { Section } from './Section'
 import { SectionHeading } from './SectionHeading'
 import { Reveal } from './Reveal'
 import { useContent } from '../content/store'
-import { springSoft, viewportOnce } from '../lib/motion'
 
 export function Edge() {
   const { edge: EDGE, edgeIntro: EDGE_INTRO } = useContent()
-  const reduceMotion = useReducedMotion()
 
   return (
     <Section id="edge" className="bg-ink text-paper">
       <SectionHeading kicker={EDGE_INTRO.kicker} title={EDGE_INTRO.title} invert />
 
-
-      <div className="mt-16 lg:mt-24">
+      <div className="mt-14 lg:mt-20">
         {EDGE.map((item, index) => (
-          <motion.div
+          <Reveal
+            as="div"
             key={item.title}
-            initial={reduceMotion ? undefined : { opacity: 0, y: 40 }}
-            whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            viewport={viewportOnce}
-            transition={{ ...springSoft, delay: index * 0.05 }}
+            delay={index * 0.05}
             className="grid grid-cols-1 gap-6 border-t border-paper/15 py-12 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-12 lg:py-16"
           >
             <div className="flex items-baseline gap-4">
@@ -37,15 +31,15 @@ export function Edge() {
               </h3>
               <p className="mt-4 text-[1.02rem] leading-relaxed text-paper/65">{item.body}</p>
             </div>
-          </motion.div>
+          </Reveal>
         ))}
         <div className="border-t border-paper/15" />
       </div>
 
       <Reveal className="mt-14">
         <p className="max-w-2xl text-lead text-paper/70">
-          Итог всех четырёх пунктов — предсказуемость. Вы понимаете, за счёт чего растёт магазин,
-          и можете это повторить.
+          Итог всех пунктов — предсказуемость. Вы понимаете, за счёт чего растёт магазин, и можете
+          это повторить.
         </p>
       </Reveal>
     </Section>

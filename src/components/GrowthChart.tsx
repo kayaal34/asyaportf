@@ -1,15 +1,12 @@
 import { useMemo, useRef, useState, type PointerEvent } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
 import { Section } from './Section'
 import { SectionHeading } from './SectionHeading'
 import { Reveal } from './Reveal'
 import { useContent } from '../content/store'
 import type { GrowthMilestone, GrowthPoint } from '../content/site'
-import { viewportOnce } from '../lib/motion'
 
 const nf0 = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 })
 const nf1 = new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-const EASE = [0.16, 1, 0.3, 1] as const
 
 export function GrowthChart() {
   const { growth } = useContent()
@@ -108,7 +105,6 @@ function MiniChart({
   format: (v: number) => string
   milestones?: GrowthMilestone[]
 }) {
-  const reduceMotion = useReducedMotion()
   const svgRef = useRef<SVGSVGElement>(null)
   const [hover, setHover] = useState<number | null>(null)
 
@@ -195,26 +191,14 @@ function MiniChart({
         })}
 
         {/* area + line */}
-        <motion.path
-          d={geom.area}
-          fill="var(--accent)"
-          fillOpacity={0.1}
-          initial={reduceMotion ? false : { opacity: 0 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1 }}
-          viewport={viewportOnce}
-          transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-        />
-        <motion.path
+        <path d={geom.area} fill="var(--accent)" fillOpacity={0.12} />
+        <path
           d={geom.line}
           fill="none"
           stroke="var(--accent)"
           strokeWidth={2.5}
           strokeLinecap="round"
           strokeLinejoin="round"
-          initial={reduceMotion ? false : { pathLength: 0 }}
-          whileInView={reduceMotion ? undefined : { pathLength: 1 }}
-          viewport={viewportOnce}
-          transition={{ duration: 1.3, ease: EASE }}
         />
 
         {/* endpoint markers */}

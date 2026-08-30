@@ -1,15 +1,12 @@
 import { useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { Section } from './Section'
 import { SectionHeading } from './SectionHeading'
 import { Reveal } from './Reveal'
 import { useContent } from '../content/store'
-import { springSoft } from '../lib/motion'
 import { cn } from '../lib/cn'
 
 export function CaseStudies() {
   const { cases: CASES, casesIntro: CASES_INTRO, contact: CONTACT } = useContent()
-  const reduceMotion = useReducedMotion()
   const [openId, setOpenId] = useState<string>(CASES[0]?.id ?? '')
 
   return (
@@ -44,16 +41,13 @@ export function CaseStudies() {
                 </span>
               </button>
 
-              <AnimatePresence initial={false}>
-                {isOpen && (
-                  <motion.div
-                    key="body"
-                    initial={reduceMotion ? false : { height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
-                    transition={springSoft}
-                    className="overflow-hidden"
-                  >
+              <div
+                className={cn(
+                  'grid overflow-hidden transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
+                  isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
+                )}
+              >
+                <div className="min-h-0">
                     <div className="grid grid-cols-1 gap-10 pb-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pb-16">
                       <div>
                         <p className="max-w-xl text-lead text-ink-soft">{item.summary}</p>
@@ -84,9 +78,8 @@ export function CaseStudies() {
                         ))}
                       </ol>
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                </div>
+              </div>
             </div>
           )
         })}

@@ -1,21 +1,9 @@
-import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { Section } from './Section'
 import { Reveal } from './Reveal'
 import { useContent } from '../content/store'
-import { springSoft, viewportOnce } from '../lib/motion'
-
-const list: Variants = {
-  hidden: {},
-  shown: { transition: { staggerChildren: 0.07 } },
-}
-const item: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  shown: { opacity: 1, y: 0, transition: springSoft },
-}
 
 export function About() {
   const { about } = useContent()
-  const reduceMotion = useReducedMotion()
 
   return (
     <Section id="about">
@@ -50,22 +38,21 @@ export function About() {
           </Reveal>
 
           {about.facts.length > 0 && (
-            <motion.ul
-              variants={list}
-              initial={reduceMotion ? undefined : 'hidden'}
-              whileInView={reduceMotion ? undefined : 'shown'}
-              viewport={viewportOnce}
-              className="mt-8 flex flex-col gap-3 border-t border-line pt-8"
-            >
-              {about.facts.map((fact) => (
-                <motion.li key={fact} variants={item} className="flex gap-3 text-[0.95rem] text-ink">
+            <ul className="mt-8 flex flex-col gap-3 border-t border-line pt-8">
+              {about.facts.map((fact, i) => (
+                <Reveal
+                  as="li"
+                  key={fact}
+                  delay={i * 0.06}
+                  className="flex gap-3 text-[0.95rem] text-ink"
+                >
                   <span aria-hidden className="mt-1 text-accent">
                     —
                   </span>
                   {fact}
-                </motion.li>
+                </Reveal>
               ))}
-            </motion.ul>
+            </ul>
           )}
         </div>
       </div>

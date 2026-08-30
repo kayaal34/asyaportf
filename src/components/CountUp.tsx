@@ -35,14 +35,18 @@ export function CountUp({
   const inView = useInView(ref, { once: true, margin: '0px 0px -20% 0px' })
   const reduceMotion = useReducedMotion()
   const formatter = nf(decimals)
-  const [current, setCurrent] = useState(reduceMotion ? value : from)
+  // Start on the final value so a non-running rAF (some embedded previews) still
+  // shows the correct number; the animation re-seeds to `from` when it fires.
+  const [current, setCurrent] = useState(value)
 
   useEffect(() => {
     if (!inView || reduceMotion) return
+    setCurrent(from)
     const controls = animate(from, value, {
       duration: durationMs / 1000,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => setCurrent(v),
+      onComplete: () => setCurrent(value),
     })
     return () => controls.stop()
   }, [inView, reduceMotion, from, value, durationMs])

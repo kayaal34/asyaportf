@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
+import { useReducedMotion } from 'motion/react'
 import { Magnetic } from './Magnetic'
 import { Reveal } from './Reveal'
 import { useContent } from '../content/store'
-import { viewportOnce } from '../lib/motion'
 
 export function ContactCTA() {
   const {
@@ -62,13 +61,8 @@ export function ContactCTA() {
 
         {/* Primary channel — oversized magnetic handle */}
         {primary && (
-          <motion.div
-            initial={reduceMotion ? undefined : { opacity: 0, y: 30 }}
-            whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            viewport={viewportOnce}
-            transition={{ type: 'spring', stiffness: 80, damping: 22 }}
-            className="mt-16 mb-12 flex flex-col items-center sm:mt-24"
-          >
+          <Reveal className="mt-16 mb-12 flex flex-col items-center sm:mt-24">
+
             <span className="mb-5 text-xs tracking-[0.24em] text-ink-faint uppercase">
               {CONTACT_SECTION.cta}
             </span>
@@ -93,7 +87,7 @@ export function ContactCTA() {
               {copied ? 'скопировано' : 'копировать'}
               <span aria-hidden>{copied ? '✓' : '⧉'}</span>
             </button>
-          </motion.div>
+          </Reveal>
         )}
 
         {/* Secondary channels */}
