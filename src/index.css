@@ -1,0 +1,128 @@
+@import 'tailwindcss';
+
+@import '@fontsource/manrope/400.css';
+@import '@fontsource/manrope/500.css';
+@import '@fontsource/manrope/700.css';
+@import '@fontsource/manrope/800.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+
+:root {
+  /* Monochrome, stark-minimalist light system */
+  --paper: #f5f3ef; /* warm off-white ground */
+  --paper-raised: #fbfaf7; /* cards / raised surfaces */
+  --ink: #0b0b0b; /* near-black foreground */
+  --ink-soft: #6b6a66; /* muted body text */
+  --ink-faint: #9a9995; /* captions, meta */
+  --line: rgba(11, 11, 11, 0.12); /* hairline dividers */
+  --line-strong: rgba(11, 11, 11, 0.22);
+
+  --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Register tokens as Tailwind utilities: bg-paper, text-ink, font-display, text-mega … */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+
+  /* Fluid typographic scale — the numbers should read like modern art */
+  --text-mega: clamp(3.25rem, 15vw, 13rem);
+  --text-mega--line-height: 0.86;
+  --text-mega--letter-spacing: -0.045em;
+
+  --text-display: clamp(2.6rem, 8vw, 7rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.04em;
+
+  --text-figure: clamp(2.4rem, 6.5vw, 6rem);
+  --text-figure--line-height: 0.92;
+  --text-figure--letter-spacing: -0.04em;
+
+  --text-headline: clamp(1.9rem, 4vw, 3.6rem);
+  --text-headline--line-height: 1;
+  --text-headline--letter-spacing: -0.03em;
+
+  --text-lead: clamp(1.05rem, 1.6vw, 1.5rem);
+  --text-lead--line-height: 1.45;
+  --text-lead--letter-spacing: -0.01em;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    margin: 0;
+    min-height: 100svh;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@utility animate-nudge {
+  animation: nudge 2s ease-in-out infinite;
+}
