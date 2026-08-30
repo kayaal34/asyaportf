@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="760" viewBox="0 0 600 760" font-family="Manrope, Arial, sans-serif">
+  <rect width="600" height="760" fill="#f5f3ef"/>
+  <rect x="0.5" y="0.5" width="599" height="759" fill="none" stroke="#0b0b0b" stroke-opacity="0.14"/>
+  <text x="40" y="72" fill="#0b0b0b" font-size="16" font-weight="800" letter-spacing="2">UNIT-ЭКОНОМИКА · P&amp;L</text>
+  <rect x="40" y="96" width="520" height="1" fill="#0b0b0b" fill-opacity="0.16"/>
+  <g>
+    <text x="40" y="150" fill="#0b0b0b" fill-opacity="0.5" font-size="13">Выручка</text>
+    <rect x="40" y="162" width="480" height="30" rx="6" fill="#0b0b0b"/>
+    <text x="40" y="228" fill="#0b0b0b" fill-opacity="0.5" font-size="13">Себестоимость</text>
+    <rect x="40" y="240" width="250" height="30" rx="6" fill="#0b0b0b" fill-opacity="0.55"/>
+    <text x="40" y="306" fill="#0b0b0b" fill-opacity="0.5" font-size="13">Комиссия + логистика</text>
+    <rect x="40" y="318" width="150" height="30" rx="6" fill="#0b0b0b" fill-opacity="0.35"/>
+    <text x="40" y="384" fill="#0b0b0b" fill-opacity="0.5" font-size="13">Реклама</text>
+    <rect x="40" y="396" width="96" height="30" rx="6" fill="#0b0b0b" fill-opacity="0.35"/>
+  </g>
+  <rect x="40" y="452" width="520" height="120" rx="14" fill="#0b0b0b"/>
+  <text x="64" y="500" fill="#f5f3ef" fill-opacity="0.65" font-size="14">Маржинальная прибыль / SKU</text>
+  <text x="64" y="545" fill="#f5f3ef" font-size="40" font-weight="800">+ 214 ₽</text>
+  <text x="470" y="545" fill="#f5f3ef" font-size="22" font-weight="800" text-anchor="end">31%</text>
+  <g fill="#0b0b0b" fill-opacity="0.2">
+    <rect x="40" y="600" width="150" height="46" rx="10"/>
+    <rect x="206" y="600" width="150" height="46" rx="10"/>
+    <rect x="372" y="600" width="150" height="46" rx="10"/>
+  </g>
+  <text x="40" y="712" fill="#0b0b0b" fill-opacity="0.45" font-size="13">ABC-анализ · 48 SKU · класс A даёт 71% выручки</text>
+</svg>

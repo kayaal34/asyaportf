@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="760" viewBox="0 0 600 760" font-family="Manrope, Arial, sans-serif">
+  <rect width="600" height="760" fill="#f5f3ef"/>
+  <rect x="0.5" y="0.5" width="599" height="759" fill="none" stroke="#0b0b0b" stroke-opacity="0.14"/>
+  <rect x="40" y="40" width="360" height="24" rx="7" fill="#0b0b0b" fill-opacity="0.85"/>
+  <rect x="40" y="78" width="240" height="18" rx="6" fill="#0b0b0b" fill-opacity="0.3"/>
+  <rect x="40" y="140" width="520" height="1" fill="#0b0b0b" fill-opacity="0.16"/>
+  <g>
+    <rect x="40" y="184" width="220" height="44" rx="10" fill="#0b0b0b" fill-opacity="0.12"/>
+    <rect x="40" y="184" width="118" height="44" rx="10" fill="#0b0b0b"/>
+    <text x="99" y="212" fill="#f5f3ef" font-size="16" font-weight="800" text-anchor="middle">ДО</text>
+    <rect x="40" y="256" width="480" height="60" rx="12" fill="#0b0b0b" fill-opacity="0.14"/>
+    <rect x="40" y="256" width="150" height="60" rx="12" fill="#0b0b0b" fill-opacity="0.5"/>
+    <rect x="40" y="256" width="118" height="60" rx="12" fill="#0b0b0b"/>
+    <text x="99" y="292" fill="#f5f3ef" font-size="16" font-weight="800" text-anchor="middle">ПОСЛЕ</text>
+  </g>
+  <g fill="#0b0b0b">
+    <rect x="40" y="360" width="150" height="120" rx="12"/>
+    <text x="115" y="418" fill="#f5f3ef" font-size="30" font-weight="800" text-anchor="middle">+193%</text>
+    <text x="115" y="446" fill="#f5f3ef" fill-opacity="0.7" font-size="13" text-anchor="middle">заказы</text>
+  </g>
+  <g>
+    <rect x="206" y="360" width="150" height="120" rx="12" fill="#0b0b0b" fill-opacity="0.12"/>
+    <text x="281" y="418" fill="#0b0b0b" font-size="30" font-weight="800" text-anchor="middle">×3.4</text>
+    <text x="281" y="446" fill="#0b0b0b" fill-opacity="0.55" font-size="13" text-anchor="middle">CTR</text>
+  </g>
+  <g>
+    <rect x="372" y="360" width="150" height="120" rx="12" fill="#0b0b0b" fill-opacity="0.12"/>
+    <text x="447" y="418" fill="#0b0b0b" font-size="30" font-weight="800" text-anchor="middle">−22%</text>
+    <text x="447" y="446" fill="#0b0b0b" fill-opacity="0.55" font-size="13" text-anchor="middle">возвраты</text>
+  </g>
+  <g fill="#0b0b0b" fill-opacity="0.2">
+    <rect x="40" y="520" width="520" height="14" rx="6"/>
+    <rect x="40" y="548" width="470" height="14" rx="6"/>
+    <rect x="40" y="576" width="500" height="14" rx="6"/>
+  </g>
+  <rect x="40" y="694" width="300" height="46" rx="23" fill="#0b0b0b"/>
+  <text x="190" y="723" fill="#f5f3ef" font-size="15" font-weight="700" text-anchor="middle" letter-spacing="1">ИНФОГРАФИКА · 6 СЛАЙДОВ</text>
+</svg>

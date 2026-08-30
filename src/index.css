@@ -35,13 +35,17 @@
   --font-sans: var(--font-sans);
 
   /* Fluid typographic scale — the numbers should read like modern art */
-  --text-mega: clamp(3.25rem, 15vw, 13rem);
-  --text-mega--line-height: 0.86;
-  --text-mega--letter-spacing: -0.045em;
+  --text-mega: clamp(2.25rem, 6vw, 4.5rem);
+  --text-mega--line-height: 1;
+  --text-mega--letter-spacing: -0.03em;
 
   --text-display: clamp(2.6rem, 8vw, 7rem);
   --text-display--line-height: 0.98;
   --text-display--letter-spacing: -0.04em;
+
+  --text-work: clamp(1.75rem, 4.6vw, 4rem);
+  --text-work--line-height: 1.04;
+  --text-work--letter-spacing: -0.03em;
 
   --text-figure: clamp(2.4rem, 6.5vw, 6rem);
   --text-figure--line-height: 0.92;
@@ -125,4 +129,24 @@
 
 @utility animate-nudge {
   animation: nudge 2s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 38s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-nudge {
+    animation: none;
+  }
 }

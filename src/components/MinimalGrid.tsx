@@ -5,12 +5,13 @@ import { EXPERTISE, EXPERTISE_INTRO } from '../content/site'
 import { springSoft, viewportOnce } from '../lib/motion'
 import { cn } from '../lib/cn'
 
-/** Asymmetrical placement on lg+, honest single column below. */
+/** Asymmetrical placement on lg+, honest flow on smaller screens. */
 const PLACEMENT: Record<string, string> = {
-  '01': 'lg:col-start-1 lg:col-span-7',
-  '02': 'lg:col-start-9 lg:col-span-4 lg:row-span-2 lg:-translate-y-2',
-  '03': 'lg:col-start-1 lg:col-span-4 lg:translate-y-6',
-  '04': 'lg:col-start-6 lg:col-span-3 lg:translate-y-16',
+  '01': 'sm:col-span-2 lg:col-span-7 lg:col-start-1',
+  '02': 'lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:-translate-y-2',
+  '03': 'lg:col-span-4 lg:col-start-1 lg:translate-y-6',
+  '04': 'lg:col-span-3 lg:col-start-6 lg:translate-y-20',
+  '05': 'sm:col-span-2 lg:col-span-8 lg:col-start-1 lg:translate-y-10',
 }
 
 const container: Variants = {
@@ -45,8 +46,8 @@ export function MinimalGrid() {
             transition={springSoft}
             className={cn(
               'group flex flex-col justify-between rounded-3xl border border-line bg-paper-raised p-8 transition-colors hover:border-line-strong sm:p-10',
-              item.scale === 'tall' && 'lg:min-h-[30rem]',
-              item.scale === 'wide' && 'lg:min-h-[16rem]',
+              item.scale === 'tall' && 'lg:min-h-[32rem]',
+              item.scale === 'wide' && 'lg:min-h-[15rem]',
               PLACEMENT[item.index],
             )}
           >

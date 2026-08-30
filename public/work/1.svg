@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="760" viewBox="0 0 600 760" font-family="Manrope, Arial, sans-serif">
+  <rect width="600" height="760" fill="#f5f3ef"/>
+  <rect x="0.5" y="0.5" width="599" height="759" fill="none" stroke="#0b0b0b" stroke-opacity="0.14"/>
+  <rect x="40" y="40" width="520" height="368" rx="16" fill="#0b0b0b" fill-opacity="0.09"/>
+  <rect x="196" y="120" width="208" height="208" rx="20" fill="#0b0b0b" fill-opacity="0.16"/>
+  <rect x="40" y="40" width="112" height="44" rx="10" fill="#0b0b0b"/>
+  <text x="96" y="69" fill="#f5f3ef" font-size="19" font-weight="800" text-anchor="middle">-30%</text>
+  <rect x="40" y="440" width="432" height="22" rx="7" fill="#0b0b0b" fill-opacity="0.82"/>
+  <rect x="40" y="476" width="286" height="22" rx="7" fill="#0b0b0b" fill-opacity="0.32"/>
+  <rect x="40" y="522" width="150" height="38" rx="8" fill="#0b0b0b"/>
+  <rect x="208" y="530" width="92" height="20" rx="7" fill="#0b0b0b" fill-opacity="0.28"/>
+  <g fill="#0b0b0b" fill-opacity="0.75">
+    <circle cx="52" cy="596" r="9"/><circle cx="78" cy="596" r="9"/><circle cx="104" cy="596" r="9"/><circle cx="130" cy="596" r="9"/><circle cx="156" cy="596" r="9" fill-opacity="0.25"/>
+  </g>
+  <rect x="180" y="588" width="86" height="16" rx="6" fill="#0b0b0b" fill-opacity="0.25"/>
+  <g>
+    <rect x="40" y="628" width="34" height="34" rx="8" fill="#0b0b0b" fill-opacity="0.14"/>
+    <rect x="88" y="638" width="330" height="14" rx="6" fill="#0b0b0b" fill-opacity="0.22"/>
+  </g>
+  <rect x="40" y="694" width="520" height="48" rx="24" fill="#0b0b0b"/>
+  <text x="300" y="724" fill="#f5f3ef" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="1">В КОРЗИНУ</text>
+</svg>

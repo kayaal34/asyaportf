@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="760" viewBox="0 0 600 760" font-family="Manrope, Arial, sans-serif">
+  <rect width="600" height="760" fill="#f5f3ef"/>
+  <rect x="0.5" y="0.5" width="599" height="759" fill="none" stroke="#0b0b0b" stroke-opacity="0.14"/>
+  <text x="40" y="72" fill="#0b0b0b" font-size="16" font-weight="800" letter-spacing="2">РЕКЛАМНЫЕ СВЯЗКИ</text>
+  <rect x="40" y="96" width="520" height="1" fill="#0b0b0b" fill-opacity="0.16"/>
+  <g>
+    <polyline points="40,340 130,312 220,326 310,250 400,214 490,150 540,120"
+      fill="none" stroke="#0b0b0b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="#0b0b0b">
+      <circle cx="40" cy="340" r="5"/><circle cx="220" cy="326" r="5"/><circle cx="400" cy="214" r="5"/><circle cx="540" cy="120" r="6"/>
+    </g>
+    <line x1="40" y1="360" x2="560" y2="360" stroke="#0b0b0b" stroke-opacity="0.2"/>
+  </g>
+  <g>
+    <rect x="40" y="404" width="248" height="110" rx="12" fill="#0b0b0b"/>
+    <text x="64" y="446" fill="#f5f3ef" fill-opacity="0.65" font-size="13">ROAS</text>
+    <text x="64" y="488" fill="#f5f3ef" font-size="34" font-weight="800">4.6×</text>
+    <rect x="312" y="404" width="248" height="110" rx="12" fill="#0b0b0b" fill-opacity="0.12"/>
+    <text x="336" y="446" fill="#0b0b0b" fill-opacity="0.55" font-size="13">ДРР</text>
+    <text x="336" y="488" fill="#0b0b0b" font-size="34" font-weight="800">7.4%</text>
+  </g>
+  <g fill="#0b0b0b" fill-opacity="0.18">
+    <rect x="40" y="540" width="520" height="14" rx="6"/>
+    <rect x="40" y="568" width="440" height="14" rx="6"/>
+    <rect x="40" y="596" width="500" height="14" rx="6"/>
+  </g>
+  <rect x="40" y="694" width="360" height="46" rx="23" fill="#0b0b0b"/>
+  <text x="220" y="723" fill="#f5f3ef" font-size="15" font-weight="700" text-anchor="middle" letter-spacing="1">АРК · АВТО · ПОИСК · ПОЛКА</text>
+</svg>

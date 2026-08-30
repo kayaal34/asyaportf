@@ -42,20 +42,22 @@ export function ContactCTA() {
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
           viewport={viewportOnce}
           transition={{ type: 'spring', stiffness: 80, damping: 22 }}
-          className="mt-20 mb-16 flex justify-center sm:mt-28"
+          className="mt-16 mb-14 flex flex-col items-center sm:mt-24"
         >
+          <span className="mb-5 text-xs tracking-[0.24em] text-ink-faint uppercase">
+            {CONTACT_SECTION.cta}
+          </span>
           <Magnetic
             href={CONTACT.telegramUrl}
-            strength={0.22}
-            innerStrength={0.1}
+            strength={0.28}
+            innerStrength={0.12}
             ariaLabel={`Написать ${CONTACT.telegramHandle} в Telegram`}
-            className="text-center"
           >
-            <span className="block font-display text-mega font-extrabold lowercase">
+            <span className="group inline-flex items-center gap-3 font-display text-mega font-extrabold lowercase sm:gap-5">
               {CONTACT.telegramHandle}
-            </span>
-            <span className="mt-4 block text-sm tracking-[0.2em] text-ink-faint uppercase">
-              {CONTACT_SECTION.cta} →
+              <span aria-hidden className="text-ink-faint">
+                ↗
+              </span>
             </span>
           </Magnetic>
         </motion.div>
