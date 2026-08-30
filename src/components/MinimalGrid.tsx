@@ -1,7 +1,7 @@
 import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { Section } from './Section'
 import { SectionHeading } from './SectionHeading'
-import { EXPERTISE, EXPERTISE_INTRO } from '../content/site'
+import { useContent } from '../content/store'
 import { springSoft, viewportOnce } from '../lib/motion'
 import { cn } from '../lib/cn'
 
@@ -25,6 +25,7 @@ const card: Variants = {
 }
 
 export function MinimalGrid() {
+  const { expertise: EXPERTISE, expertiseIntro: EXPERTISE_INTRO } = useContent()
   const reduceMotion = useReducedMotion()
 
   return (

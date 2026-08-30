@@ -1,29 +1,24 @@
-import { Intro } from './components/Intro'
-import { ScrollProgress } from './components/ScrollProgress'
-import { Header } from './components/layout/Header'
-import { Hero } from './components/Hero'
-import { Marquee } from './components/Marquee'
-import { MinimalGrid } from './components/MinimalGrid'
-import { WorkList } from './components/WorkList'
-import { Edge } from './components/Edge'
-import { CaseStudies } from './components/CaseStudies'
-import { ContactCTA } from './components/ContactCTA'
+import { lazy, Suspense } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { ContentProvider } from './content/store'
+import { SitePage } from './pages/SitePage'
+
+const AdminApp = lazy(() => import('./admin/AdminApp').then((m) => ({ default: m.AdminApp })))
+const AdminSetup = lazy(() => import('./admin/AdminSetup').then((m) => ({ default: m.AdminSetup })))
 
 export default function App() {
   return (
-    <div className="relative min-h-screen bg-paper text-ink">
-      <Intro />
-      <ScrollProgress />
-      <Header />
-      <main>
-        <Hero />
-        <Marquee />
-        <MinimalGrid />
-        <WorkList />
-        <Edge />
-        <CaseStudies />
-      </main>
-      <ContactCTA />
-    </div>
+    <ContentProvider>
+      <BrowserRouter>
+        <Suspense fallback={<div className="min-h-screen bg-paper" />}>
+          <Routes>
+            <Route path="/" element={<SitePage />} />
+            <Route path="/admin" element={<AdminApp />} />
+            <Route path="/admin/setup" element={<AdminSetup />} />
+            <Route path="*" element={<SitePage />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </ContentProvider>
   )
 }

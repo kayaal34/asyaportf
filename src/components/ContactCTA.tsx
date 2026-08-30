@@ -2,10 +2,16 @@ import { useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { Magnetic } from './Magnetic'
 import { Reveal } from './Reveal'
-import { CHANNELS, CONTACT, CONTACT_SECTION, CREDIT } from '../content/site'
+import { useContent } from '../content/store'
 import { viewportOnce } from '../lib/motion'
 
 export function ContactCTA() {
+  const {
+    channels: CHANNELS,
+    contact: CONTACT,
+    contactSection: CONTACT_SECTION,
+    credit: CREDIT,
+  } = useContent()
   const reduceMotion = useReducedMotion()
   const year = new Date().getFullYear()
   const [copied, setCopied] = useState(false)

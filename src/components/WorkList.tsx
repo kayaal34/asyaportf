@@ -3,10 +3,11 @@ import { AnimatePresence, motion, useMotionValue, useSpring, useReducedMotion } 
 import { Section } from './Section'
 import { SectionHeading } from './SectionHeading'
 import { Reveal } from './Reveal'
-import { WORK, WORK_INTRO, CONTACT } from '../content/site'
+import { useContent } from '../content/store'
 import { springSnappy, springSoft } from '../lib/motion'
 
 export function WorkList() {
+  const { work: WORK, workIntro: WORK_INTRO, contact: CONTACT } = useContent()
   const reduceMotion = useReducedMotion()
   const [hovered, setHovered] = useState<number | null>(null)
   const [finePointer, setFinePointer] = useState(false)

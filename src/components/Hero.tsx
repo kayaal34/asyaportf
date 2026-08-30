@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { CountUp } from './CountUp'
 import { INTRO_DONE_EVENT } from './Intro'
-import { HERO, METRICS, CONTACT } from '../content/site'
+import { useContent } from '../content/store'
 import { springSoft, springSnappy } from '../lib/motion'
 
 const container: Variants = {
@@ -21,6 +21,7 @@ const rise: Variants = {
 }
 
 export function Hero() {
+  const { hero: HERO, metrics: METRICS, contact: CONTACT } = useContent()
   const reduceMotion = useReducedMotion()
   const [ready, setReady] = useState(false)
 

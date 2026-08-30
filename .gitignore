@@ -2,6 +2,11 @@ node_modules
 dist
 dist-ssr
 *.local
+
+# local env — never commit real Supabase keys
+.env
+.env.*
+!.env.example
 .DS_Store
 .vscode/*
 !.vscode/extensions.json

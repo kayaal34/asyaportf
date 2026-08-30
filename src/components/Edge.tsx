@@ -2,10 +2,11 @@ import { motion, useReducedMotion } from 'motion/react'
 import { Section } from './Section'
 import { SectionHeading } from './SectionHeading'
 import { Reveal } from './Reveal'
-import { EDGE, EDGE_INTRO } from '../content/site'
+import { useContent } from '../content/store'
 import { springSoft, viewportOnce } from '../lib/motion'
 
 export function Edge() {
+  const { edge: EDGE, edgeIntro: EDGE_INTRO } = useContent()
   const reduceMotion = useReducedMotion()
 
   return (

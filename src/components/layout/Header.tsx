@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { motion, useMotionValueEvent, useScroll } from 'motion/react'
-import { CONTACT, NAV } from '../../content/site'
+import { useContent } from '../../content/store'
 import { cn } from '../../lib/cn'
 import { springSoft } from '../../lib/motion'
 import { Logo } from '../Logo'
 
 export function Header() {
+  const { contact: CONTACT, nav: NAV } = useContent()
   const { scrollY } = useScroll()
   const [condensed, setCondensed] = useState(false)
 

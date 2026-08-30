@@ -1,4 +1,4 @@
-import { MARQUEE } from '../content/site'
+import { useContent } from '../content/store'
 
 /**
  * A slow horizontal ticker of keywords. Pure editorial texture between the hero
@@ -6,6 +6,7 @@ import { MARQUEE } from '../content/site'
  * Two identical tracks slide as one so the loop is seamless.
  */
 export function Marquee() {
+  const { marquee: MARQUEE } = useContent()
   const track = (
     <ul className="flex shrink-0 items-center gap-0" aria-hidden>
       {MARQUEE.map((word, i) => (

@@ -307,3 +307,91 @@ export const CREDIT = {
   name: 'Yahya',
   url: '',
 }
+
+/* ------------------------------------------------------------------ *
+ * Aggregated content document
+ *
+ * Every editable string on the site, in one shape. The admin panel reads and
+ * writes this object; the public site loads it from Supabase at runtime and
+ * falls back to DEFAULT_CONTENT below whenever Supabase is absent or slow.
+ * ------------------------------------------------------------------ */
+
+export type NavItem = { label: string; href: string }
+export type ContactInfo = {
+  name: string
+  role: string
+  telegramHandle: string
+  telegramUrl: string
+  portfolioUrl: string
+  resumeUrl: string
+}
+export type Hero = {
+  kicker: string
+  headline: string[]
+  emphasis: string
+  sub: string
+}
+export type SectionIntro = { kicker: string; title: string }
+export type WorkIntro = SectionIntro & { body: string }
+export type ContactSection = {
+  kicker: string
+  title: string
+  status: string
+  statusNote: string
+  cta: string
+  closing: string
+}
+export type Credit = { label: string; name: string; url: string }
+
+export type SiteContent = {
+  contact: ContactInfo
+  nav: NavItem[]
+  hero: Hero
+  marquee: string[]
+  metrics: MetricItem[]
+  expertiseIntro: SectionIntro
+  expertise: ExpertiseItem[]
+  workIntro: WorkIntro
+  work: WorkItem[]
+  edgeIntro: SectionIntro
+  edge: EdgeItem[]
+  casesIntro: SectionIntro
+  cases: CaseItem[]
+  contactSection: ContactSection
+  channels: Channel[]
+  credit: Credit
+}
+
+export const DEFAULT_CONTENT: SiteContent = {
+  contact: { ...CONTACT },
+  nav: NAV.map((item) => ({ ...item })),
+  hero: { ...HERO, headline: [...HERO.headline] },
+  marquee: [...MARQUEE],
+  metrics: METRICS.map((m) => ({ ...m })),
+  expertiseIntro: { ...EXPERTISE_INTRO },
+  expertise: EXPERTISE.map((e) => ({ ...e })),
+  workIntro: { ...WORK_INTRO },
+  work: WORK.map((w) => ({ ...w })),
+  edgeIntro: { ...EDGE_INTRO },
+  edge: EDGE.map((e) => ({ ...e })),
+  casesIntro: { ...CASES_INTRO },
+  cases: CASES.map((c) => ({
+    ...c,
+    stats: c.stats.map((s) => ({ ...s })),
+    steps: [...c.steps],
+  })),
+  contactSection: { ...CONTACT_SECTION },
+  channels: CHANNELS.map((c) => ({ ...c })),
+  credit: { ...CREDIT },
+}
+
+/** Merge a (possibly partial / older) stored document over the current defaults. */
+export function mergeContent(base: SiteContent, override: Partial<SiteContent> | null | undefined): SiteContent {
+  if (!override) return base
+  const out = { ...base } as Record<string, unknown>
+  for (const key of Object.keys(base) as (keyof SiteContent)[]) {
+    const value = override[key]
+    if (value !== undefined && value !== null) out[key] = value
+  }
+  return out as SiteContent
+}

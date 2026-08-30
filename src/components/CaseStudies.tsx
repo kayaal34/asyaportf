@@ -3,11 +3,12 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { Section } from './Section'
 import { SectionHeading } from './SectionHeading'
 import { Reveal } from './Reveal'
-import { CASES, CASES_INTRO, CONTACT } from '../content/site'
+import { useContent } from '../content/store'
 import { springSoft } from '../lib/motion'
 import { cn } from '../lib/cn'
 
 export function CaseStudies() {
+  const { cases: CASES, casesIntro: CASES_INTRO, contact: CONTACT } = useContent()
   const reduceMotion = useReducedMotion()
   const [openId, setOpenId] = useState<string>(CASES[0]?.id ?? '')
 
