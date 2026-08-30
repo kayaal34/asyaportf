@@ -4,6 +4,8 @@ import type {
   CaseItem,
   Channel,
   ExpertiseItem,
+  GrowthMilestone,
+  GrowthPoint,
   MetricItem,
   SiteContent,
 } from '../content/site'
@@ -200,6 +202,81 @@ export function Dashboard() {
           />
         </Panel>
 
+        <Panel title="Динамика (графики)">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Field label="Надпись сверху">
+              <TextInput
+                value={draft.growth.intro.kicker}
+                onChange={(v) =>
+                  patch('growth', { ...draft.growth, intro: { ...draft.growth.intro, kicker: v } })
+                }
+              />
+            </Field>
+            <Field label="Заголовок">
+              <TextInput
+                value={draft.growth.intro.title}
+                onChange={(v) =>
+                  patch('growth', { ...draft.growth, intro: { ...draft.growth.intro, title: v } })
+                }
+              />
+            </Field>
+          </div>
+          <Field label="Подпись под заголовком">
+            <TextArea
+              value={draft.growth.intro.caption}
+              onChange={(v) =>
+                patch('growth', { ...draft.growth, intro: { ...draft.growth.intro, caption: v } })
+              }
+              rows={2}
+            />
+          </Field>
+          <Field label="Точки графика" hint="Первая и последняя — фактический результат; между — недельные срезы.">
+            <Repeater
+              items={draft.growth.points}
+              onChange={(v) => patch('growth', { ...draft.growth, points: v })}
+              create={(): GrowthPoint => ({ label: 'Нед. N', orders: 0, revenue: 0 })}
+              title={(p) => p.label || 'точка'}
+              addLabel="точку"
+              render={(p, update) => (
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <Field label="Подпись">
+                    <TextInput value={p.label} onChange={(v) => update({ label: v })} />
+                  </Field>
+                  <Field label="Заказы / мес">
+                    <NumberInput value={p.orders} onChange={(v) => update({ orders: v })} step="1" />
+                  </Field>
+                  <Field label="Выручка, млн ₽">
+                    <NumberInput value={p.revenue} onChange={(v) => update({ revenue: v })} />
+                  </Field>
+                </div>
+              )}
+            />
+          </Field>
+          <Field label="Отметки на графике" hint="«Точка» — номер точки выше, начиная с 0.">
+            <Repeater
+              items={draft.growth.milestones}
+              onChange={(v) => patch('growth', { ...draft.growth, milestones: v })}
+              create={(): GrowthMilestone => ({ at: 1, label: '' })}
+              title={(m) => m.label || 'отметка'}
+              addLabel="отметку"
+              render={(m, update) => (
+                <div className="grid gap-3 sm:grid-cols-[6rem_1fr]">
+                  <Field label="Точка №">
+                    <NumberInput
+                      value={m.at}
+                      onChange={(v) => update({ at: Math.max(0, Math.round(v)) })}
+                      step="1"
+                    />
+                  </Field>
+                  <Field label="Текст">
+                    <TextInput value={m.label} onChange={(v) => update({ label: v })} />
+                  </Field>
+                </div>
+              )}
+            />
+          </Field>
+        </Panel>
+
         <Panel title="Экспертиза">
           <SectionIntroFields
             value={draft.expertiseIntro}
@@ -366,6 +443,20 @@ export function Dashboard() {
               )}
             />
           </div>
+        </Panel>
+
+        <Panel title="Инструменты (плашки)">
+          <SectionIntroFields
+            value={draft.toolbox.intro}
+            onChange={(v) => patch('toolbox', { ...draft.toolbox, intro: v })}
+          />
+          <Field label="Плашки">
+            <StringList
+              values={draft.toolbox.tags}
+              onChange={(v) => patch('toolbox', { ...draft.toolbox, tags: v })}
+              addLabel="плашку"
+            />
+          </Field>
         </Panel>
 
         <Panel title="Секция «Контакт»">

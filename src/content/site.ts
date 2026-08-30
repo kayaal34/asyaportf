@@ -13,9 +13,9 @@ export const CONTACT = {
 } as const
 
 export const NAV = [
+  { label: 'Динамика', href: '#growth' },
   { label: 'Экспертиза', href: '#expertise' },
   { label: 'Работа', href: '#work' },
-  { label: 'Подход', href: '#edge' },
   { label: 'Кейсы', href: '#cases' },
   { label: 'Контакт', href: '#contact' },
 ] as const
@@ -79,7 +79,7 @@ export type MetricItem = {
 }
 
 export const EXPERTISE_INTRO = {
-  kicker: '01 — Экспертиза',
+  kicker: '02 — Экспертиза',
   title: 'Полный цикл работы с магазином',
 }
 
@@ -124,7 +124,7 @@ export type ExpertiseItem = {
 }
 
 export const WORK_INTRO = {
-  kicker: '02 — Работа',
+  kicker: '03 — Работа',
   title: 'Что я делаю руками',
   body: 'Дизайн и вёрстка карточек, инфографика, аналитические модели и рекламные связки — для магазинов на Wildberries и OZON.',
 }
@@ -170,7 +170,7 @@ export type WorkItem = {
 }
 
 export const EDGE_INTRO = {
-  kicker: '03 — Почему со мной эффективнее',
+  kicker: '04 — Почему со мной эффективнее',
   title: 'Бизнес-мышление, а не ведение карточек',
 }
 
@@ -203,7 +203,7 @@ export type EdgeItem = {
 }
 
 export const CASES_INTRO = {
-  kicker: '04 — Кейсы и метод',
+  kicker: '06 — Кейсы и метод',
   title: 'Как выглядит кратный рост вблизи',
 }
 
@@ -258,7 +258,7 @@ export type CaseItem = {
 }
 
 export const CONTACT_SECTION = {
-  kicker: '05 — Контакт',
+  kicker: '07 — Контакт',
   title: 'Обсудим ваш магазин',
   status: 'Сейчас беру 1–2 проекта на ведение',
   statusNote:
@@ -308,6 +308,56 @@ export const CREDIT = {
   url: '',
 }
 
+/**
+ * The growth story as data — two small-multiple charts (orders, revenue) over
+ * the 38-day sprint. Endpoints are the real result; the weekly points between
+ * them are illustrative of the trajectory and are fully editable in the panel.
+ */
+export const GROWTH_INTRO = {
+  kicker: '01 — Динамика',
+  title: 'Как рос магазин за 38 дней',
+  caption: 'Детская одежда · Wildberries. Точки — недельные срезы, концы — фактический результат.',
+}
+
+export const GROWTH_POINTS: GrowthPoint[] = [
+  { label: 'Старт', orders: 977, revenue: 2.5 },
+  { label: 'Нед. 1', orders: 1120, revenue: 2.9 },
+  { label: 'Нед. 2', orders: 1490, revenue: 3.8 },
+  { label: 'Нед. 3', orders: 1990, revenue: 5.0 },
+  { label: 'Нед. 4', orders: 2350, revenue: 5.9 },
+  { label: 'Нед. 5', orders: 2660, revenue: 6.6 },
+  { label: '38 дней', orders: 2862, revenue: 7.1 },
+]
+
+export const GROWTH_MILESTONES: GrowthMilestone[] = [
+  { at: 1, label: 'Переработка SEO-карточек' },
+  { at: 3, label: 'Разгон рекламы, ROAS 3–5×' },
+]
+
+export type GrowthPoint = { label: string; orders: number; revenue: number }
+export type GrowthMilestone = { at: number; label: string }
+
+/** Dense pill cluster of methods and tools — adds texture, signals depth. */
+export const TOOLBOX_INTRO = {
+  kicker: '05 — Инструменты',
+  title: 'Чем считаю и как автоматизирую',
+}
+
+export const TOOLBOX_TAGS: string[] = [
+  'Unit-экономика',
+  'ABC-анализ',
+  'SWOT / PEST',
+  'Семантическое ядро',
+  'Инфографика карточек',
+  'Управление РК',
+  'Контроль остатков',
+  'A/B-тесты карточек',
+  'AI: сбор семантики',
+  'AI: анализ ниш',
+  'AI: генерация контента',
+  'Модели в таблицах',
+]
+
 /* ------------------------------------------------------------------ *
  * Aggregated content document
  *
@@ -342,6 +392,13 @@ export type ContactSection = {
   closing: string
 }
 export type Credit = { label: string; name: string; url: string }
+export type GrowthIntro = SectionIntro & { caption: string }
+export type Growth = {
+  intro: GrowthIntro
+  points: GrowthPoint[]
+  milestones: GrowthMilestone[]
+}
+export type Toolbox = { intro: SectionIntro; tags: string[] }
 
 export type SiteContent = {
   contact: ContactInfo
@@ -349,6 +406,7 @@ export type SiteContent = {
   hero: Hero
   marquee: string[]
   metrics: MetricItem[]
+  growth: Growth
   expertiseIntro: SectionIntro
   expertise: ExpertiseItem[]
   workIntro: WorkIntro
@@ -357,6 +415,7 @@ export type SiteContent = {
   edge: EdgeItem[]
   casesIntro: SectionIntro
   cases: CaseItem[]
+  toolbox: Toolbox
   contactSection: ContactSection
   channels: Channel[]
   credit: Credit
@@ -368,6 +427,11 @@ export const DEFAULT_CONTENT: SiteContent = {
   hero: { ...HERO, headline: [...HERO.headline] },
   marquee: [...MARQUEE],
   metrics: METRICS.map((m) => ({ ...m })),
+  growth: {
+    intro: { ...GROWTH_INTRO },
+    points: GROWTH_POINTS.map((p) => ({ ...p })),
+    milestones: GROWTH_MILESTONES.map((m) => ({ ...m })),
+  },
   expertiseIntro: { ...EXPERTISE_INTRO },
   expertise: EXPERTISE.map((e) => ({ ...e })),
   workIntro: { ...WORK_INTRO },
@@ -380,6 +444,7 @@ export const DEFAULT_CONTENT: SiteContent = {
     stats: c.stats.map((s) => ({ ...s })),
     steps: [...c.steps],
   })),
+  toolbox: { intro: { ...TOOLBOX_INTRO }, tags: [...TOOLBOX_TAGS] },
   contactSection: { ...CONTACT_SECTION },
   channels: CHANNELS.map((c) => ({ ...c })),
   credit: { ...CREDIT },

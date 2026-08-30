@@ -15,7 +15,7 @@ type SectionProps = {
  */
 export function Section({ id, children, className, bleed = false }: SectionProps) {
   return (
-    <section id={id} className={cn('scroll-mt-24 px-6 py-28 sm:px-10 sm:py-36 lg:py-44', className)}>
+    <section id={id} className={cn('scroll-mt-24 px-6 py-20 sm:px-10 sm:py-24 lg:py-32', className)}>
       <div className={cn(!bleed && 'mx-auto w-full max-w-[80rem]')}>{children}</div>
     </section>
   )
