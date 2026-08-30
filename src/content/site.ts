@@ -13,11 +13,11 @@ export const CONTACT = {
 } as const
 
 export const NAV = [
-  { label: 'Динамика', href: '#growth' },
-  { label: 'Экспертиза', href: '#expertise' },
-  { label: 'Работа', href: '#work' },
-  { label: 'Кейсы', href: '#cases' },
-  { label: 'Контакт', href: '#contact' },
+  { label: 'Динамика', href: '/#growth' },
+  { label: 'Экспертиза', href: '/#expertise' },
+  { label: 'Работа', href: '/#work' },
+  { label: 'Кейсы', href: '/#cases' },
+  { label: 'Заявка', href: '/contact' },
 ] as const
 
 export const HERO = {
@@ -242,23 +242,33 @@ export const CASES_INTRO = {
 
 export const CASES: CaseItem[] = [
   {
-    id: 'kids-wear',
-    label: 'Детская одежда · Wildberries',
-    period: '38 дней',
+    id: 'sandli',
+    label: 'Sandli · Детская одежда · Wildberries',
+    period: '23 июня — 4 августа 2026 · 38 дней',
     summary:
-      'Заказы выросли в 3 раза. 94% прироста дала переработка SEO карточек: новое семантическое ядро, реструктуризация под запросы, инфографика под возражения покупателя.',
+      'Магазин детско-подростковой одежды с хорошей базой, но без оптимизации. Задача — поднять видимость и продажи через SEO карточек и рекламу, без изменения цен и загрузки новых товаров.',
     stats: [
       { label: 'Заказы / мес', value: '977 → 2 862' },
-      { label: 'Выручка / мес', value: '2.5М → 7.1М ₽' },
-      { label: 'Срок', value: '38 дней' },
+      { label: 'Выручка / мес', value: '2,5 → 7,1 млн ₽' },
+      { label: 'Заказов из органики', value: '94%' },
+      { label: 'ROAS рекламы', value: '5,2×' },
+    ],
+    table: [
+      { metric: 'Заказы, шт', before: '977', after: '2 862', delta: '+193%' },
+      { metric: 'Выручка, ₽', before: '2 499 956', after: '7 112 986', delta: '+184%' },
+      { metric: 'Выкупы, шт', before: '496', after: '1 189', delta: '+140%' },
+      { metric: 'Заказов в день', before: '~31', after: '~75', delta: '+140%' },
+      { metric: 'Средний чек', before: '~2 560 ₽', after: '~2 480 ₽', delta: 'стабилен' },
     ],
     steps: [
-      'Аудит ниши, ассортимента и карточек конкурентов из топа выдачи',
-      'Сборка семантического ядра и кластеризация запросов по типам спроса',
-      'Переписанные карточки: заголовки, характеристики, инфографика под возражения',
-      'Рекламный разгон обновлённых карточек с контролем ROAS',
-      'Еженедельный контроль unit-экономики и корректировка ставок',
+      'Анализ конкурентов по категориям: школьные юбки-шорты, брюки, джоггеры',
+      'Переработка ключевых слов в названиях и описаниях под поиск Wildberries',
+      'Инфографика карточек: размеры, состав, уход; первое фото под CTR в выдаче',
+      'Реклама: CPM для теста → CPC как основной инструмент, ручные ставки по каждому товару',
+      'Акцент бюджета на школьные юбки-шорты — лидера органических продаж',
     ],
+    insight:
+      'Из 2 862 заказов 2 702 пришли органически — 94% без рекламы. Переработка SEO карточек стала главным драйвером; реклама (ROAS 5,2×, 34 000 ₽ бюджета → 1,1 млн ₽) лишь ускорила рост. Лучший товар — юбка: CTR 5,66%, ROAS 8,7×.',
   },
   {
     id: 'method',
@@ -288,6 +298,10 @@ export type CaseItem = {
   summary: string
   stats: { label: string; value: string }[]
   steps: string[]
+  /** Optional before/after comparison table. */
+  table?: { metric: string; before: string; after: string; delta: string }[]
+  /** Optional closing insight paragraph. */
+  insight?: string
 }
 
 export const CONTACT_SECTION = {
@@ -298,6 +312,17 @@ export const CONTACT_SECTION = {
     'Только по совмещению — один долгосрочный проект уже в работе. Рассматриваю магазины, которым нужен кратный рост, а не поддержка «как есть».',
   cta: 'Написать в Telegram',
   closing: 'Портфолио с разбором методов и примерами карточек — в закрытом Telegram-канале.',
+}
+
+/** Copy for the standalone /contact page with the application form. */
+export const CONTACT_PAGE = {
+  kicker: 'Заявка',
+  title: 'Оставьте заявку на разбор магазина',
+  intro:
+    'Коротко опишите магазин и задачу. Отвечу в течение дня в Telegram или на почту с первичной оценкой точек роста — бесплатно и без обязательств.',
+  successTitle: 'Заявка отправлена',
+  successText: 'Спасибо! Я свяжусь с вами в ближайшее время. Если удобнее — можно сразу написать в Telegram.',
+  submitLabel: 'Отправить заявку',
 }
 
 /** Ways to reach Asya, in priority order. `primary` gets the oversized treatment. */
@@ -539,6 +564,7 @@ export const DEFAULT_CONTENT: SiteContent = {
     ...c,
     stats: c.stats.map((s) => ({ ...s })),
     steps: [...c.steps],
+    table: c.table?.map((t) => ({ ...t })),
   })),
   toolbox: { intro: { ...TOOLBOX_INTRO }, tags: [...TOOLBOX_TAGS] },
   contactSection: { ...CONTACT_SECTION },

@@ -5,8 +5,8 @@ import { cn } from '../lib/cn'
 const SEEN_KEY = 'asy-intro-seen'
 /** Fired when the curtain begins to lift, so the hero can start its entrance. */
 export const INTRO_DONE_EVENT = 'asy:intro-done'
-const HOLD_MS = 1900
-const SLIDE_MS = 800
+const HOLD_MS = 2400
+const SLIDE_MS = 900
 
 type Phase = 'hidden' | 'in' | 'out' | 'done'
 
@@ -71,17 +71,8 @@ export function Intro() {
       )}
       style={{ transitionDuration: `${SLIDE_MS}ms`, pointerEvents: phase === 'out' ? 'none' : 'auto' }}
     >
-      <Logo className="intro-up h-10 w-auto text-accent sm:h-12" />
-
-      <span className="intro-up mt-7 font-display text-2xl font-extrabold tracking-[-0.03em] text-ink [animation-delay:0.35s]">
-        Ася
-      </span>
-
-      <span className="intro-line mt-6 h-px w-40 origin-left bg-line [animation-delay:0.55s]" />
-
-      <span className="intro-up mt-6 text-[0.7rem] tracking-[0.3em] text-ink-faint uppercase [animation-delay:0.75s]">
-        Менеджер маркетплейсов · WB / OZON
-      </span>
+      <Logo className="intro-up h-9 w-auto text-ink sm:h-11" />
+      <span className="intro-up mt-8 h-px w-24 origin-left bg-line [animation-delay:0.6s]" />
     </div>
   )
 }

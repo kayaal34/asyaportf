@@ -48,7 +48,8 @@ export function CaseStudies() {
                 )}
               >
                 <div className="min-h-0">
-                    <div className="grid grid-cols-1 gap-10 pb-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pb-16">
+                  <div className="pb-12 lg:pb-16">
+                    <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
                       <div>
                         <p className="max-w-xl text-lead text-ink-soft">{item.summary}</p>
                         <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
@@ -78,6 +79,42 @@ export function CaseStudies() {
                         ))}
                       </ol>
                     </div>
+
+                    {item.table && item.table.length > 0 && (
+                      <div className="mt-10 overflow-x-auto">
+                        <table className="w-full min-w-[34rem] border-collapse text-sm">
+                          <thead>
+                            <tr className="border-b border-line text-left text-xs tracking-[0.12em] text-ink-faint uppercase">
+                              <th className="py-3 pr-4 font-medium">Метрика</th>
+                              <th className="py-3 pr-4 font-medium">До</th>
+                              <th className="py-3 pr-4 font-medium">После</th>
+                              <th className="py-3 font-medium">Прирост</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {item.table.map((row) => (
+                              <tr key={row.metric} className="border-b border-line/60">
+                                <td className="py-3 pr-4 font-medium text-ink">{row.metric}</td>
+                                <td className="py-3 pr-4 text-ink-soft tabular-nums">{row.before}</td>
+                                <td className="py-3 pr-4 font-semibold text-ink tabular-nums">
+                                  {row.after}
+                                </td>
+                                <td className="py-3 font-semibold text-accent tabular-nums">
+                                  {row.delta}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {item.insight && (
+                      <p className="mt-8 max-w-3xl border-l-2 border-accent pl-5 text-[0.95rem] leading-relaxed text-ink-soft">
+                        {item.insight}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

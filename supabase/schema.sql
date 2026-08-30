@@ -64,6 +64,41 @@ create policy "work-images authenticated delete"
   to authenticated
   using (bucket_id = 'work-images');
 
+-- 4. Leads (заявки from the /contact form) --------------------------------------
+
+create table if not exists public.leads (
+  id          uuid primary key default gen_random_uuid(),
+  created_at  timestamptz not null default now(),
+  name        text not null,
+  contact     text not null,           -- telegram / phone / email
+  platform    text,                    -- WB / OZON / both
+  shop        text,                    -- shop name or cabinet link
+  message     text,
+  handled     boolean not null default false
+);
+
+alter table public.leads enable row level security;
+
+-- Anyone may submit a lead…
+drop policy if exists "leads insert for anon" on public.leads;
+create policy "leads insert for anon"
+  on public.leads for insert
+  to anon, authenticated
+  with check (true);
+
+-- …only signed-in users (Asya) may read / update / delete them.
+drop policy if exists "leads read for authenticated" on public.leads;
+create policy "leads read for authenticated"
+  on public.leads for select to authenticated using (true);
+
+drop policy if exists "leads update for authenticated" on public.leads;
+create policy "leads update for authenticated"
+  on public.leads for update to authenticated using (true) with check (true);
+
+drop policy if exists "leads delete for authenticated" on public.leads;
+create policy "leads delete for authenticated"
+  on public.leads for delete to authenticated using (true);
+
 -- ============================================================================
 --  After running this:
 --   • Authentication → Sign In / Providers → enable "Allow new users to sign up"

@@ -1,39 +1,30 @@
-import { useState } from 'react'
-import { motion, useMotionValueEvent, useScroll } from 'motion/react'
+import { useEffect, useState } from 'react'
 import { useContent } from '../../content/store'
 import { cn } from '../../lib/cn'
-import { springSoft } from '../../lib/motion'
 import { Logo } from '../Logo'
 
 export function Header() {
-  const { contact: CONTACT, nav: NAV } = useContent()
-  const { scrollY } = useScroll()
+  const { nav: NAV } = useContent()
   const [condensed, setCondensed] = useState(false)
 
-  useMotionValueEvent(scrollY, 'change', (value) => {
-    setCondensed(value > 24)
-  })
+  useEffect(() => {
+    const onScroll = () => setCondensed(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ ...springSoft, delay: 0.15 }}
-      className="fixed inset-x-0 top-0 z-50"
-    >
+    <header className="reveal fixed inset-x-0 top-0 z-50" style={{ animationDelay: '0.15s' }}>
       <div
         className={cn(
-          'mx-auto flex max-w-[80rem] items-center justify-between px-6 transition-[margin,padding,background-color,border-color,border-radius,box-shadow] duration-300 ease-out sm:px-10',
+          'mx-auto flex max-w-[80rem] items-center gap-6 px-6 transition-[margin,padding,background-color,border-color,border-radius,box-shadow] duration-300 ease-out sm:px-10',
           condensed
-            ? 'my-2 rounded-full border border-line bg-paper-raised/95 py-2.5 shadow-[0_8px_30px_-12px_rgba(11,11,11,0.15)]'
+            ? 'my-2 rounded-full border border-line bg-paper-raised/95 py-2.5 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.4)] backdrop-blur'
             : 'my-0 border border-transparent py-5',
         )}
       >
-        <a href="#top" aria-label="В начало страницы" className="group block">
-          <Logo className="h-[1.15rem] w-auto text-ink transition-opacity group-hover:opacity-60 sm:h-5" />
-        </a>
-
-        <nav className="hidden items-center gap-9 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {NAV.map((item) => (
             <a
               key={item.href}
@@ -46,19 +37,25 @@ export function Header() {
           ))}
         </nav>
 
-        <a
-          href={CONTACT.telegramUrl}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="group inline-flex items-center gap-2 rounded-full border border-ink px-4 py-2 text-sm font-medium transition-colors hover:bg-ink hover:text-paper"
-        >
-          <span className="hidden sm:inline">{CONTACT.telegramHandle}</span>
-          <span className="sm:hidden">Telegram</span>
-          <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">
-            ↗
-          </span>
-        </a>
+        <div className="ml-auto flex items-center gap-4 sm:gap-6">
+          <a
+            href="/contact"
+            className="group inline-flex items-center gap-2 rounded-full border border-ink px-4 py-2 text-sm font-medium transition-colors hover:bg-ink hover:text-paper"
+          >
+            Оставить заявку
+            <span
+              aria-hidden
+              className="transition-transform duration-300 group-hover:translate-x-0.5"
+            >
+              →
+            </span>
+          </a>
+
+          <a href="/" aria-label="На главную" className="group block shrink-0">
+            <Logo className="h-4 w-auto text-ink transition-opacity group-hover:opacity-60 sm:h-[1.1rem]" />
+          </a>
+        </div>
       </div>
-    </motion.header>
+    </header>
   )
 }

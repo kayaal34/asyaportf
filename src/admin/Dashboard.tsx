@@ -12,6 +12,7 @@ import type {
 } from '../content/site'
 import { saveContent } from '../lib/contentIo'
 import { signOut } from './useAuth'
+import { LeadsPanel } from './LeadsPanel'
 import { Field, NumberInput, Repeater, StringList, TextArea, TextInput, Toggle } from './fields'
 import { ImageField } from './ImageField'
 
@@ -115,6 +116,9 @@ export function Dashboard() {
           появится на сайте. Кнопка <span className="font-medium text-ink">«Отменить»</span> вернёт
           последнюю сохранённую версию.
         </div>
+
+        <GroupLabel>Заявки с сайта</GroupLabel>
+        <LeadsPanel />
 
         <GroupLabel>Верх сайта</GroupLabel>
 
