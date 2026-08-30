@@ -1,20 +1,25 @@
 import { useId } from 'react'
 import { cn } from '../lib/cn'
+import { SEAL_TEXT } from '../content/site'
 
 type SealProps = {
+  /** Text that circles the badge. Empty string renders nothing. */
   text?: string
   className?: string
 }
 
 /**
- * A slowly rotating circular text badge — the "premium portfolio" signature
- * mark. Reads as an identity stamp for a marketplace manager.
+ * A slowly rotating circular text badge — an identity "stamp". Common on
+ * high-end portfolios. Returns null when there is no text, so it can be
+ * switched off from the admin panel.
  */
-export function Seal({
-  text = 'МЕНЕДЖЕР МАРКЕТПЛЕЙСОВ · WB × OZON · ',
-  className,
-}: SealProps) {
+export function Seal({ text = SEAL_TEXT, className }: SealProps) {
   const pathId = useId()
+  const trimmed = text.trim()
+  if (!trimmed) return null
+
+  const loop = `${trimmed} `.repeat(2)
+
   return (
     <span className={cn('pointer-events-none block', className)} aria-hidden>
       <svg viewBox="0 0 200 200" className="h-full w-full text-current">
@@ -28,15 +33,15 @@ export function Seal({
         <g className="motion-safe:animate-seal" style={{ transformOrigin: '100px 100px' }}>
           <text
             fontFamily="var(--font-display)"
-            fontSize="13"
+            fontSize="12.5"
             fontWeight={700}
-            letterSpacing="3"
+            letterSpacing="2.5"
             fill="currentColor"
           >
-            <textPath href={`#${pathId}`}>{text.repeat(2)}</textPath>
+            <textPath href={`#${pathId}`}>{loop}</textPath>
           </text>
         </g>
-        <circle cx="100" cy="100" r="5" fill="currentColor" />
+        <circle cx="100" cy="100" r="4.5" fill="currentColor" />
       </svg>
     </span>
   )

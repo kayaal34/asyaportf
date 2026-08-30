@@ -182,12 +182,18 @@ export function Dashboard() {
           <Field label="Подзаголовок">
             <TextArea value={draft.hero.sub} onChange={(v) => patch('hero', { ...draft.hero, sub: v })} rows={3} />
           </Field>
-          <Field label="Площадки" hint="Wildberries, OZON, Яндекс Маркет — показываются под первым экраном.">
+          <Field label="Площадки" hint="Wildberries, OZON, Яндекс Маркет — показываются в первом экране.">
             <StringList
               values={draft.platforms}
               onChange={(v) => patch('platforms', v)}
               addLabel="площадку"
             />
+          </Field>
+          <Field
+            label="Текст на вращающейся печати"
+            hint="Крутится справа вверху. Оставьте пустым, чтобы убрать печать."
+          >
+            <TextInput value={draft.sealText} onChange={(v) => patch('sealText', v)} />
           </Field>
         </Panel>
 
@@ -235,6 +241,47 @@ export function Dashboard() {
         </Panel>
 
         <GroupLabel>Разделы</GroupLabel>
+
+        <Panel title="Знакомство" desc="Фото, приветствие и факты о себе.">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Field label="Надпись сверху">
+              <TextInput
+                value={draft.about.kicker}
+                onChange={(v) => patch('about', { ...draft.about, kicker: v })}
+              />
+            </Field>
+            <Field label="Настоящее имя">
+              <TextInput
+                value={draft.about.realName}
+                onChange={(v) => patch('about', { ...draft.about, realName: v })}
+              />
+            </Field>
+          </div>
+          <Field label="Приветствие (заголовок)">
+            <TextInput
+              value={draft.about.greeting}
+              onChange={(v) => patch('about', { ...draft.about, greeting: v })}
+            />
+          </Field>
+          <Field label="О себе / оффер">
+            <TextArea
+              value={draft.about.pitch}
+              onChange={(v) => patch('about', { ...draft.about, pitch: v })}
+              rows={4}
+            />
+          </Field>
+          <Field label="Факты списком">
+            <StringList
+              values={draft.about.facts}
+              onChange={(v) => patch('about', { ...draft.about, facts: v })}
+              addLabel="факт"
+            />
+          </Field>
+          <ImageField
+            value={draft.about.photo}
+            onChange={(url) => patch('about', { ...draft.about, photo: url })}
+          />
+        </Panel>
 
         <Panel title="Динамика (графики)" desc="Два графика роста за 38 дней и отметки на них.">
 

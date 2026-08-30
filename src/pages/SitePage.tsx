@@ -2,7 +2,7 @@ import { Intro } from '../components/Intro'
 import { ScrollProgress } from '../components/ScrollProgress'
 import { Header } from '../components/layout/Header'
 import { Hero } from '../components/Hero'
-import { Platforms } from '../components/Platforms'
+import { About } from '../components/About'
 import { Marquee } from '../components/Marquee'
 import { GrowthChart } from '../components/GrowthChart'
 import { MinimalGrid } from '../components/MinimalGrid'
@@ -21,7 +21,7 @@ export function SitePage() {
       <Header />
       <main>
         <Hero />
-        <Platforms />
+        <About />
         <Marquee />
         <GrowthChart />
         <MinimalGrid />

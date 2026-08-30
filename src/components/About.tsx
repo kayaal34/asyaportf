@@ -1,0 +1,74 @@
+import { motion, useReducedMotion, type Variants } from 'motion/react'
+import { Section } from './Section'
+import { Reveal } from './Reveal'
+import { useContent } from '../content/store'
+import { springSoft, viewportOnce } from '../lib/motion'
+
+const list: Variants = {
+  hidden: {},
+  shown: { transition: { staggerChildren: 0.07 } },
+}
+const item: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  shown: { opacity: 1, y: 0, transition: springSoft },
+}
+
+export function About() {
+  const { about } = useContent()
+  const reduceMotion = useReducedMotion()
+
+  return (
+    <Section id="about">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+        <Reveal>
+          <div className="overflow-hidden rounded-2xl border border-line bg-paper-raised">
+            <img
+              src={about.photo}
+              alt={about.realName}
+              loading="lazy"
+              className="aspect-[4/5] w-full object-cover"
+            />
+          </div>
+        </Reveal>
+
+        <div>
+          <Reveal>
+            <p className="text-xs font-medium tracking-[0.22em] text-ink-faint uppercase">
+              {about.kicker}
+            </p>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h2 className="mt-6 text-headline text-balance">{about.greeting}</h2>
+          </Reveal>
+          {about.realName && (
+            <Reveal delay={0.08}>
+              <p className="mt-3 text-sm tracking-wide text-ink-faint">{about.realName}</p>
+            </Reveal>
+          )}
+          <Reveal delay={0.1}>
+            <p className="mt-6 max-w-xl text-lead text-ink-soft text-balance">{about.pitch}</p>
+          </Reveal>
+
+          {about.facts.length > 0 && (
+            <motion.ul
+              variants={list}
+              initial={reduceMotion ? undefined : 'hidden'}
+              whileInView={reduceMotion ? undefined : 'shown'}
+              viewport={viewportOnce}
+              className="mt-8 flex flex-col gap-3 border-t border-line pt-8"
+            >
+              {about.facts.map((fact) => (
+                <motion.li key={fact} variants={item} className="flex gap-3 text-[0.95rem] text-ink">
+                  <span aria-hidden className="mt-1 text-accent">
+                    —
+                  </span>
+                  {fact}
+                </motion.li>
+              ))}
+            </motion.ul>
+          )}
+        </div>
+      </div>
+    </Section>
+  )
+}

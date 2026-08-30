@@ -3,6 +3,7 @@ import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { CountUp } from './CountUp'
 import { INTRO_DONE_EVENT } from './Intro'
 import { Seal } from './Seal'
+import { PlatformMark } from './Platforms'
 import { useContent } from '../content/store'
 import { springSoft, springSnappy } from '../lib/motion'
 
@@ -22,7 +23,7 @@ const rise: Variants = {
 }
 
 export function Hero() {
-  const { hero: HERO, metrics: METRICS, contact: CONTACT } = useContent()
+  const { hero: HERO, metrics: METRICS, contact: CONTACT, sealText, platforms } = useContent()
   const reduceMotion = useReducedMotion()
   const [ready, setReady] = useState(false)
 
@@ -63,7 +64,7 @@ export function Hero() {
         transition={{ ...springSoft, delay: 0.3 }}
         className="pointer-events-none absolute top-32 right-8 hidden text-ink/70 lg:block xl:right-16"
       >
-        <Seal className="h-28 w-28 xl:h-32 xl:w-32" />
+        <Seal text={sealText} className="h-28 w-28 xl:h-32 xl:w-32" />
       </motion.div>
 
       <motion.div
@@ -118,6 +119,20 @@ export function Hero() {
             </span>
           </motion.a>
         </motion.div>
+
+        {platforms.length > 0 && (
+          <motion.div
+            variants={rise}
+            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2"
+          >
+            <span className="text-xs font-medium tracking-[0.2em] text-ink-faint uppercase">
+              Площадки
+            </span>
+            {platforms.map((p) => (
+              <PlatformMark key={p} name={p} />
+            ))}
+          </motion.div>
+        )}
 
         {/* Headline metrics */}
         <motion.dl

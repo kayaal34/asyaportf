@@ -21,11 +21,38 @@ export const NAV = [
 ] as const
 
 export const HERO = {
-  kicker: 'Менеджер маркетплейсов WB / OZON',
+  kicker: 'Менеджер маркетплейсов',
   headline: ['Масштабирую', 'e-commerce.'],
   emphasis: 'Рост ×3 за 38 дней.',
   sub: 'Веду магазины на Wildberries и OZON как бизнес-проект: SEO и дизайн карточек, юнит-экономика, реклама и собственные AI-инструменты. Не задачи ради задач, а результат в цифрах.',
 } as const
+
+/** Text that circles inside the rotating badge. Empty string hides the badge. */
+export const SEAL_TEXT = 'АСЯ · МЕНЕДЖЕР МАРКЕТПЛЕЙСОВ · '
+
+/** Personal introduction block — "hi, I'm Asya". */
+export const ABOUT = {
+  kicker: 'Знакомство',
+  greeting: 'Привет! Меня зовут Ася',
+  realName: 'Анастасия Тюшева',
+  pitch:
+    'Помогаю магазинам на Wildberries и OZON выйти в кратный рост — через SEO, дизайн карточек и трезвую юнит-экономику. Давайте выведем ваш товар в топ и сделаем так, чтобы кабинет работал на результат, а не отнимал время.',
+  facts: [
+    'УрФУ — международный и корпоративный менеджмент, плюс бизнес-школа УрФУ',
+    'Школа менеджеров маркетплейсов MpSkill — практика на реальных кабинетах, оценка «Отлично»',
+    'Больше года делаю инфографику и визуальную упаковку карточек на заказ',
+    'Запустила собственный магазин с нуля — прошла весь путь селлера на свои деньги',
+  ],
+  photo: '/asya/portrait-studio.jpg',
+}
+export type About = {
+  kicker: string
+  greeting: string
+  realName: string
+  pitch: string
+  facts: string[]
+  photo: string
+}
 
 /** Words for the running strip under the hero — pure editorial texture. */
 export const MARQUEE = [
@@ -131,22 +158,28 @@ export const WORK_INTRO = {
 
 export const WORK: WorkItem[] = [
   {
+    title: 'Инфографика карточки',
+    discipline: 'Визуальная упаковка · WB',
+    note: 'Выноски по характеристикам, УТП и снятие возражений на первом слайде',
+    image: '/asya/case-infographic.png',
+  },
+  {
+    title: 'Аудит визуальной воронки',
+    discipline: 'Анализ карточек',
+    note: 'Разбор фото и инфографики по слайдам: что бьёт по CTR и как исправить',
+    image: '/asya/case-audit.jpg',
+  },
+  {
+    title: 'Товарная фотография',
+    discipline: 'Контент для карточки',
+    note: 'Чистый предметный кадр и AI-фотосессии под маркетплейс',
+    image: '/asya/case-product-photo.jpg',
+  },
+  {
     title: 'Детская одежда',
     discipline: 'SEO + инфографика · WB',
     note: '977 → 2 862 заказа за 38 дней',
     image: '/work/1.svg',
-  },
-  {
-    title: 'Карточка товара',
-    discipline: 'Дизайн и вёрстка',
-    note: 'Инфографика под возражения, выноски, композиция',
-    image: '/work/2.svg',
-  },
-  {
-    title: 'Линейка бренда',
-    discipline: 'Единый визуальный стиль',
-    note: 'Один язык карточек на весь ассортимент',
-    image: '/work/3.svg',
   },
   {
     title: 'Юнит-экономика',
@@ -344,18 +377,20 @@ export const TOOLBOX_INTRO = {
 }
 
 export const TOOLBOX_TAGS: string[] = [
+  'MPStats',
+  'SalesFinder',
+  'Market Guru',
+  'Evirma',
+  'Google Таблицы / Excel',
+  'Figma',
+  'Canva',
+  'Честный Знак',
   'Unit-экономика',
   'ABC-анализ',
-  'SWOT / PEST',
-  'Семантическое ядро',
-  'Инфографика карточек',
-  'Управление РК',
-  'Контроль остатков',
-  'A/B-тесты карточек',
-  'AI: сбор семантики',
-  'AI: анализ ниш',
-  'AI: генерация контента',
-  'Модели в таблицах',
+  'SEO-ядро',
+  'Gemini',
+  'Claude',
+  'Nano Banana',
 ]
 
 /** Marketplaces Asya works on — rendered as styled marks in the hero strip and intro. */
@@ -454,6 +489,8 @@ export type SiteContent = {
   contact: ContactInfo
   nav: NavItem[]
   hero: Hero
+  sealText: string
+  about: About
   platforms: string[]
   marquee: string[]
   metrics: MetricItem[]
@@ -477,6 +514,8 @@ export const DEFAULT_CONTENT: SiteContent = {
   contact: { ...CONTACT },
   nav: NAV.map((item) => ({ ...item })),
   hero: { ...HERO, headline: [...HERO.headline] },
+  sealText: SEAL_TEXT,
+  about: { ...ABOUT, facts: [...ABOUT.facts] },
   platforms: [...PLATFORMS],
   marquee: [...MARQUEE],
   metrics: METRICS.map((m) => ({ ...m })),
