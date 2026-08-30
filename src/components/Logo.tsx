@@ -5,20 +5,28 @@ type LogoProps = {
 }
 
 /**
- * A four-point spark mark. Geometric, scales cleanly from favicon to full
- * screen, and reads as "growth / a bright result" without spelling anything out.
- * `currentColor` driven.
+ * "ASY" wordmark. Rendered as SVG text in the display face so it scales with
+ * `h-*` / `w-auto` like an icon while still using the site's type.
  */
 export function Logo({ className, title = 'Ася' }: LogoProps) {
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox="0 0 116 40"
       role="img"
       aria-label={title}
       className={className}
       fill="currentColor"
     >
-      <path d="M12 0c1.15 8.05 3.9 10.85 12 12-8.1 1.15-10.85 3.95-12 12-1.15-8.05-3.9-10.85-12-12C8.1 10.85 10.85 8.05 12 0Z" />
+      <text
+        x="0"
+        y="32"
+        fontFamily="var(--font-display), 'Manrope', system-ui, sans-serif"
+        fontSize="40"
+        fontWeight="800"
+        letterSpacing="-3"
+      >
+        ASY
+      </text>
     </svg>
   )
 }

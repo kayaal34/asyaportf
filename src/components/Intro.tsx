@@ -71,13 +71,13 @@ export function Intro() {
       )}
       style={{ transitionDuration: `${SLIDE_MS}ms`, pointerEvents: phase === 'out' ? 'none' : 'auto' }}
     >
-      <Logo className="intro-mark h-14 w-14 text-accent sm:h-16 sm:w-16" />
+      <Logo className="intro-up h-10 w-auto text-accent sm:h-12" />
 
-      <span className="intro-up mt-7 font-display text-2xl font-extrabold tracking-[-0.03em] text-ink [animation-delay:0.3s]">
+      <span className="intro-up mt-7 font-display text-2xl font-extrabold tracking-[-0.03em] text-ink [animation-delay:0.35s]">
         Ася
       </span>
 
-      <span className="intro-line mt-6 h-px w-40 origin-left bg-line [animation-delay:0.5s]" />
+      <span className="intro-line mt-6 h-px w-40 origin-left bg-line [animation-delay:0.55s]" />
 
       <span className="intro-up mt-6 text-[0.7rem] tracking-[0.3em] text-ink-faint uppercase [animation-delay:0.75s]">
         Менеджер маркетплейсов · WB / OZON
