@@ -29,12 +29,31 @@ export function Hero() {
 
   return (
     <section ref={ref} id="top" className="relative min-h-[100svh] overflow-hidden bg-paper">
-      <span
+      {/* Faint rising line — the "scaling" motif, bleeding off the lower edge */}
+      <svg
         aria-hidden
-        className="pointer-events-none absolute -right-[6vw] -bottom-[12vh] font-display text-[42vw] leading-none font-extrabold text-ink/[0.05] select-none"
+        viewBox="0 0 1200 500"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[46vh] w-full select-none"
       >
-        ×3
-      </span>
+        <defs>
+          <linearGradient id="heroLine" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stopColor="var(--accent)" stopOpacity="0" />
+            <stop offset="1" stopColor="var(--accent)" stopOpacity="0.16" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0 470 C 220 460 300 430 440 360 S 700 210 860 170 S 1080 70 1200 20 L 1200 500 L 0 500 Z"
+          fill="url(#heroLine)"
+        />
+        <path
+          d="M0 470 C 220 460 300 430 440 360 S 700 210 860 170 S 1080 70 1200 20"
+          fill="none"
+          stroke="var(--accent)"
+          strokeOpacity="0.28"
+          strokeWidth="2"
+        />
+      </svg>
 
       <div
         {...reveal(0.6)}
@@ -43,7 +62,7 @@ export function Hero() {
         <Seal text={sealText} className="h-24 w-24 sm:h-28 sm:w-28 lg:h-32 lg:w-32" />
       </div>
 
-      <div className="mx-auto grid min-h-[100svh] w-full max-w-[88rem] grid-cols-1 items-center gap-10 px-6 pt-32 pb-24 sm:px-10 sm:pt-36 lg:grid-cols-[1.35fr_0.65fr] lg:gap-12 lg:pb-28">
+      <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-[88rem] grid-cols-1 items-center gap-10 px-6 pt-32 pb-24 sm:px-10 sm:pt-36 lg:grid-cols-[1.35fr_0.65fr] lg:gap-12 lg:pb-28">
         <div>
           <div {...reveal(0.05)} className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <span className="text-xs font-medium tracking-[0.28em] text-ink-soft uppercase">
