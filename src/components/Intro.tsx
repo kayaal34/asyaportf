@@ -1,25 +1,22 @@
 import { useEffect, useState } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
 import { Logo } from './Logo'
-import { Seal } from './Seal'
+import { cn } from '../lib/cn'
 
 const SEEN_KEY = 'asy-intro-seen'
 /** Fired when the curtain begins to lift, so the hero can start its entrance. */
 export const INTRO_DONE_EVENT = 'asy:intro-done'
-const HOLD_MS = 1250
-
-const ease = [0.16, 1, 0.3, 1] as const
+const HOLD_MS = 1900
+const SLIDE_MS = 800
 
 type Phase = 'hidden' | 'in' | 'out' | 'done'
 
 /**
- * A brief dark opening: greeting → monogram → a growing hairline, held for
- * ~1.25s, then the whole panel slides away to reveal the site. Shows once per
- * session and never under prefers-reduced-motion. Driven by an explicit phase
- * machine (no AnimatePresence) so the unmount is always deterministic.
+ * A dark opening: the spark mark unfurls, the name and a drawn line follow, held
+ * ~1.9s, then the whole panel slides away to reveal the site. Once per session,
+ * never under prefers-reduced-motion. CSS-only so it can't stall; an explicit
+ * phase machine plus timeouts guarantee it always unmounts.
  */
 export function Intro() {
-  const reduceMotion = useReducedMotion()
   const [phase, setPhase] = useState<Phase>('hidden')
 
   useEffect(() => {
@@ -29,8 +26,9 @@ export function Intro() {
     } catch {
       seen = false
     }
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
-    if (seen || reduceMotion) {
+    if (seen || reduce) {
       window.dispatchEvent(new Event(INTRO_DONE_EVENT))
       setPhase('done')
       return
@@ -39,79 +37,51 @@ export function Intro() {
     setPhase('in')
     document.body.style.overflow = 'hidden'
 
-    const timer = window.setTimeout(() => {
+    const toOut = window.setTimeout(() => {
       document.body.style.overflow = ''
       window.dispatchEvent(new Event(INTRO_DONE_EVENT))
       try {
         sessionStorage.setItem(SEEN_KEY, '1')
       } catch {
-        /* private mode — it will simply show again next load */
+        /* private mode — it will just show again next load */
       }
       setPhase('out')
     }, HOLD_MS)
 
     return () => {
-      window.clearTimeout(timer)
+      window.clearTimeout(toOut)
       document.body.style.overflow = ''
     }
-  }, [reduceMotion])
+  }, [])
 
-  // Safety net: unmount even if the slide-up transition never reports complete.
   useEffect(() => {
     if (phase !== 'out') return
-    const t = window.setTimeout(() => setPhase('done'), 1400)
+    const t = window.setTimeout(() => setPhase('done'), SLIDE_MS + 150)
     return () => window.clearTimeout(t)
   }, [phase])
 
   if (phase === 'hidden' || phase === 'done') return null
 
   return (
-    <motion.div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink text-paper"
-      initial={{ y: 0 }}
-      animate={{ y: phase === 'out' ? '-101%' : 0 }}
-      transition={{ duration: 0.66, ease }}
-      onAnimationComplete={() => {
-        if (phase === 'out') setPhase('done')
-      }}
-      style={{ pointerEvents: phase === 'out' ? 'none' : 'auto' }}
+    <div
+      className={cn(
+        'fixed inset-0 z-[100] flex flex-col items-center justify-center bg-paper text-ink',
+        'transition-transform ease-[cubic-bezier(0.16,1,0.3,1)]',
+        phase === 'out' ? '-translate-y-full' : 'translate-y-0',
+      )}
+      style={{ transitionDuration: `${SLIDE_MS}ms`, pointerEvents: phase === 'out' ? 'none' : 'auto' }}
     >
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, ease }}
-        className="mb-6 text-xs tracking-[0.32em] text-paper/45 uppercase"
-      >
-        Здравствуйте
-      </motion.span>
+      <Logo className="intro-mark h-14 w-14 text-accent sm:h-16 sm:w-16" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 14, filter: 'blur(6px)' }}
-        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-        transition={{ delay: 0.12, duration: 0.6, ease }}
-      >
-        <Logo className="h-8 w-auto text-paper sm:h-9" />
-      </motion.div>
+      <span className="intro-up mt-7 font-display text-2xl font-extrabold tracking-[-0.03em] text-ink [animation-delay:0.3s]">
+        Ася
+      </span>
 
-      <motion.div
-        className="mt-7 h-px w-44 origin-left bg-paper/25"
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ delay: 0.25, duration: 0.85, ease }}
-      />
+      <span className="intro-line mt-6 h-px w-40 origin-left bg-line [animation-delay:0.5s]" />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.45, duration: 0.5, ease }}
-        className="mt-6 flex items-center gap-4 text-sm font-extrabold tracking-[-0.02em] text-paper/85"
-      >
-        <span>Wildberries</span>
-        <span className="text-paper/25">×</span>
-        <span>OZON</span>
-      </motion.div>
-
-      <Seal className="absolute right-6 bottom-6 h-20 w-20 text-paper/30 sm:right-10 sm:bottom-10 sm:h-24 sm:w-24" />
-    </motion.div>
+      <span className="intro-up mt-6 text-[0.7rem] tracking-[0.3em] text-ink-faint uppercase [animation-delay:0.75s]">
+        Менеджер маркетплейсов · WB / OZON
+      </span>
+    </div>
   )
 }
