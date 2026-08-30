@@ -2,10 +2,12 @@ import { Intro } from '../components/Intro'
 import { ScrollProgress } from '../components/ScrollProgress'
 import { Header } from '../components/layout/Header'
 import { Hero } from '../components/Hero'
+import { Platforms } from '../components/Platforms'
 import { Marquee } from '../components/Marquee'
 import { GrowthChart } from '../components/GrowthChart'
 import { MinimalGrid } from '../components/MinimalGrid'
 import { WorkList } from '../components/WorkList'
+import { Services } from '../components/Services'
 import { Edge } from '../components/Edge'
 import { Toolbox } from '../components/Toolbox'
 import { CaseStudies } from '../components/CaseStudies'
@@ -19,10 +21,12 @@ export function SitePage() {
       <Header />
       <main>
         <Hero />
+        <Platforms />
         <Marquee />
         <GrowthChart />
         <MinimalGrid />
         <WorkList />
+        <Services />
         <Edge />
         <Toolbox />
         <CaseStudies />

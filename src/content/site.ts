@@ -170,7 +170,7 @@ export type WorkItem = {
 }
 
 export const EDGE_INTRO = {
-  kicker: '04 — Почему со мной эффективнее',
+  kicker: '05 — Почему со мной эффективнее',
   title: 'Бизнес-мышление, а не ведение карточек',
 }
 
@@ -203,7 +203,7 @@ export type EdgeItem = {
 }
 
 export const CASES_INTRO = {
-  kicker: '06 — Кейсы и метод',
+  kicker: '07 — Кейсы и метод',
   title: 'Как выглядит кратный рост вблизи',
 }
 
@@ -258,7 +258,7 @@ export type CaseItem = {
 }
 
 export const CONTACT_SECTION = {
-  kicker: '07 — Контакт',
+  kicker: '08 — Контакт',
   title: 'Обсудим ваш магазин',
   status: 'Сейчас беру 1–2 проекта на ведение',
   statusNote:
@@ -339,7 +339,7 @@ export type GrowthMilestone = { at: number; label: string }
 
 /** Dense pill cluster of methods and tools — adds texture, signals depth. */
 export const TOOLBOX_INTRO = {
-  kicker: '05 — Инструменты',
+  kicker: '06 — Инструменты',
   title: 'Чем считаю и как автоматизирую',
 }
 
@@ -357,6 +357,55 @@ export const TOOLBOX_TAGS: string[] = [
   'AI: генерация контента',
   'Модели в таблицах',
 ]
+
+/** Marketplaces Asya works on — rendered as styled marks in the hero strip and intro. */
+export const PLATFORMS: string[] = ['Wildberries', 'OZON']
+
+/** Engagement formats — the "услуги" block every marketplace-manager site has. */
+export const SERVICES_INTRO = {
+  kicker: '04 — Форматы работы',
+  title: 'Как можно со мной работать',
+}
+
+export const SERVICES: ServiceItem[] = [
+  {
+    title: 'Ведение под ключ',
+    forWhom: 'Магазину нужен системный рост и один ответственный за результат',
+    includes: [
+      'Стратегия и план на месяц вперёд',
+      'Карточки, SEO, инфографика, реклама, операционка',
+      'Еженедельный отчёт по юнит-экономике',
+    ],
+    note: 'По совмещению · 1–2 проекта',
+  },
+  {
+    title: 'Аудит и стратегия',
+    forWhom: 'Есть продажи, но непонятно, где потолок и что двигать',
+    includes: [
+      'Разбор кабинета, карточек и юнит-экономики',
+      'ABC-анализ ассортимента, анализ конкурентов',
+      'Приоритизированный список точек роста с оценкой эффекта',
+    ],
+    note: 'Разово · 5–7 дней',
+  },
+  {
+    title: 'Карточки и визуал',
+    forWhom: 'Товар хороший, но карточки не продают и не выходят в топ',
+    includes: [
+      'Семантическое ядро и структура под запросы',
+      'Продающая инфографика и выноски под возражения',
+      'Единый стиль на всю линейку',
+    ],
+    note: 'Пакетом или за карточку',
+  },
+]
+
+export type ServiceItem = {
+  title: string
+  forWhom: string
+  includes: string[]
+  note: string
+}
 
 /* ------------------------------------------------------------------ *
  * Aggregated content document
@@ -399,11 +448,13 @@ export type Growth = {
   milestones: GrowthMilestone[]
 }
 export type Toolbox = { intro: SectionIntro; tags: string[] }
+export type Services = { intro: SectionIntro; items: ServiceItem[] }
 
 export type SiteContent = {
   contact: ContactInfo
   nav: NavItem[]
   hero: Hero
+  platforms: string[]
   marquee: string[]
   metrics: MetricItem[]
   growth: Growth
@@ -411,6 +462,7 @@ export type SiteContent = {
   expertise: ExpertiseItem[]
   workIntro: WorkIntro
   work: WorkItem[]
+  services: Services
   edgeIntro: SectionIntro
   edge: EdgeItem[]
   casesIntro: SectionIntro
@@ -425,6 +477,7 @@ export const DEFAULT_CONTENT: SiteContent = {
   contact: { ...CONTACT },
   nav: NAV.map((item) => ({ ...item })),
   hero: { ...HERO, headline: [...HERO.headline] },
+  platforms: [...PLATFORMS],
   marquee: [...MARQUEE],
   metrics: METRICS.map((m) => ({ ...m })),
   growth: {
@@ -436,6 +489,10 @@ export const DEFAULT_CONTENT: SiteContent = {
   expertise: EXPERTISE.map((e) => ({ ...e })),
   workIntro: { ...WORK_INTRO },
   work: WORK.map((w) => ({ ...w })),
+  services: {
+    intro: { ...SERVICES_INTRO },
+    items: SERVICES.map((s) => ({ ...s, includes: [...s.includes] })),
+  },
   edgeIntro: { ...EDGE_INTRO },
   edge: EDGE.map((e) => ({ ...e })),
   casesIntro: { ...CASES_INTRO },

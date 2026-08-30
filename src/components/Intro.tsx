@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { Logo } from './Logo'
+import { Seal } from './Seal'
 
 const SEEN_KEY = 'asy-intro-seen'
 /** Fired when the curtain begins to lift, so the hero can start its entrance. */
@@ -99,14 +100,18 @@ export function Intro() {
         transition={{ delay: 0.25, duration: 0.85, ease }}
       />
 
-      <motion.span
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.45, duration: 0.5, ease }}
-        className="mt-6 text-[0.7rem] tracking-[0.24em] text-paper/40 uppercase"
+        className="mt-6 flex items-center gap-4 text-sm font-extrabold tracking-[-0.02em] text-paper/85"
       >
-        Менеджмент маркетплейсов · WB / OZON
-      </motion.span>
+        <span>Wildberries</span>
+        <span className="text-paper/25">×</span>
+        <span>OZON</span>
+      </motion.div>
+
+      <Seal className="absolute right-6 bottom-6 h-20 w-20 text-paper/30 sm:right-10 sm:bottom-10 sm:h-24 sm:w-24" />
     </motion.div>
   )
 }

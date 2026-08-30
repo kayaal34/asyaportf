@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { CountUp } from './CountUp'
 import { INTRO_DONE_EVENT } from './Intro'
+import { Seal } from './Seal'
 import { useContent } from '../content/store'
 import { springSoft, springSnappy } from '../lib/motion'
 
@@ -56,6 +57,15 @@ export function Hero() {
       id="top"
       className="relative flex min-h-[100svh] flex-col justify-center px-6 pt-32 pb-20 sm:px-10 sm:pt-40"
     >
+      <motion.div
+        initial={reduceMotion ? undefined : { opacity: 0, rotate: -25 }}
+        animate={reduceMotion || ready ? { opacity: 1, rotate: 0 } : undefined}
+        transition={{ ...springSoft, delay: 0.3 }}
+        className="pointer-events-none absolute top-32 right-8 hidden text-ink/70 lg:block xl:right-16"
+      >
+        <Seal className="h-28 w-28 xl:h-32 xl:w-32" />
+      </motion.div>
+
       <motion.div
         variants={container}
         initial={reduceMotion ? undefined : 'hidden'}

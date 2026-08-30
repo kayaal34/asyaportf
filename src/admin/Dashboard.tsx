@@ -7,6 +7,7 @@ import type {
   GrowthMilestone,
   GrowthPoint,
   MetricItem,
+  ServiceItem,
   SiteContent,
 } from '../content/site'
 import { saveContent } from '../lib/contentIo'
@@ -56,12 +57,18 @@ export function Dashboard() {
     <div className="min-h-screen bg-paper text-ink">
       {/* Toolbar */}
       <header className="sticky top-0 z-20 border-b border-line bg-paper/95 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-5 py-3">
-          <div className="flex items-center gap-3">
+        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-5 py-3">
+          <div className="flex items-center gap-2.5">
             <span className="font-display text-sm font-extrabold tracking-[-0.02em]">
               Панель · Ася
             </span>
-            {dirty && <span className="size-2 rounded-full bg-accent" title="Есть несохранённые изменения" />}
+            {dirty ? (
+              <span className="rounded-full bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">
+                есть изменения
+              </span>
+            ) : (
+              <span className="text-xs text-ink-faint">всё сохранено</span>
+            )}
           </div>
           <div className="flex items-center gap-2 text-sm">
             {message && <span className="text-ink-soft">{message}</span>}
@@ -77,15 +84,17 @@ export function Dashboard() {
               type="button"
               onClick={handleSave}
               disabled={!dirty || saving}
-              className="rounded-full bg-ink px-4 py-1.5 text-xs font-medium text-paper transition-opacity disabled:opacity-40"
+              className="rounded-full bg-ink px-5 py-1.5 text-xs font-medium text-paper transition-opacity disabled:opacity-40"
             >
               {saving ? 'Сохранение…' : 'Сохранить'}
             </button>
             <a
               href="/"
+              target="_blank"
+              rel="noreferrer"
               className="rounded-full border border-line px-3 py-1.5 text-xs transition-colors hover:border-ink"
             >
-              Сайт ↗
+              Открыть сайт ↗
             </a>
             <button
               type="button"
@@ -99,7 +108,21 @@ export function Dashboard() {
       </header>
 
       <main className="mx-auto max-w-3xl space-y-3 px-5 py-8">
-        <Panel title="Контакты и ссылки" defaultOpen>
+        <div className="rounded-xl border border-line bg-paper-raised p-5 text-sm leading-relaxed text-ink-soft">
+          <p className="mb-1 font-display font-bold text-ink">Как это работает</p>
+          Каждый блок ниже — это раздел сайта. Раскройте нужный, поменяйте текст или числа,
+          нажмите <span className="font-medium text-ink">«Сохранить»</span> вверху — и всё сразу
+          появится на сайте. Кнопка <span className="font-medium text-ink">«Отменить»</span> вернёт
+          последнюю сохранённую версию.
+        </div>
+
+        <GroupLabel>Верх сайта</GroupLabel>
+
+        <Panel
+          title="Контакты и ссылки"
+          desc="Имя, роль и все ссылки: Telegram, портфолио, сайт-резюме."
+          defaultOpen
+        >
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Имя">
               <TextInput value={draft.contact.name} onChange={(v) => patch('contact', { ...draft.contact, name: v })} />
@@ -122,7 +145,8 @@ export function Dashboard() {
           </div>
         </Panel>
 
-        <Panel title="Навигация">
+        <Panel title="Навигация" desc="Пункты меню в шапке сайта.">
+
           <Repeater
             items={draft.nav}
             onChange={(v) => patch('nav', v)}
@@ -141,7 +165,7 @@ export function Dashboard() {
           />
         </Panel>
 
-        <Panel title="Первый экран">
+        <Panel title="Первый экран" desc="Крупный заголовок, подзаголовок и площадки.">
           <Field label="Надпись сверху">
             <TextInput value={draft.hero.kicker} onChange={(v) => patch('hero', { ...draft.hero, kicker: v })} />
           </Field>
@@ -158,13 +182,21 @@ export function Dashboard() {
           <Field label="Подзаголовок">
             <TextArea value={draft.hero.sub} onChange={(v) => patch('hero', { ...draft.hero, sub: v })} rows={3} />
           </Field>
+          <Field label="Площадки" hint="Wildberries, OZON, Яндекс Маркет — показываются под первым экраном.">
+            <StringList
+              values={draft.platforms}
+              onChange={(v) => patch('platforms', v)}
+              addLabel="площадку"
+            />
+          </Field>
         </Panel>
 
-        <Panel title="Бегущая строка">
+        <Panel title="Бегущая строка" desc="Слова, которые едут лентой под первым экраном.">
           <StringList values={draft.marquee} onChange={(v) => patch('marquee', v)} addLabel="слово" />
         </Panel>
 
-        <Panel title="Метрики (первый экран)">
+        <Panel title="Метрики (первый экран)" desc="Три числа под первым экраном: было → стало.">
+
           <Repeater
             items={draft.metrics}
             onChange={(v) => patch('metrics', v)}
@@ -202,7 +234,10 @@ export function Dashboard() {
           />
         </Panel>
 
-        <Panel title="Динамика (графики)">
+        <GroupLabel>Разделы</GroupLabel>
+
+        <Panel title="Динамика (графики)" desc="Два графика роста за 38 дней и отметки на них.">
+
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Надпись сверху">
               <TextInput
@@ -277,7 +312,7 @@ export function Dashboard() {
           </Field>
         </Panel>
 
-        <Panel title="Экспертиза">
+        <Panel title="Экспертиза" desc="Плитки с направлениями работы.">
           <SectionIntroFields
             value={draft.expertiseIntro}
             onChange={(v) => patch('expertiseIntro', v)}
@@ -323,7 +358,7 @@ export function Dashboard() {
           </div>
         </Panel>
 
-        <Panel title="Работа">
+        <Panel title="Работа" desc="Сетка проектов с картинками карточек.">
           <Field label="Надпись сверху">
             <TextInput value={draft.workIntro.kicker} onChange={(v) => patch('workIntro', { ...draft.workIntro, kicker: v })} />
           </Field>
@@ -359,7 +394,43 @@ export function Dashboard() {
           </div>
         </Panel>
 
-        <Panel title="Почему со мной">
+        <Panel title="Форматы работы" desc="Карточки «как можно со мной работать».">
+          <SectionIntroFields
+            value={draft.services.intro}
+            onChange={(v) => patch('services', { ...draft.services, intro: v })}
+          />
+          <div className="mt-4">
+            <Repeater
+              items={draft.services.items}
+              onChange={(v) => patch('services', { ...draft.services, items: v })}
+              create={(): ServiceItem => ({ title: 'Формат', forWhom: '', includes: [], note: '' })}
+              title={(it) => it.title || 'формат'}
+              addLabel="формат"
+              render={(it, update) => (
+                <>
+                  <Field label="Название">
+                    <TextInput value={it.title} onChange={(v) => update({ title: v })} />
+                  </Field>
+                  <Field label="Кому подходит">
+                    <TextArea value={it.forWhom} onChange={(v) => update({ forWhom: v })} rows={2} />
+                  </Field>
+                  <Field label="Что входит">
+                    <StringList
+                      values={it.includes}
+                      onChange={(v) => update({ includes: v })}
+                      addLabel="пункт"
+                    />
+                  </Field>
+                  <Field label="Подпись (формат / срок)">
+                    <TextInput value={it.note} onChange={(v) => update({ note: v })} />
+                  </Field>
+                </>
+              )}
+            />
+          </div>
+        </Panel>
+
+        <Panel title="Почему со мной" desc="Тёмный блок с отличиями.">
           <SectionIntroFields value={draft.edgeIntro} onChange={(v) => patch('edgeIntro', v)} />
           <div className="mt-4">
             <Repeater
@@ -389,7 +460,7 @@ export function Dashboard() {
           </div>
         </Panel>
 
-        <Panel title="Кейсы">
+        <Panel title="Кейсы" desc="Раскрывающиеся строки с разбором метода.">
           <SectionIntroFields value={draft.casesIntro} onChange={(v) => patch('casesIntro', v)} />
           <div className="mt-4">
             <Repeater
@@ -445,7 +516,8 @@ export function Dashboard() {
           </div>
         </Panel>
 
-        <Panel title="Инструменты (плашки)">
+        <Panel title="Инструменты (плашки)" desc="Плашки с методами и AI-инструментами.">
+
           <SectionIntroFields
             value={draft.toolbox.intro}
             onChange={(v) => patch('toolbox', { ...draft.toolbox, intro: v })}
@@ -459,7 +531,9 @@ export function Dashboard() {
           </Field>
         </Panel>
 
-        <Panel title="Секция «Контакт»">
+        <GroupLabel>Низ сайта</GroupLabel>
+
+        <Panel title="Секция «Контакт»" desc="Статус, заголовок и подписи в блоке контактов.">
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Надпись сверху">
               <TextInput value={draft.contactSection.kicker} onChange={(v) => patch('contactSection', { ...draft.contactSection, kicker: v })} />
@@ -482,7 +556,8 @@ export function Dashboard() {
           </Field>
         </Panel>
 
-        <Panel title="Каналы связи">
+        <Panel title="Каналы связи" desc="Список: Telegram, портфолио, сайт-резюме.">
+
           <Repeater
             items={draft.channels}
             onChange={(v) => patch('channels', v)}
@@ -514,7 +589,8 @@ export function Dashboard() {
           />
         </Panel>
 
-        <Panel title="Подпись в подвале">
+        <Panel title="Подпись в подвале" desc="Кто сделал сайт — маленькая строка внизу.">
+
           <div className="grid gap-3 sm:grid-cols-3">
             <Field label="Текст">
               <TextInput value={draft.credit.label} onChange={(v) => patch('credit', { ...draft.credit, label: v })} />
@@ -536,12 +612,22 @@ export function Dashboard() {
   )
 }
 
+function GroupLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="px-1 pt-6 pb-1 text-xs font-medium tracking-[0.18em] text-ink-faint uppercase first:pt-2">
+      {children}
+    </p>
+  )
+}
+
 function Panel({
   title,
+  desc,
   children,
   defaultOpen = false,
 }: {
   title: string
+  desc?: string
   children: React.ReactNode
   defaultOpen?: boolean
 }) {
@@ -550,9 +636,14 @@ function Panel({
       open={defaultOpen}
       className="group rounded-xl border border-line bg-paper-raised px-4 py-3 open:pb-5"
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between py-1 font-display text-sm font-bold tracking-[-0.01em]">
-        {title}
-        <span className="text-ink-faint transition-transform group-open:rotate-45">+</span>
+      <summary className="flex cursor-pointer list-none items-start justify-between gap-4 py-1">
+        <span>
+          <span className="font-display text-sm font-bold tracking-[-0.01em]">{title}</span>
+          {desc && <span className="mt-0.5 block text-xs font-normal text-ink-faint">{desc}</span>}
+        </span>
+        <span className="mt-0.5 shrink-0 text-ink-faint transition-transform group-open:rotate-45">
+          +
+        </span>
       </summary>
       <div className="mt-4 space-y-3">{children}</div>
     </details>

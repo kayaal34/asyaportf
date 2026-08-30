@@ -153,9 +153,21 @@
   animation: marquee 38s linear infinite;
 }
 
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility animate-seal {
+  animation: spin-slow 24s linear infinite;
+  transform-origin: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
-  .animate-nudge {
+  .animate-nudge,
+  .animate-seal {
     animation: none;
   }
 }

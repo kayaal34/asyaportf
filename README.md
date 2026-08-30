@@ -79,8 +79,31 @@ src/
    - выключите **Allow new users to sign up** обратно
 6. Вход — `/admin`.
 
-Панель редактирует все тексты, метрики, экспертизу, работы (с загрузкой
-изображений), кейсы, каналы связи и подпись в подвале.
+Панель редактирует все тексты, метрики, графики динамики, экспертизу, работы
+(с загрузкой изображений), форматы работы, инструменты, кейсы, каналы связи и
+подпись в подвале.
+
+## Деплой (публикация сайта)
+
+Vite-SPA со статической выдачей + клиентский роутинг (`/admin`), поэтому нужен
+SPA-fallback — конфиги для основных хостингов уже в репозитории:
+
+| Хостинг | Что делать |
+|---|---|
+| **Vercel** | Import репозитория. Framework: Vite. Build: `npm run build`, Output: `dist`. `vercel.json` уже добавляет rewrite на `index.html`. |
+| **Netlify** | New site from Git. `netlify.toml` задаёт build/redirects. |
+| **Cloudflare Pages** | Build `npm run build`, output `dist`. `public/_redirects` отрабатывает fallback. |
+
+**Обязательно** добавьте переменные окружения в настройках хостинга:
+
+```
+VITE_SUPABASE_URL=<из .env>
+VITE_SUPABASE_ANON_KEY=<из .env>
+```
+
+После первого деплоя добавьте боевой домен в Supabase → **Authentication → URL
+Configuration** (Site URL и Redirect URLs), иначе письма подтверждения / сброса
+пароля будут вести на localhost.
 
 ## Доступность и анимации
 
