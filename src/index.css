@@ -17,6 +17,12 @@
   --line: rgba(11, 11, 11, 0.12); /* hairline dividers */
   --line-strong: rgba(11, 11, 11, 0.22);
 
+  /* One controlled accent — editorial vermilion, used only on a handful of
+     signals (the hero emphasis line, deltas, link underlines, live status). */
+  --accent: #d1341f;
+  --accent-ink: #f5f3ef; /* text that sits on --accent */
+  --accent-wash: rgba(209, 52, 31, 0.1);
+
   --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -30,6 +36,9 @@
   --color-ink-faint: var(--ink-faint);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-wash: var(--accent-wash);
 
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);

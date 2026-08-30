@@ -1,3 +1,5 @@
+import { Intro } from './components/Intro'
+import { ScrollProgress } from './components/ScrollProgress'
 import { Header } from './components/layout/Header'
 import { Hero } from './components/Hero'
 import { Marquee } from './components/Marquee'
@@ -10,6 +12,8 @@ import { ContactCTA } from './components/ContactCTA'
 export default function App() {
   return (
     <div className="relative min-h-screen bg-paper text-ink">
+      <Intro />
+      <ScrollProgress />
       <Header />
       <main>
         <Hero />

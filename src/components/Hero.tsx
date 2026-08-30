@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react'
 import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { CountUp } from './CountUp'
+import { INTRO_DONE_EVENT } from './Intro'
 import { HERO, METRICS, CONTACT } from '../content/site'
 import { springSoft, springSnappy } from '../lib/motion'
 
 const container: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.08, delayChildren: 0.35 } },
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
 }
 
 const word: Variants = {
@@ -20,8 +22,33 @@ const rise: Variants = {
 
 export function Hero() {
   const reduceMotion = useReducedMotion()
-  const animate = reduceMotion ? undefined : 'show'
-  const initial = reduceMotion ? undefined : 'hidden'
+  const [ready, setReady] = useState(false)
+
+  // Hold the entrance until the intro curtain starts lifting, so the hero
+  // animates into view rather than sitting finished behind it.
+  useEffect(() => {
+    if (reduceMotion) {
+      setReady(true)
+      return
+    }
+    let seen = false
+    try {
+      seen = sessionStorage.getItem('asy-intro-seen') === '1'
+    } catch {
+      seen = false
+    }
+    if (seen) {
+      setReady(true)
+      return
+    }
+    const reveal = () => setReady(true)
+    window.addEventListener(INTRO_DONE_EVENT, reveal)
+    const safety = window.setTimeout(reveal, 2200)
+    return () => {
+      window.removeEventListener(INTRO_DONE_EVENT, reveal)
+      window.clearTimeout(safety)
+    }
+  }, [reduceMotion])
 
   return (
     <section
@@ -30,8 +57,8 @@ export function Hero() {
     >
       <motion.div
         variants={container}
-        initial={initial}
-        animate={animate}
+        initial={reduceMotion ? undefined : 'hidden'}
+        animate={reduceMotion ? undefined : ready ? 'show' : 'hidden'}
         className="mx-auto w-full max-w-[80rem]"
       >
         <motion.p
@@ -55,15 +82,12 @@ export function Hero() {
               ))}
             </span>
           ))}
-          <motion.span variants={rise} className="mt-3 block text-ink-soft">
+          <motion.span variants={rise} className="mt-3 block text-accent">
             {HERO.emphasis}
           </motion.span>
         </h1>
 
-        <motion.p
-          variants={rise}
-          className="mt-10 max-w-2xl text-lead text-ink-soft text-balance"
-        >
+        <motion.p variants={rise} className="mt-10 max-w-2xl text-lead text-ink-soft text-balance">
           {HERO.sub}
         </motion.p>
 
@@ -78,10 +102,7 @@ export function Hero() {
             className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-base font-medium text-paper"
           >
             Обсудить проект
-            <span
-              aria-hidden
-              className="transition-transform duration-300 group-hover:translate-x-1"
-            >
+            <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
               →
             </span>
           </motion.a>
@@ -98,11 +119,7 @@ export function Hero() {
                 {metric.label}
               </dt>
               <dd className="mt-5 font-display text-figure font-extrabold tracking-[-0.04em]">
-                <CountUp
-                  value={metric.to}
-                  decimals={metric.decimals}
-                  suffix={metric.unit}
-                />
+                <CountUp value={metric.to} decimals={metric.decimals} suffix={metric.unit} />
               </dd>
               <p className="mt-4 flex items-center gap-3 text-sm text-ink-soft">
                 {metric.single ? (
@@ -118,7 +135,7 @@ export function Hero() {
                       {metric.unit ? ` ${metric.unit}` : ''}
                     </span>
                     {metric.delta && (
-                      <span className="rounded-full border border-ink px-2 py-0.5 text-xs font-medium">
+                      <span className="rounded-full border border-accent px-2 py-0.5 text-xs font-medium text-accent">
                         {metric.delta}
                       </span>
                     )}
@@ -132,8 +149,8 @@ export function Hero() {
 
       <motion.div
         initial={reduceMotion ? undefined : { opacity: 0 }}
-        animate={reduceMotion ? undefined : { opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.8 }}
+        animate={reduceMotion || ready ? { opacity: 1 } : undefined}
+        transition={{ delay: 0.4, duration: 0.8 }}
         className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 sm:block"
       >
         <span className="motion-safe:animate-nudge block text-xs tracking-[0.2em] text-ink-faint uppercase">

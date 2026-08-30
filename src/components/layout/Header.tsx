@@ -3,6 +3,7 @@ import { motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { CONTACT, NAV } from '../../content/site'
 import { cn } from '../../lib/cn'
 import { springSoft } from '../../lib/motion'
+import { Logo } from '../Logo'
 
 export function Header() {
   const { scrollY } = useScroll()
@@ -27,12 +28,8 @@ export function Header() {
             : 'my-0 border border-transparent py-5',
         )}
       >
-        <a
-          href="#top"
-          className="font-display text-lg font-extrabold tracking-[-0.03em] lowercase"
-          aria-label="В начало страницы"
-        >
-          ася<span className="text-ink-faint">.</span>
+        <a href="#top" aria-label="В начало страницы" className="group block">
+          <Logo className="h-[1.15rem] w-auto text-ink transition-opacity group-hover:opacity-60 sm:h-5" />
         </a>
 
         <nav className="hidden items-center gap-9 md:flex">

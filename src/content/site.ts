@@ -259,9 +259,51 @@ export type CaseItem = {
 
 export const CONTACT_SECTION = {
   kicker: '05 — Контакт',
+  title: 'Обсудим ваш магазин',
   status: 'Сейчас беру 1–2 проекта на ведение',
   statusNote:
     'Только по совмещению — один долгосрочный проект уже в работе. Рассматриваю магазины, которым нужен кратный рост, а не поддержка «как есть».',
   cta: 'Написать в Telegram',
   closing: 'Портфолио с разбором методов и примерами карточек — в закрытом Telegram-канале.',
+}
+
+/** Ways to reach Asya, in priority order. `primary` gets the oversized treatment. */
+export const CHANNELS: Channel[] = [
+  {
+    label: 'Telegram',
+    value: CONTACT.telegramHandle,
+    href: CONTACT.telegramUrl,
+    hint: 'Пишите сюда — отвечаю в течение дня',
+    primary: true,
+  },
+  {
+    label: 'Портфолио и кейсы',
+    value: 'Закрытый канал',
+    href: CONTACT.portfolioUrl,
+    hint: 'Разборы карточек, до / после, методология',
+  },
+  {
+    label: 'Сайт-резюме',
+    value: 'taaeyes-wb-ozon',
+    href: CONTACT.resumeUrl,
+    hint: 'Опыт, стек инструментов, образование',
+  },
+]
+
+export type Channel = {
+  label: string
+  value: string
+  href: string
+  hint: string
+  primary?: boolean
+}
+
+/**
+ * Discreet "built by" credit for the footer. Fill `url` with your studio /
+ * Telegram / portfolio link; leave it empty to render as plain muted text.
+ */
+export const CREDIT = {
+  label: 'Дизайн и разработка сайта',
+  name: 'Yahya',
+  url: '',
 }
