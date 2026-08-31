@@ -31,8 +31,10 @@ export async function uploadWorkImage(file: File): Promise<string> {
 export type LeadInput = {
   name: string
   contact: string
+  email?: string
   platform?: string
   shop?: string
+  turnover?: string
   message?: string
 }
 
@@ -48,8 +50,10 @@ export async function submitLead(input: LeadInput): Promise<void> {
   const { error } = await supabase.from('leads').insert({
     name: input.name.trim(),
     contact: input.contact.trim(),
+    email: input.email?.trim() || null,
     platform: input.platform || null,
     shop: input.shop?.trim() || null,
+    turnover: input.turnover?.trim() || null,
     message: input.message?.trim() || null,
   })
   if (error) throw error

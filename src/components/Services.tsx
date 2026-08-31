@@ -29,9 +29,8 @@ export function Services() {
                 ))}
               </ul>
 
-              <p className="mt-6 inline-flex self-start rounded-full border border-line px-3 py-1 text-xs tracking-wide text-ink-soft">
-                {item.note}
-              </p>
+              <p className="mt-6 text-sm font-medium text-ink">{item.result}</p>
+              <p className="mt-1 text-xs tracking-wide text-ink-faint">{item.price}</p>
             </article>
           </Reveal>
         ))}

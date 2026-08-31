@@ -7,7 +7,7 @@ type RevealProps = {
   /** Stagger delay in seconds. */
   delay?: number
   blur?: boolean
-  as?: 'div' | 'li' | 'span'
+  as?: 'div' | 'li' | 'span' | 'figure' | 'article'
 }
 
 /**

@@ -91,9 +91,12 @@ export function LeadsPanel() {
               <span className="font-semibold text-ink">{lead.name}</span>
               <span className="text-xs text-ink-faint">{dtf.format(new Date(lead.created_at))}</span>
             </div>
-            <p className="mt-1 text-ink">{lead.contact}</p>
+            <p className="mt-1 text-ink">
+              {lead.contact}
+              {lead.email ? ` · ${lead.email}` : ''}
+            </p>
             <p className="mt-1 text-ink-soft">
-              {[lead.platform, lead.shop].filter(Boolean).join(' · ') || '—'}
+              {[lead.platform, lead.shop, lead.turnover].filter(Boolean).join(' · ') || '—'}
             </p>
             {lead.message && (
               <p className="mt-2 leading-relaxed text-ink-soft">{lead.message}</p>

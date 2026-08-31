@@ -70,12 +70,18 @@ create table if not exists public.leads (
   id          uuid primary key default gen_random_uuid(),
   created_at  timestamptz not null default now(),
   name        text not null,
-  contact     text not null,           -- telegram / phone / email
+  contact     text not null,           -- telegram / whatsapp / phone
+  email       text,
   platform    text,                    -- WB / OZON / both
   shop        text,                    -- shop name or cabinet link
+  turnover    text,                    -- current monthly turnover
   message     text,
   handled     boolean not null default false
 );
+
+-- If the table already exists from an earlier version, add the new columns:
+alter table public.leads add column if not exists email text;
+alter table public.leads add column if not exists turnover text;
 
 alter table public.leads enable row level security;
 

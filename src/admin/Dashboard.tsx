@@ -454,7 +454,13 @@ export function Dashboard() {
             <Repeater
               items={draft.services.items}
               onChange={(v) => patch('services', { ...draft.services, items: v })}
-              create={(): ServiceItem => ({ title: 'Формат', forWhom: '', includes: [], note: '' })}
+              create={(): ServiceItem => ({
+                title: 'Формат',
+                forWhom: '',
+                includes: [],
+                result: '',
+                price: '',
+              })}
               title={(it) => it.title || 'формат'}
               addLabel="формат"
               render={(it, update) => (
@@ -472,8 +478,11 @@ export function Dashboard() {
                       addLabel="пункт"
                     />
                   </Field>
-                  <Field label="Подпись (формат / срок)">
-                    <TextInput value={it.note} onChange={(v) => update({ note: v })} />
+                  <Field label="Результат">
+                    <TextInput value={it.result} onChange={(v) => update({ result: v })} />
+                  </Field>
+                  <Field label="Цена / формат">
+                    <TextInput value={it.price} onChange={(v) => update({ price: v })} />
                   </Field>
                 </>
               )}

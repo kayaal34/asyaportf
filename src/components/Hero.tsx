@@ -12,7 +12,7 @@ function reveal(delay: number) {
 const LINE_PATH = 'M0 480 C 240 470 320 440 470 360 S 760 190 940 150 S 1120 60 1200 24'
 
 export function Hero() {
-  const { hero: HERO, metrics: METRICS, contact: CONTACT, sealText, platforms } = useContent()
+  const { hero: HERO, metrics: METRICS, sealText, platforms } = useContent()
 
   let idx = 0
   const wordCount = HERO.headline.reduce((n, l) => n + l.split(' ').length, 0)
@@ -95,17 +95,20 @@ export function Hero() {
 
         <div {...reveal(0.44)} className="mt-10 flex flex-wrap items-center gap-4">
           <a
-            href={CONTACT.telegramUrl}
-            target="_blank"
-            rel="noreferrer noopener"
+            href="/cases"
             className="group inline-flex items-center gap-3 rounded-full bg-accent px-7 py-4 text-base font-semibold text-accent-ink transition-transform hover:scale-[1.03] active:scale-95"
           >
-            Обсудить проект
+            Кейс Sandli
             <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
               →
             </span>
           </a>
-          <span className="text-sm text-ink-faint">{CONTACT.telegramHandle}</span>
+          <a
+            href="/contact"
+            className="inline-flex items-center gap-2 rounded-full border border-ink px-6 py-4 text-base font-medium transition-colors hover:bg-ink hover:text-paper"
+          >
+            Записаться на консультацию
+          </a>
         </div>
       </div>
 
