@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useContent } from '../../content/store'
+import { NAV } from '../../content/site'
 import { cn } from '../../lib/cn'
 import { Logo } from '../Logo'
 
 export function Header() {
-  const { nav: NAV } = useContent()
   const [condensed, setCondensed] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -73,7 +72,7 @@ export function Header() {
           </Link>
 
           <Link to="/" aria-label="На главную" className="group block shrink-0">
-            <Logo className="h-4 w-auto text-ink transition-opacity group-hover:opacity-60 sm:h-[1.1rem]" />
+            <Logo className="text-xl text-ink transition-opacity group-hover:opacity-60 sm:text-2xl" />
           </Link>
         </div>
       </div>

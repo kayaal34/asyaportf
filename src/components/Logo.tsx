@@ -1,32 +1,27 @@
+import { cn } from '../lib/cn'
+
 type LogoProps = {
   className?: string
-  /** Accessible name. */
   title?: string
 }
 
 /**
- * "ASY" wordmark. Rendered as SVG text in the display face so it scales with
- * `h-*` / `w-auto` like an icon while still using the site's type.
+ * "ася" wordmark — lowercase, the personal name rather than initials, to match
+ * the first-person voice of the site. Plain text in the display face so it uses
+ * the loaded font and scales with `text-*` utilities.
  */
 export function Logo({ className, title = 'Ася' }: LogoProps) {
   return (
-    <svg
-      viewBox="0 0 116 40"
+    <span
       role="img"
       aria-label={title}
-      className={className}
-      fill="currentColor"
+      className={cn(
+        'inline-block font-display font-extrabold lowercase leading-none tracking-[-0.04em] select-none',
+        className,
+      )}
     >
-      <text
-        x="0"
-        y="32"
-        fontFamily="var(--font-display), 'Manrope', system-ui, sans-serif"
-        fontSize="40"
-        fontWeight="800"
-        letterSpacing="-3"
-      >
-        ASY
-      </text>
-    </svg>
+      ася
+      <span className="text-accent">.</span>
+    </span>
   )
 }

@@ -10,7 +10,7 @@ export function AuthShell({ title, children }: { title: string; children: ReactN
     <div className="grid min-h-screen place-items-center bg-paper px-5 text-ink">
       <div className="w-full max-w-sm">
         <a href="/" className="mb-8 inline-flex" aria-label="На сайт">
-          <Logo className="h-5 w-auto text-ink" />
+          <Logo className="text-xl text-ink" />
         </a>
         <h1 className="mb-6 font-display text-2xl font-extrabold tracking-[-0.02em]">{title}</h1>
         {children}
