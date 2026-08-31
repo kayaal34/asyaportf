@@ -57,9 +57,12 @@ export function Hero() {
           {HERO.kicker}
         </p>
 
-        <h1 className="mt-6 text-display">
+        <h1 className="mt-7 text-display">
           {HERO.headline.map((line, li) => (
-            <span key={li} className="block overflow-hidden pb-[0.06em]">
+            <span
+              key={li}
+              className={`block overflow-hidden pb-[0.06em] ${li > 0 ? 'text-accent' : ''}`}
+            >
               {line.split(' ').map((w) => {
                 const d = 0.14 + idx++ * 0.07
                 return (
@@ -76,12 +79,15 @@ export function Hero() {
           ))}
         </h1>
 
-        <p {...reveal(0.3)} className="mt-5 text-sm font-medium tracking-[0.12em] text-accent uppercase">
-          {HERO.emphasis}
+        <p {...reveal(0.36)} className="mt-7 text-lead text-ink-soft text-balance">
+          {HERO.sub}
         </p>
 
-        <p {...reveal(0.36)} className="mt-6 text-lead text-ink-soft text-balance">
-          {HERO.sub}
+        <p
+          {...reveal(0.42)}
+          className="mt-4 text-xs font-medium tracking-[0.16em] text-ink-faint uppercase"
+        >
+          {HERO.emphasis}
         </p>
 
         <div
