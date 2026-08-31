@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useContent } from '../../content/store'
 import { Reveal } from '../Reveal'
 import { Magnetic } from '../Magnetic'
@@ -16,12 +17,12 @@ export function Footer() {
         </Reveal>
 
         <Reveal delay={0.06} className="mt-10 flex flex-wrap items-center gap-4">
-          <a
-            href="/contact"
+          <Link
+            to="/contact"
             className="inline-flex items-center gap-3 rounded-full bg-accent px-7 py-4 text-base font-semibold text-accent-ink transition-transform hover:scale-[1.03]"
           >
             Заказать консультацию <span aria-hidden>→</span>
-          </a>
+          </Link>
           <span className="text-sm text-ink-faint">{contactSection.status}</span>
         </Reveal>
 
@@ -44,7 +45,11 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex justify-center">
-          <Magnetic href={contact.telegramUrl} strength={0.26} ariaLabel={`Написать ${contact.telegramHandle}`}>
+          <Magnetic
+            href={contact.telegramUrl}
+            strength={0.26}
+            ariaLabel={`Написать ${contact.telegramHandle}`}
+          >
             <span className="font-display text-mega font-extrabold lowercase">
               {contact.telegramHandle}
             </span>
@@ -86,12 +91,20 @@ function FooterCol({ title, children }: { title: string; children: React.ReactNo
 }
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const cls = 'text-sm text-ink-soft transition-colors hover:text-ink'
+  if (href.startsWith('/')) {
+    return (
+      <Link to={href} className={cls}>
+        {children}
+      </Link>
+    )
+  }
   const external = href.startsWith('http')
   return (
     <a
       href={href}
       {...(external ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
-      className="text-sm text-ink-soft transition-colors hover:text-ink"
+      className={cls}
     >
       {children}
     </a>

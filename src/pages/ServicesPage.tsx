@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Page, PageHead } from '../components/layout/Page'
 import { Section } from '../components/Section'
 import { Reveal } from '../components/Reveal'
@@ -44,12 +45,12 @@ export function ServicesPage() {
                   <p className="mt-1 text-xs tracking-wide text-ink-faint">{item.price}</p>
                 </div>
 
-                <a
-                  href="/contact"
+                <Link
+                  to="/contact"
                   className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent"
                 >
                   Обсудить <span aria-hidden>→</span>
-                </a>
+                </Link>
               </article>
             </Reveal>
           ))}
@@ -67,12 +68,12 @@ export function ServicesPage() {
             категории, выручки и числа SKU.
           </p>
         </div>
-        <a
-          href="/contact"
+        <Link
+          to="/contact"
           className="mt-10 inline-flex items-center gap-3 rounded-full bg-accent px-7 py-4 text-base font-semibold text-accent-ink"
         >
           Заказать консультацию <span aria-hidden>→</span>
-        </a>
+        </Link>
       </Section>
 
       <Faq />

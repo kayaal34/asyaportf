@@ -30,16 +30,16 @@ export function PageHead({
   lead?: string
 }) {
   return (
-    <header className="mx-auto w-full max-w-[80rem] px-6 sm:px-10">
+    <header className="mx-auto flex w-full max-w-3xl flex-col items-center px-6 text-center sm:px-10">
       <p className="reveal text-xs font-medium tracking-[0.24em] text-ink-faint uppercase">
         {kicker}
       </p>
-      <h1 className="reveal mt-6 max-w-4xl text-display text-balance" style={{ animationDelay: '0.05s' }}>
+      <h1 className="reveal mt-6 text-display text-balance" style={{ animationDelay: '0.05s' }}>
         {title}
       </h1>
       {lead && (
         <p
-          className="reveal mt-8 max-w-2xl text-lead text-ink-soft text-balance"
+          className="reveal mt-7 text-lead text-ink-soft text-balance"
           style={{ animationDelay: '0.1s' }}
         >
           {lead}

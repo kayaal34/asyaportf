@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Page, PageHead } from '../components/layout/Page'
 import { Section } from '../components/Section'
 import { SectionHeading } from '../components/SectionHeading'
@@ -80,12 +81,12 @@ export function AiPage() {
             <li>— Работает 24/7</li>
           </ul>
         </div>
-        <a
-          href="/contact"
+        <Link
+          to="/contact"
           className="mt-10 inline-flex items-center gap-3 rounded-full bg-accent px-7 py-4 text-base font-semibold text-accent-ink"
         >
           Хочу свой AI-контент <span aria-hidden>→</span>
-        </a>
+        </Link>
       </Section>
     </Page>
   )

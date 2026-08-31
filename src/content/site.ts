@@ -17,18 +17,18 @@ export const CONTACT = {
 } as const
 
 export const NAV = [
-  { label: 'Кейсы', href: '/cases' },
-  { label: 'Услуги', href: '/services' },
-  { label: 'AI-портфолио', href: '/ai' },
   { label: 'Обо мне', href: '/about' },
+  { label: 'Услуги', href: '/services' },
+  { label: 'Кейсы', href: '/cases' },
+  { label: 'AI-портфолио', href: '/ai' },
   { label: 'Заявка', href: '/contact' },
 ] as const
 
 export const HERO = {
-  kicker: 'Менеджер маркетплейсов · WB / OZON',
-  headline: ['+193%', 'заказов'],
-  emphasis: '+184% выручки · 94% роста из SEO · за 38 дней',
-  sub: 'Я вижу ваш магазин как данные + AI + дизайн. Результат — в 3 раза больше заказов за 2–3 месяца, без изменения цен и загрузки новых товаров.',
+  kicker: 'Привет! Меня зовут Ася',
+  headline: ['Ваш магазин —', 'данные, AI и дизайн'],
+  emphasis: 'Менеджер маркетплейсов WB / OZON',
+  sub: 'Помогаю селлерам расти в 2–3 раза за 2–3 месяца: SEO и дизайн карточек, юнит-экономика, реклама и собственные AI-инструменты. Не задачи ради отчётности, а результат в цифрах.',
 } as const
 
 /** Text that circles inside the rotating badge. Empty string hides the badge. */
