@@ -15,7 +15,7 @@ export function AiPage() {
       <Section>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {aiWorks.map((w, i) => (
-            <Reveal as="figure" key={w.title} delay={(i % 3) * 0.07}>
+            <Reveal as="figure" key={`${w.title}-${i}`} delay={(i % 3) * 0.07}>
               <div className="overflow-hidden rounded-2xl border border-line bg-paper-raised">
                 <img
                   src={w.image}

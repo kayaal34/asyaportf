@@ -13,7 +13,7 @@ export function Services() {
 
       <div className="mt-12 grid gap-5 lg:mt-16 lg:grid-cols-3">
         {services.items.map((item, i) => (
-          <Reveal as="div" key={item.title} delay={i * 0.08}>
+          <Reveal as="div" key={`${item.title}-${i}`} delay={i * 0.08}>
             <article className="flex h-full flex-col rounded-2xl border border-line bg-paper-raised p-7 sm:p-8">
               <h3 className="text-2xl font-extrabold tracking-[-0.02em]">{item.title}</h3>
               <p className="mt-3 text-sm text-ink-soft">{item.forWhom}</p>

@@ -12,7 +12,7 @@ export function Testimonials() {
       <SectionHeading kicker="Отзывы" title="Что говорят клиенты" />
       <div className="mt-12 grid gap-5 lg:mt-16 lg:grid-cols-3">
         {testimonials.map((t, i) => (
-          <Reveal as="div" key={t.name} delay={i * 0.08}>
+          <Reveal as="div" key={`${t.name}-${i}`} delay={i * 0.08}>
             <figure className="flex h-full flex-col rounded-2xl border border-line bg-paper-raised p-7 sm:p-8">
               <div className="text-accent" aria-hidden>
                 ★★★★★

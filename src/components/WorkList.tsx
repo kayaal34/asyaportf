@@ -18,7 +18,7 @@ export function WorkList() {
 
       <ul className="mt-14 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
         {WORK.map((item, i) => (
-          <Reveal as="li" key={item.title} delay={(i % 3) * 0.07}>
+          <Reveal as="li" key={`${item.title}-${i}`} delay={(i % 3) * 0.07}>
             <a
               href={CONTACT.portfolioUrl}
               target="_blank"

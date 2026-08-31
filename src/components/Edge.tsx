@@ -14,7 +14,7 @@ export function Edge() {
         {EDGE.map((item, index) => (
           <Reveal
             as="div"
-            key={item.title}
+            key={`${item.title}-${index}`}
             delay={index * 0.05}
             className="grid grid-cols-1 gap-6 border-t border-paper/15 py-12 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-12 lg:py-16"
           >
