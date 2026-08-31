@@ -63,7 +63,7 @@ export function AboutPage() {
           {certs.map((c) => (
             <div
               key={c.title}
-              className="grid gap-2 border-b border-line py-8 md:grid-cols-[1fr_2fr] md:gap-10"
+              className="grid gap-4 border-b border-line py-8 md:grid-cols-[1fr_1.4fr_1fr] md:gap-10"
             >
               <div>
                 <p className="font-display text-lg font-bold tracking-[-0.02em]">{c.org}</p>
@@ -73,6 +73,21 @@ export function AboutPage() {
                 <p className="font-semibold text-ink">{c.title}</p>
                 <p className="mt-1 text-[0.95rem] leading-relaxed text-ink-soft">{c.note}</p>
               </div>
+              {c.image && (
+                <a
+                  href={c.image}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="block max-w-[16rem] overflow-hidden rounded-lg border border-line"
+                >
+                  <img
+                    src={c.image}
+                    alt={c.title}
+                    loading="lazy"
+                    className="aspect-[16/10] w-full object-cover transition-transform duration-500 hover:scale-[1.04]"
+                  />
+                </a>
+              )}
             </div>
           ))}
         </div>

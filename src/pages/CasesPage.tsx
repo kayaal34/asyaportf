@@ -85,6 +85,22 @@ export function CasesPage() {
               {main.insight}
             </p>
           )}
+
+          {main.proofImage && (
+            <figure className="mt-12">
+              <div className="overflow-hidden rounded-2xl border border-line bg-paper-raised">
+                <img
+                  src={main.proofImage}
+                  alt="Скриншот аналитики кабинета"
+                  loading="lazy"
+                  className="w-full"
+                />
+              </div>
+              {main.proofCaption && (
+                <figcaption className="mt-3 text-xs text-ink-faint">{main.proofCaption}</figcaption>
+              )}
+            </figure>
+          )}
         </Section>
       )}
 

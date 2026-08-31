@@ -162,40 +162,40 @@ export const WORK_INTRO = {
 
 export const WORK: WorkItem[] = [
   {
-    title: 'Инфографика карточки',
-    discipline: 'Визуальная упаковка · WB',
-    note: 'Выноски по характеристикам, УТП и снятие возражений на первом слайде',
-    image: '/asya/case-infographic.png',
+    title: 'Школьные брюки',
+    discipline: 'Инфографика · WB',
+    note: 'Выноски по характеристикам и размерам на первом слайде',
+    image: '/asya/ig/pants-girl.png',
   },
   {
-    title: 'Аудит визуальной воронки',
-    discipline: 'Анализ карточек',
-    note: 'Разбор фото и инфографики по слайдам: что бьёт по CTR и как исправить',
-    image: '/asya/case-audit.jpg',
+    title: 'Бандаж для запястья',
+    discipline: 'Инфографика · товарка',
+    note: 'Контекстный кадр и снятие возражений под спортивную нишу',
+    image: '/asya/ig/bandage.png',
   },
   {
-    title: 'Товарная фотография',
-    discipline: 'Контент для карточки',
-    note: 'Чистый предметный кадр и AI-фотосессии под маркетплейс',
-    image: '/asya/case-product-photo.jpg',
+    title: 'Комплект линейки',
+    discipline: 'Единый визуальный стиль',
+    note: 'Один язык карточек на весь ассортимент магазина',
+    image: '/asya/ig/set-1.png',
   },
   {
-    title: 'Детская одежда',
-    discipline: 'SEO + инфографика · WB',
-    note: '977 → 2 862 заказа за 38 дней',
-    image: '/work/1.svg',
+    title: 'Карточка одежды',
+    discipline: 'Инфографика · WB',
+    note: 'Композиция под CTR в выдаче, читаемая иерархия',
+    image: '/asya/ig/clothes-3.png',
   },
   {
-    title: 'Юнит-экономика',
-    discipline: 'Аналитика и модель',
-    note: 'P&L по каждому SKU, точки роста, ABC',
-    image: '/work/4.svg',
+    title: 'AI-аватар',
+    discipline: 'AI-контент',
+    note: 'Персональные аватары для обложек и соцсетей',
+    image: '/asya/ai-avatar-1.png',
   },
   {
-    title: 'Рекламные связки',
-    discipline: 'Управление РК · WB / OZON',
-    note: 'ROAS 3–5×, ручная оптимизация ставок',
-    image: '/work/5.svg',
+    title: 'Слайды карточки',
+    discipline: 'Инфографика · комплект',
+    note: 'Размеры, состав, уход, применение — слайды 2–5',
+    image: '/asya/ig/set-3.png',
   },
 ]
 
@@ -273,6 +273,9 @@ export const CASES: CaseItem[] = [
     ],
     insight:
       'Из 2 862 заказов 2 702 пришли органически — 94% без рекламы. Переработка SEO карточек стала главным драйвером; реклама (ROAS 5,2×, 34 000 ₽ бюджета → 1,1 млн ₽) лишь ускорила рост. Лучший товар — юбка: CTR 5,66%, ROAS 8,7×.',
+    proofImage: '/asya/case-funnel-after.png',
+    proofCaption:
+      'WB Партнёры · воронка продаж, 15.06 → 30.07: переходы 117 059 (+85%), заказы 2 862 шт / 7 112 986 ₽, выкуп 52%.',
   },
   {
     id: 'ozon-finmodel',
@@ -327,6 +330,9 @@ export type CaseItem = {
   table?: { metric: string; before: string; after: string; delta: string }[]
   /** Optional closing insight paragraph. */
   insight?: string
+  /** Optional screenshot / proof image. */
+  proofImage?: string
+  proofCaption?: string
 }
 
 export const CONTACT_SECTION = {
@@ -579,25 +585,67 @@ export const AI_INTRO = {
 }
 export const AI_WORKS: AiWork[] = [
   {
-    title: 'Инфографика карточки',
-    category: 'Инфографика',
-    note: 'Выноски по характеристикам, УТП и снятие возражений на первом слайде',
+    title: 'Школьные брюки для девочки',
+    category: 'Инфографика · одежда',
+    note: 'Выноски по характеристикам, два цвета, размерный ряд — всё на первом слайде',
     tool: 'Gemini + Figma',
-    image: '/asya/case-infographic.png',
+    image: '/asya/ig/pants-girl.png',
+  },
+  {
+    title: 'Бандаж для запястья',
+    category: 'Инфографика · товарка',
+    note: 'Контекстный кадр, снятие возражений, подарок-гайд — под спортивную нишу',
+    tool: 'Midjourney + Figma',
+    image: '/asya/ig/bandage.png',
+  },
+  {
+    title: 'Комплект инфографики линейки',
+    category: 'Инфографика · комплект',
+    note: 'Единый визуальный язык на весь ассортимент магазина',
+    tool: 'Figma + AI',
+    image: '/asya/ig/set-1.png',
+  },
+  {
+    title: 'Карточка одежды',
+    category: 'Инфографика · одежда',
+    note: 'Композиция под CTR в выдаче, читаемая иерархия',
+    tool: 'Gemini + Figma',
+    image: '/asya/ig/clothes-2.png',
+  },
+  {
+    title: 'Карточка одежды',
+    category: 'Инфографика · одежда',
+    note: 'Первое фото и выноски под возражения покупателя',
+    tool: 'Gemini + Figma',
+    image: '/asya/ig/clothes-3.png',
+  },
+  {
+    title: 'Комплект инфографики',
+    category: 'Инфографика · комплект',
+    note: 'Слайды 2–5 карточки: размеры, состав, уход, применение',
+    tool: 'Figma + AI',
+    image: '/asya/ig/set-3.png',
+  },
+  {
+    title: 'AI-аватар',
+    category: 'AI-аватар',
+    note: 'Персональный аватар для соцсетей и обложек — генеративный, реалистичный',
+    tool: 'Midjourney / RunwayML',
+    image: '/asya/ai-avatar-1.png',
+  },
+  {
+    title: 'AI-аватар',
+    category: 'AI-аватар',
+    note: 'Стилизованный портрет для контента бренда',
+    tool: 'Midjourney',
+    image: '/asya/ai-avatar-2.png',
   },
   {
     title: 'Товарная фотография',
     category: 'AI-фотосессия',
     note: 'Чистый предметный кадр без студии — 5 минут вместо 2 часов',
-    tool: 'Midjourney / NanoBanana',
-    image: '/asya/case-product-photo.jpg',
-  },
-  {
-    title: 'Аудит визуальной воронки',
-    category: 'Анализ',
-    note: 'Разбор фото и инфографики по слайдам: что бьёт по CTR и как исправить',
-    tool: 'Claude + Figma',
-    image: '/asya/case-audit.jpg',
+    tool: 'NanoBanana',
+    image: '/asya/ig/goods-2.png',
   },
 ]
 export type AiWork = {
@@ -616,13 +664,15 @@ export const CERTS: Cert[] = [
     title: 'Менеджер маркетплейсов — MpSkill',
     org: 'Школа MpSkill',
     year: '2026',
-    note: 'Полный цикл: ведение кабинета, аналитика, реклама. Практика на реальных кабинетах — оценка «Отлично».',
+    note: 'Курс «Менеджер маркетплейсов с 0 до первого клиента»: ведение кабинета, аналитика, реклама. Практика на реальных кабинетах.',
+    image: '/asya/cert-mpskill.jpg',
   },
   {
     title: 'Международный и корпоративный менеджмент',
     org: 'УрФУ — бакалавр',
     year: '2025',
     note: 'Фундаментальная база в управлении процессами и экономике.',
+    image: '/asya/diplomas.jpg',
   },
   {
     title: 'Международный бизнес',
@@ -631,7 +681,7 @@ export const CERTS: Cert[] = [
     note: 'Повышение квалификации.',
   },
 ]
-export type Cert = { title: string; org: string; year: string; note: string }
+export type Cert = { title: string; org: string; year: string; note: string; image?: string }
 
 /* ---- О мне (расширенная страница) ---- */
 export const ABOUT_PAGE = {
