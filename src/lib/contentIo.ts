@@ -83,3 +83,65 @@ export async function deleteLead(id: string): Promise<void> {
   const { error } = await supabase.from('leads').delete().eq('id', id)
   if (error) throw error
 }
+
+/* ---- Lightweight analytics ---- */
+
+/** Public: record one page view. Fails silently — analytics must never break the site. */
+export async function trackPageView(path: string): Promise<void> {
+  if (!supabase) return
+  try {
+    await supabase.from('page_views').insert({
+      path,
+      referrer: typeof document !== 'undefined' ? document.referrer || null : null,
+    })
+  } catch {
+    /* ignore */
+  }
+}
+
+export type Stats = {
+  total: number
+  last7: number
+  last30: number
+  byPath: { path: string; count: number }[]
+  leadsTotal: number
+  leads7: number
+}
+
+/** Admin: aggregate view + lead stats. */
+export async function fetchStats(): Promise<Stats> {
+  if (!supabase) throw new Error('Supabase не настроен')
+  const now = Date.now()
+  const d7 = new Date(now - 7 * 864e5).toISOString()
+  const d30 = new Date(now - 30 * 864e5).toISOString()
+
+  const { data: views, error } = await supabase
+    .from('page_views')
+    .select('path, created_at')
+    .order('created_at', { ascending: false })
+    .limit(5000)
+  if (error) throw error
+
+  const rows = views ?? []
+  const byPathMap = new Map<string, number>()
+  for (const r of rows) byPathMap.set(r.path, (byPathMap.get(r.path) ?? 0) + 1)
+
+  const { count: leadsTotal } = await supabase
+    .from('leads')
+    .select('*', { count: 'exact', head: true })
+  const { count: leads7 } = await supabase
+    .from('leads')
+    .select('*', { count: 'exact', head: true })
+    .gte('created_at', d7)
+
+  return {
+    total: rows.length,
+    last7: rows.filter((r) => r.created_at >= d7).length,
+    last30: rows.filter((r) => r.created_at >= d30).length,
+    byPath: [...byPathMap.entries()]
+      .map(([path, count]) => ({ path, count }))
+      .sort((a, b) => b.count - a.count),
+    leadsTotal: leadsTotal ?? 0,
+    leads7: leads7 ?? 0,
+  }
+}

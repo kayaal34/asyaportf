@@ -1,18 +1,23 @@
 import { useMemo, useState } from 'react'
 import { useContent, useContentMeta } from '../content/store'
 import type {
+  AiWork,
   CaseItem,
+  Cert,
   Channel,
   ExpertiseItem,
+  FaqItem,
   GrowthMilestone,
   GrowthPoint,
   MetricItem,
   ServiceItem,
   SiteContent,
+  Testimonial,
 } from '../content/site'
 import { saveContent } from '../lib/contentIo'
 import { signOut } from './useAuth'
 import { LeadsPanel } from './LeadsPanel'
+import { StatsPanel } from './StatsPanel'
 import { Field, NumberInput, Repeater, StringList, TextArea, TextInput, Toggle } from './fields'
 import { ImageField } from './ImageField'
 
@@ -117,7 +122,8 @@ export function Dashboard() {
           последнюю сохранённую версию.
         </div>
 
-        <GroupLabel>Заявки с сайта</GroupLabel>
+        <GroupLabel>Заявки и статистика</GroupLabel>
+        <StatsPanel />
         <LeadsPanel />
 
         <GroupLabel>Верх сайта</GroupLabel>
@@ -445,51 +451,6 @@ export function Dashboard() {
           </div>
         </Panel>
 
-        <Panel title="Форматы работы" desc="Карточки «как можно со мной работать».">
-          <SectionIntroFields
-            value={draft.services.intro}
-            onChange={(v) => patch('services', { ...draft.services, intro: v })}
-          />
-          <div className="mt-4">
-            <Repeater
-              items={draft.services.items}
-              onChange={(v) => patch('services', { ...draft.services, items: v })}
-              create={(): ServiceItem => ({
-                title: 'Формат',
-                forWhom: '',
-                includes: [],
-                result: '',
-                price: '',
-              })}
-              title={(it) => it.title || 'формат'}
-              addLabel="формат"
-              render={(it, update) => (
-                <>
-                  <Field label="Название">
-                    <TextInput value={it.title} onChange={(v) => update({ title: v })} />
-                  </Field>
-                  <Field label="Кому подходит">
-                    <TextArea value={it.forWhom} onChange={(v) => update({ forWhom: v })} rows={2} />
-                  </Field>
-                  <Field label="Что входит">
-                    <StringList
-                      values={it.includes}
-                      onChange={(v) => update({ includes: v })}
-                      addLabel="пункт"
-                    />
-                  </Field>
-                  <Field label="Результат">
-                    <TextInput value={it.result} onChange={(v) => update({ result: v })} />
-                  </Field>
-                  <Field label="Цена / формат">
-                    <TextInput value={it.price} onChange={(v) => update({ price: v })} />
-                  </Field>
-                </>
-              )}
-            />
-          </div>
-        </Panel>
-
         <Panel title="Почему со мной" desc="Тёмный блок с отличиями.">
           <SectionIntroFields value={draft.edgeIntro} onChange={(v) => patch('edgeIntro', v)} />
           <div className="mt-4">
@@ -589,6 +550,155 @@ export function Dashboard() {
               addLabel="плашку"
             />
           </Field>
+        </Panel>
+
+        <GroupLabel>Отдельные страницы</GroupLabel>
+
+        <Panel title="Страница «Обо мне»" desc="Расширенный текст, цифры, философия, фото.">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Field label="Надпись сверху">
+              <TextInput value={draft.aboutPage.kicker} onChange={(v) => patch('aboutPage', { ...draft.aboutPage, kicker: v })} />
+            </Field>
+            <Field label="Заголовок">
+              <TextInput value={draft.aboutPage.title} onChange={(v) => patch('aboutPage', { ...draft.aboutPage, title: v })} />
+            </Field>
+          </div>
+          <Field label="Основной текст">
+            <TextArea value={draft.aboutPage.lead} onChange={(v) => patch('aboutPage', { ...draft.aboutPage, lead: v })} rows={5} />
+          </Field>
+          <Field label="Что закрываю (список)">
+            <StringList values={draft.aboutPage.closes} onChange={(v) => patch('aboutPage', { ...draft.aboutPage, closes: v })} addLabel="пункт" />
+          </Field>
+          <Field label="Цифры о себе">
+            <Repeater
+              items={draft.aboutPage.numbers}
+              onChange={(v) => patch('aboutPage', { ...draft.aboutPage, numbers: v })}
+              create={() => ({ value: '', label: '' })}
+              title={(n) => n.value || 'цифра'}
+              addLabel="цифру"
+              render={(n, upd) => (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label="Значение"><TextInput value={n.value} onChange={(v) => upd({ value: v })} /></Field>
+                  <Field label="Подпись"><TextInput value={n.label} onChange={(v) => upd({ label: v })} /></Field>
+                </div>
+              )}
+            />
+          </Field>
+          <Field label="Философия (список)">
+            <StringList values={draft.aboutPage.philosophy} onChange={(v) => patch('aboutPage', { ...draft.aboutPage, philosophy: v })} addLabel="пункт" />
+          </Field>
+          <ImageField value={draft.aboutPage.photo} onChange={(url) => patch('aboutPage', { ...draft.aboutPage, photo: url })} />
+        </Panel>
+
+        <Panel title="Страница «Услуги»" desc="4 карточки: что входит, результат, цена.">
+          <SectionIntroFields
+            value={draft.services.intro}
+            onChange={(v) => patch('services', { ...draft.services, intro: v })}
+          />
+          <div className="mt-4">
+            <Repeater
+              items={draft.services.items}
+              onChange={(v) => patch('services', { ...draft.services, items: v })}
+              create={(): ServiceItem => ({ title: 'Услуга', forWhom: '', includes: [], result: '', price: '' })}
+              title={(it) => it.title || 'услуга'}
+              addLabel="услугу"
+              render={(it, update) => (
+                <>
+                  <Field label="Название"><TextInput value={it.title} onChange={(v) => update({ title: v })} /></Field>
+                  <Field label="Кому подходит"><TextArea value={it.forWhom} onChange={(v) => update({ forWhom: v })} rows={2} /></Field>
+                  <Field label="Что входит"><StringList values={it.includes} onChange={(v) => update({ includes: v })} addLabel="пункт" /></Field>
+                  <Field label="Результат"><TextInput value={it.result} onChange={(v) => update({ result: v })} /></Field>
+                  <Field label="Цена / формат"><TextInput value={it.price} onChange={(v) => update({ price: v })} /></Field>
+                </>
+              )}
+            />
+          </div>
+        </Panel>
+
+        <Panel title="Страница «AI-портфолио»" desc="Работы, процесс, инструменты.">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Field label="Надпись сверху"><TextInput value={draft.aiIntro.kicker} onChange={(v) => patch('aiIntro', { ...draft.aiIntro, kicker: v })} /></Field>
+            <Field label="Заголовок"><TextInput value={draft.aiIntro.title} onChange={(v) => patch('aiIntro', { ...draft.aiIntro, title: v })} /></Field>
+          </div>
+          <Field label="Подзаголовок"><TextArea value={draft.aiIntro.sub} onChange={(v) => patch('aiIntro', { ...draft.aiIntro, sub: v })} rows={3} /></Field>
+          <Field label="Работы">
+            <Repeater
+              items={draft.aiWorks}
+              onChange={(v) => patch('aiWorks', v)}
+              create={(): AiWork => ({ title: 'Работа', category: '', note: '', tool: '', image: '' })}
+              title={(w) => w.title || 'работа'}
+              addLabel="работу"
+              render={(w, upd) => (
+                <>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <Field label="Название"><TextInput value={w.title} onChange={(v) => upd({ title: v })} /></Field>
+                    <Field label="Категория"><TextInput value={w.category} onChange={(v) => upd({ category: v })} /></Field>
+                  </div>
+                  <Field label="Описание"><TextInput value={w.note} onChange={(v) => upd({ note: v })} /></Field>
+                  <Field label="Инструменты"><TextInput value={w.tool} onChange={(v) => upd({ tool: v })} /></Field>
+                  <ImageField value={w.image} onChange={(url) => upd({ image: url })} />
+                </>
+              )}
+            />
+          </Field>
+          <Field label="Процесс (шаги)"><StringList values={draft.aiProcess} onChange={(v) => patch('aiProcess', v)} addLabel="шаг" /></Field>
+          <Field label="Инструменты (плашки)"><StringList values={draft.aiTools} onChange={(v) => patch('aiTools', v)} addLabel="инструмент" /></Field>
+        </Panel>
+
+        <Panel title="Сертификаты и образование" desc="Показываются на странице «Обо мне».">
+          <Repeater
+            items={draft.certs}
+            onChange={(v) => patch('certs', v)}
+            create={(): Cert => ({ title: '', org: '', year: '', note: '' })}
+            title={(c) => c.org || 'сертификат'}
+            addLabel="сертификат"
+            render={(c, upd) => (
+              <>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label="Организация"><TextInput value={c.org} onChange={(v) => upd({ org: v })} /></Field>
+                  <Field label="Год"><TextInput value={c.year} onChange={(v) => upd({ year: v })} /></Field>
+                </div>
+                <Field label="Название / направление"><TextInput value={c.title} onChange={(v) => upd({ title: v })} /></Field>
+                <Field label="Комментарий"><TextArea value={c.note} onChange={(v) => upd({ note: v })} rows={2} /></Field>
+              </>
+            )}
+          />
+        </Panel>
+
+        <Panel title="Отзывы" desc="Карусель на главной и странице услуг.">
+          <Repeater
+            items={draft.testimonials}
+            onChange={(v) => patch('testimonials', v)}
+            create={(): Testimonial => ({ name: '', role: '', text: '', result: '' })}
+            title={(t) => t.name || 'отзыв'}
+            addLabel="отзыв"
+            render={(t, upd) => (
+              <>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label="Имя"><TextInput value={t.name} onChange={(v) => upd({ name: v })} /></Field>
+                  <Field label="Кто / роль"><TextInput value={t.role} onChange={(v) => upd({ role: v })} /></Field>
+                </div>
+                <Field label="Текст отзыва"><TextArea value={t.text} onChange={(v) => upd({ text: v })} rows={3} /></Field>
+                <Field label="Результат (плашка)"><TextInput value={t.result} onChange={(v) => upd({ result: v })} /></Field>
+              </>
+            )}
+          />
+        </Panel>
+
+        <Panel title="FAQ" desc="Вопросы и ответы на главной и странице услуг.">
+          <Repeater
+            items={draft.faq}
+            onChange={(v) => patch('faq', v)}
+            create={(): FaqItem => ({ q: '', a: '' })}
+            title={(f) => f.q || 'вопрос'}
+            addLabel="вопрос"
+            render={(f, upd) => (
+              <>
+                <Field label="Вопрос"><TextInput value={f.q} onChange={(v) => upd({ q: v })} /></Field>
+                <Field label="Ответ"><TextArea value={f.a} onChange={(v) => upd({ a: v })} rows={3} /></Field>
+              </>
+            )}
+          />
         </Panel>
 
         <GroupLabel>Низ сайта</GroupLabel>

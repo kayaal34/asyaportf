@@ -105,6 +105,27 @@ drop policy if exists "leads delete for authenticated" on public.leads;
 create policy "leads delete for authenticated"
   on public.leads for delete to authenticated using (true);
 
+-- 5. Page views (lightweight analytics) --------------------------------------
+
+create table if not exists public.page_views (
+  id          bigint generated always as identity primary key,
+  created_at  timestamptz not null default now(),
+  path        text not null,
+  referrer    text
+);
+
+create index if not exists page_views_created_at_idx on public.page_views (created_at desc);
+
+alter table public.page_views enable row level security;
+
+drop policy if exists "page_views insert for anon" on public.page_views;
+create policy "page_views insert for anon"
+  on public.page_views for insert to anon, authenticated with check (true);
+
+drop policy if exists "page_views read for authenticated" on public.page_views;
+create policy "page_views read for authenticated"
+  on public.page_views for select to authenticated using (true);
+
 -- ============================================================================
 --  After running this:
 --   • Authentication → Sign In / Providers → enable "Allow new users to sign up"

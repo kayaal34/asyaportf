@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ContentProvider } from './content/store'
+import { Analytics } from './components/Analytics'
 import { SitePage } from './pages/SitePage'
 import { ContactPage } from './pages/ContactPage'
 import { AboutPage } from './pages/AboutPage'
@@ -15,6 +16,7 @@ export default function App() {
   return (
     <ContentProvider>
       <BrowserRouter>
+        <Analytics />
         <Suspense fallback={<div className="min-h-screen bg-paper" />}>
           <Routes>
             <Route path="/" element={<SitePage />} />

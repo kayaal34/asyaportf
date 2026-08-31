@@ -14,8 +14,7 @@ const LINE_PATH = 'M0 480 C 240 470 320 440 470 360 S 760 190 940 150 S 1120 60 
 export function Hero() {
   const { hero: HERO, metrics: METRICS, sealText, platforms } = useContent()
 
-  let idx = 0
-  const wordCount = HERO.headline.reduce((n, l) => n + l.split(' ').length, 0)
+  const wordCount = HERO.headline.length
 
   return (
     <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden bg-paper">
@@ -63,28 +62,27 @@ export function Hero() {
           ))}
         </div>
 
-        <h1 className="mt-8 text-display">
-          {HERO.headline.map((line, li) => (
-            <span key={li} className="block overflow-hidden pb-[0.06em]">
-              {line.split(' ').map((w) => {
-                const d = 0.14 + idx++ * 0.09
-                return (
-                  <span
-                    key={w + d}
-                    className="reveal mr-[0.16em] inline-block"
-                    style={{ animationDelay: `${d}s` }}
-                  >
-                    {w}
-                  </span>
-                )
-              })}
+        <h1 className="mt-8">
+          <span
+            className="reveal block overflow-hidden pb-[0.04em] text-colossal font-extrabold text-accent"
+            style={{ animationDelay: '0.14s' }}
+          >
+            {HERO.headline[0]}
+          </span>
+          {HERO.headline.slice(1).map((line, li) => (
+            <span
+              key={li}
+              className="reveal mt-1 block text-display"
+              style={{ animationDelay: `${0.24 + li * 0.08}s` }}
+            >
+              {line}
             </span>
           ))}
         </h1>
 
         <p
           {...reveal(0.16 + wordCount * 0.09)}
-          className="mt-6 text-work font-extrabold text-accent"
+          className="mt-6 max-w-xl text-xl font-bold tracking-[-0.02em] text-ink sm:text-2xl"
         >
           {HERO.emphasis}
         </p>
