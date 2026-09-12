@@ -31,9 +31,6 @@ export const HERO = {
   sub: 'Привет, я Ася. Смотрю на магазин как на данные, дизайн и AI — и вывожу его в кратный рост, без гонки за ценой и без новых товаров.',
 } as const
 
-/** Text that circles inside the rotating badge. Empty string hides the badge. */
-export const SEAL_TEXT = 'АСЯ · МЕНЕДЖЕР МАРКЕТПЛЕЙСОВ · '
-
 /** Personal introduction block — "hi, I'm Asya". */
 export const ABOUT = {
   kicker: 'Знакомство',
@@ -767,7 +764,6 @@ export type SiteContent = {
   contact: ContactInfo
   nav: NavItem[]
   hero: Hero
-  sealText: string
   about: About
   aboutPage: AboutPage
   platforms: string[]
@@ -800,7 +796,6 @@ export const DEFAULT_CONTENT: SiteContent = {
   contact: { ...CONTACT },
   nav: NAV.map((item) => ({ ...item })),
   hero: { ...HERO, headline: [...HERO.headline] },
-  sealText: SEAL_TEXT,
   about: { ...ABOUT, facts: [...ABOUT.facts] },
   aboutPage: {
     ...ABOUT_PAGE,

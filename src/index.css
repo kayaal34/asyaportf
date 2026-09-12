@@ -8,20 +8,20 @@
 @import '@fontsource/inter/500.css';
 
 :root {
-  /* Cinematic dark system. Token NAMES kept ("paper" = ground, "ink" = text)
-     so components read correctly while the palette is inverted and dramatic. */
-  --paper: #0a0a0b; /* near-black ground */
-  --paper-raised: #141417; /* cards / raised surfaces */
-  --ink: #f4f2ec; /* warm white foreground */
-  --ink-soft: #a6a49e; /* muted body text */
-  --ink-faint: #6b6a66; /* captions, meta */
-  --line: rgba(244, 242, 236, 0.14); /* hairline dividers */
-  --line-strong: rgba(244, 242, 236, 0.28);
+  /* Studio-minimal light system — restrained, work-forward (Steve Wolf Co
+     reference): warm off-white ground, near-black ink, one quiet accent. */
+  --paper: #f7f6f3; /* warm off-white ground */
+  --paper-raised: #ffffff; /* cards / raised surfaces */
+  --ink: #131210; /* near-black foreground */
+  --ink-soft: #5c5a55; /* muted body text */
+  --ink-faint: #9b998f; /* captions, meta */
+  --line: rgba(19, 18, 16, 0.1); /* hairline dividers */
+  --line-strong: rgba(19, 18, 16, 0.22);
 
-  /* Vermilion accent — glows against the black. */
-  --accent: #ff4326;
-  --accent-ink: #0a0a0b; /* text that sits on --accent */
-  --accent-wash: rgba(255, 67, 38, 0.14);
+  /* One quiet accent — used sparingly (links, deltas, the odd chip). */
+  --accent: #c1381f;
+  --accent-ink: #f7f6f3; /* text that sits on --accent */
+  --accent-wash: rgba(193, 56, 31, 0.08);
 
   --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -47,10 +47,6 @@
   --text-mega: clamp(2rem, 4.5vw, 3.5rem);
   --text-mega--line-height: 1.05;
   --text-mega--letter-spacing: -0.02em;
-
-  --text-colossal: clamp(3rem, 10vw, 9rem);
-  --text-colossal--line-height: 0.9;
-  --text-colossal--letter-spacing: -0.04em;
 
   --text-display: clamp(2.25rem, 5.5vw, 4.25rem);
   --text-display--line-height: 1.02;
@@ -79,7 +75,7 @@
   }
 
   html {
-    color-scheme: dark;
+    color-scheme: light;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     background: var(--paper);
@@ -162,45 +158,6 @@
   animation: reveal-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Scroll-driven zoom for the Colossal beat, where supported. Pure progressive
-   enhancement — no effect (and no harm) when animation-timeline is unavailable. */
-@supports (animation-timeline: view()) {
-  @keyframes colossal-zoom {
-    from {
-      transform: scale(0.72) translateX(4%);
-    }
-    to {
-      transform: scale(1.2) translateX(-4%);
-    }
-  }
-  .colossal-zoom {
-    animation: colossal-zoom linear both;
-    animation-timeline: view();
-    animation-range: entry 0% exit 100%;
-  }
-}
-
-/* Hero rising line: statically drawn by default; where CSS scroll timelines
-   are supported it draws itself as the page scrolls through the first screen. */
-.hero-line-draw {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-}
-@supports (animation-timeline: scroll()) {
-  @keyframes hero-line-draw {
-    from {
-      stroke-dashoffset: 1;
-    }
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-  .hero-line-draw {
-    animation: hero-line-draw linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 92vh;
-  }
-}
 
 /* Intro splash entrances (CSS only). */
 @keyframes intro-up {
@@ -230,7 +187,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .reveal,
-  .colossal-zoom,
   .intro-up,
   .intro-line {
     animation: none;

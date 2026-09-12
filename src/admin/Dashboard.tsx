@@ -199,12 +199,6 @@ export function Dashboard() {
               addLabel="площадку"
             />
           </Field>
-          <Field
-            label="Текст на вращающейся печати"
-            hint="Крутится справа вверху. Оставьте пустым, чтобы убрать печать."
-          >
-            <TextInput value={draft.sealText} onChange={(v) => patch('sealText', v)} />
-          </Field>
         </Panel>
 
         <Panel title="Бегущая строка" desc="Слова, которые едут лентой под первым экраном.">

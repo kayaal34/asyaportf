@@ -3,7 +3,6 @@ import { ScrollProgress } from '../components/ScrollProgress'
 import { Header } from '../components/layout/Header'
 import { Footer } from '../components/layout/Footer'
 import { Hero } from '../components/Hero'
-import { Colossal } from '../components/Colossal'
 import { About } from '../components/About'
 import { Marquee } from '../components/Marquee'
 import { GrowthChart } from '../components/GrowthChart'
@@ -27,7 +26,6 @@ export function SitePage() {
         <About />
         <Marquee />
         <GrowthChart />
-        <Colossal word="×3" sub="Рост магазина за 38 дней" />
         <MinimalGrid />
         <Services />
         <WorkList />

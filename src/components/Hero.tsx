@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { CountUp } from './CountUp'
-import { Seal } from './Seal'
 import { PlatformMark } from './Platforms'
 import { useContent } from '../content/store'
 
@@ -9,46 +8,12 @@ function reveal(delay: number) {
   return { className: 'reveal', style: { animationDelay: `${delay}s` } }
 }
 
-const LINE_PATH = 'M0 480 C 240 470 320 440 470 360 S 760 190 940 150 S 1120 60 1200 24'
-
 export function Hero() {
-  const { hero: HERO, metrics: METRICS, sealText, platforms } = useContent()
+  const { hero: HERO, metrics: METRICS, platforms } = useContent()
   let idx = 0
 
   return (
-    <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden bg-paper">
-      <svg
-        aria-hidden
-        viewBox="0 0 1200 520"
-        preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[58vh] w-full select-none"
-      >
-        <defs>
-          <linearGradient id="heroLineFill" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0" stopColor="var(--accent)" stopOpacity="0" />
-            <stop offset="1" stopColor="var(--accent)" stopOpacity="0.12" />
-          </linearGradient>
-        </defs>
-        <path d={`${LINE_PATH} L 1200 520 L 0 520 Z`} fill="url(#heroLineFill)" />
-        <path
-          className="hero-line-draw"
-          d={LINE_PATH}
-          pathLength={1}
-          fill="none"
-          stroke="var(--accent)"
-          strokeOpacity="0.45"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      </svg>
-
-      <div
-        {...reveal(0.6)}
-        className="pointer-events-none absolute top-24 right-6 z-20 text-ink/35 sm:top-28 sm:right-10 lg:right-14"
-      >
-        <Seal text={sealText} className="h-20 w-20 sm:h-24 sm:w-24 lg:h-28 lg:w-28" />
-      </div>
-
+    <section id="top" className="relative flex min-h-[100svh] flex-col bg-paper">
       <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-6 pt-32 pb-28 text-center sm:pt-36 sm:pb-32">
         <p
           {...reveal(0.05)}
@@ -90,10 +55,7 @@ export function Hero() {
           {HERO.emphasis}
         </p>
 
-        <div
-          {...reveal(0.44)}
-          className="mt-9 flex flex-wrap items-center justify-center gap-3"
-        >
+        <div {...reveal(0.44)} className="mt-9 flex flex-wrap items-center justify-center gap-3">
           <Link
             to="/contact"
             className="inline-flex items-center gap-3 rounded-full bg-accent px-7 py-3.5 text-base font-semibold text-accent-ink transition-transform hover:scale-[1.03] active:scale-95"
@@ -109,10 +71,7 @@ export function Hero() {
         </div>
 
         {platforms.length > 0 && (
-          <div
-            {...reveal(0.5)}
-            className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2"
-          >
+          <div {...reveal(0.5)} className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             <span className="text-xs tracking-[0.2em] text-ink-faint uppercase">Площадки</span>
             {platforms.map((p) => (
               <PlatformMark key={p} name={p} />
@@ -122,7 +81,7 @@ export function Hero() {
       </div>
 
       <dl
-        className="reveal relative z-10 border-t border-line bg-paper/70 backdrop-blur-sm"
+        className="reveal relative z-10 border-t border-line"
         style={{ animationDelay: '0.9s' }}
       >
         <div className="mx-auto grid max-w-[80rem] grid-cols-1 gap-x-10 gap-y-3 px-6 py-4 text-center sm:grid-cols-3 sm:px-10 sm:text-left">
