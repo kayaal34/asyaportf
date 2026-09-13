@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { isSupabaseConfigured } from '../lib/supabase'
-import { useAuth, signIn } from './useAuth'
+import { useAuth, signIn, requestPasswordReset } from './useAuth'
 import { Dashboard } from './Dashboard'
 import { AuthShell, authInput } from './AuthShell'
 
@@ -39,6 +39,7 @@ function LoginForm() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const [forgot, setForgot] = useState(false)
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
@@ -52,6 +53,8 @@ function LoginForm() {
       setBusy(false)
     }
   }
+
+  if (forgot) return <ForgotPasswordForm onBack={() => setForgot(false)} />
 
   return (
     <AuthShell title="Вход в панель">
@@ -91,10 +94,84 @@ function LoginForm() {
           {busy ? 'Вход…' : 'Войти'}
         </button>
         <p className="text-center text-xs text-ink-faint">
-          Первый вход?{' '}
-          <a href="/admin/setup" className="underline underline-offset-2 hover:text-ink">
-            Создать аккаунт
-          </a>
+          <button
+            type="button"
+            onClick={() => setForgot(true)}
+            className="underline underline-offset-2 hover:text-ink"
+          >
+            Забыли пароль?
+          </button>
+        </p>
+      </form>
+    </AuthShell>
+  )
+}
+
+function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
+  const [sent, setSent] = useState(false)
+
+  async function onSubmit(e: FormEvent) {
+    e.preventDefault()
+    setBusy(true)
+    setError(null)
+    try {
+      await requestPasswordReset(email.trim())
+      setSent(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось отправить письмо')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  if (sent) {
+    return (
+      <AuthShell title="Письмо отправлено">
+        <p className="text-sm leading-relaxed text-ink-soft">
+          Проверьте почту {email} — там ссылка для установки нового пароля.
+        </p>
+        <button
+          type="button"
+          onClick={onBack}
+          className="mt-6 inline-block w-full rounded-full bg-ink px-5 py-3 text-center text-sm font-medium text-paper"
+        >
+          Ко входу
+        </button>
+      </AuthShell>
+    )
+  }
+
+  return (
+    <AuthShell title="Сброс пароля">
+      <form onSubmit={onSubmit} className="space-y-4">
+        <label className="block">
+          <span className="mb-1.5 block text-xs font-medium tracking-[0.12em] text-ink-faint uppercase">
+            Эл. почта
+          </span>
+          <input
+            type="email"
+            autoComplete="username"
+            required
+            className={authInput}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        {error && <p className="text-sm text-accent">{error}</p>}
+        <button
+          type="submit"
+          disabled={busy}
+          className="w-full rounded-full bg-ink px-5 py-3 text-sm font-medium text-paper transition-opacity disabled:opacity-50"
+        >
+          {busy ? 'Отправка…' : 'Отправить ссылку'}
+        </button>
+        <p className="text-center text-xs text-ink-faint">
+          <button type="button" onClick={onBack} className="underline underline-offset-2 hover:text-ink">
+            Ко входу
+          </button>
         </p>
       </form>
     </AuthShell>

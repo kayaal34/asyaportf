@@ -39,9 +39,19 @@ export async function signIn(email: string, password: string) {
   if (error) throw error
 }
 
-export async function signUp(email: string, password: string) {
+/** Sends a "set new password" email with a link back to /admin/reset. */
+export async function requestPasswordReset(email: string) {
   if (!supabase) throw new Error('Supabase не настроен')
-  const { error } = await supabase.auth.signUp({ email, password })
+  const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+    redirectTo: `${window.location.origin}/admin/reset`,
+  })
+  if (error) throw error
+}
+
+/** Sets a new password for the session opened by the reset-password email link. */
+export async function updatePassword(password: string) {
+  if (!supabase) throw new Error('Supabase не настроен')
+  const { error } = await supabase.auth.updateUser({ password })
   if (error) throw error
 }
 

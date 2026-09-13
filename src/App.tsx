@@ -10,7 +10,7 @@ import { AiPage } from './pages/AiPage'
 import { CasesPage } from './pages/CasesPage'
 
 const AdminApp = lazy(() => import('./admin/AdminApp').then((m) => ({ default: m.AdminApp })))
-const AdminSetup = lazy(() => import('./admin/AdminSetup').then((m) => ({ default: m.AdminSetup })))
+const AdminReset = lazy(() => import('./admin/AdminReset').then((m) => ({ default: m.AdminReset })))
 
 export default function App() {
   return (
@@ -26,7 +26,7 @@ export default function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/admin" element={<AdminApp />} />
-            <Route path="/admin/setup" element={<AdminSetup />} />
+            <Route path="/admin/reset" element={<AdminReset />} />
             <Route path="*" element={<SitePage />} />
           </Routes>
         </Suspense>
