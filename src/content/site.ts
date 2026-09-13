@@ -760,6 +760,47 @@ export type Toolbox = { intro: SectionIntro; tags: string[] }
 export type Services = { intro: SectionIntro; items: ServiceItem[] }
 export type AiIntro = SectionIntro & { sub: string }
 
+export type HomeSectionKey =
+  | 'about'
+  | 'marquee'
+  | 'growthChart'
+  | 'minimalGrid'
+  | 'services'
+  | 'workList'
+  | 'testimonials'
+  | 'edge'
+  | 'toolbox'
+  | 'caseStudies'
+  | 'faq'
+
+export const HOME_SECTION_LABELS: Record<HomeSectionKey, string> = {
+  about: 'Знакомство',
+  marquee: 'Бегущая строка',
+  growthChart: 'Графики роста',
+  minimalGrid: 'Мини-сетка фактов',
+  services: 'Услуги',
+  workList: 'Мои работы',
+  testimonials: 'Отзывы',
+  edge: 'Почему со мной',
+  toolbox: 'Инструменты',
+  caseStudies: 'Кейсы',
+  faq: 'FAQ',
+}
+
+const DEFAULT_HOME_SECTIONS: HomeSectionKey[] = [
+  'about',
+  'marquee',
+  'growthChart',
+  'minimalGrid',
+  'services',
+  'workList',
+  'testimonials',
+  'edge',
+  'toolbox',
+  'caseStudies',
+  'faq',
+]
+
 export type SiteContent = {
   contact: ContactInfo
   nav: NavItem[]
@@ -790,6 +831,7 @@ export type SiteContent = {
   contactSection: ContactSection
   channels: Channel[]
   credit: Credit
+  homeSections: HomeSectionKey[]
 }
 
 export const DEFAULT_CONTENT: SiteContent = {
@@ -839,6 +881,7 @@ export const DEFAULT_CONTENT: SiteContent = {
   contactSection: { ...CONTACT_SECTION },
   channels: CHANNELS.map((c) => ({ ...c })),
   credit: { ...CREDIT },
+  homeSections: [...DEFAULT_HOME_SECTIONS],
 }
 
 /** Merge a (possibly partial / older) stored document over the current defaults. */

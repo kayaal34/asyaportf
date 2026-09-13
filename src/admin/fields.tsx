@@ -158,6 +158,58 @@ export function StringList({
   )
 }
 
+/** Reorder-only list of fixed items (no add/remove) — used for section order. */
+export function ReorderList<T extends string>({
+  items,
+  onChange,
+  labels,
+}: {
+  items: T[]
+  onChange: (next: T[]) => void
+  labels: Record<T, string>
+}) {
+  const move = (i: number, dir: -1 | 1) => {
+    const j = i + dir
+    if (j < 0 || j >= items.length) return
+    const next = [...items]
+    ;[next[i], next[j]] = [next[j], next[i]]
+    onChange(next)
+  }
+
+  return (
+    <div className="space-y-2">
+      {items.map((key, i) => (
+        <div
+          key={key}
+          className="flex items-center justify-between gap-2 rounded-lg border border-line bg-paper px-3 py-2 text-sm"
+        >
+          <span>{labels[key]}</span>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              className="grid size-7 shrink-0 place-items-center rounded border border-line text-ink-soft transition-colors enabled:hover:border-ink enabled:hover:text-ink disabled:opacity-30"
+              onClick={() => move(i, -1)}
+              disabled={i === 0}
+              aria-label="Выше"
+            >
+              ↑
+            </button>
+            <button
+              type="button"
+              className="grid size-7 shrink-0 place-items-center rounded border border-line text-ink-soft transition-colors enabled:hover:border-ink enabled:hover:text-ink disabled:opacity-30"
+              onClick={() => move(i, 1)}
+              disabled={i === items.length - 1}
+              aria-label="Ниже"
+            >
+              ↓
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 /** Editable list of objects. `render` draws one item's fields. */
 export function Repeater<T>({
   items,

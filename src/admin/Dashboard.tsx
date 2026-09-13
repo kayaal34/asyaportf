@@ -14,11 +14,12 @@ import type {
   SiteContent,
   Testimonial,
 } from '../content/site'
+import { HOME_SECTION_LABELS } from '../content/site'
 import { saveContent } from '../lib/contentIo'
 import { signOut } from './useAuth'
 import { LeadsPanel } from './LeadsPanel'
 import { StatsPanel } from './StatsPanel'
-import { Field, NumberInput, Repeater, StringList, TextArea, TextInput, Toggle } from './fields'
+import { Field, NumberInput, ReorderList, Repeater, StringList, TextArea, TextInput, Toggle } from './fields'
 import { ImageField } from './ImageField'
 
 const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v)) as T
@@ -245,6 +246,18 @@ export function Dashboard() {
         </Panel>
 
         <GroupLabel>Разделы</GroupLabel>
+
+        <Panel
+          title="Порядок разделов на главной"
+          desc="Стрелками меняете, в каком порядке блоки идут на главной странице (первый экран всегда сверху)."
+          defaultOpen
+        >
+          <ReorderList
+            items={draft.homeSections}
+            onChange={(v) => patch('homeSections', v)}
+            labels={HOME_SECTION_LABELS}
+          />
+        </Panel>
 
         <Panel title="Знакомство" desc="Фото, приветствие и факты о себе.">
           <div className="grid gap-3 sm:grid-cols-2">
