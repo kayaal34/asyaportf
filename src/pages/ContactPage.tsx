@@ -14,7 +14,9 @@ const label = 'mb-1.5 block text-xs tracking-[0.14em] text-ink-faint uppercase'
 
 export function ContactPage() {
   const { contact } = useContent()
-  useEffect(() => window.scrollTo(0, 0), [])
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const [form, setForm] = useState({
     name: '',
@@ -48,7 +50,8 @@ export function ContactPage() {
   return (
     <div className="min-h-screen bg-paper text-ink">
       <Header />
-      <main className="mx-auto grid max-w-[80rem] gap-14 px-6 pt-36 pb-28 sm:px-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:pt-44">
+      <div className="lg:pl-64">
+      <main className="mx-auto grid max-w-[80rem] gap-14 px-6 pt-28 pb-28 sm:px-10 sm:pt-32 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:pt-24">
         <div>
           <Reveal>
             <p className="text-xs font-medium tracking-[0.24em] text-ink-faint uppercase">
@@ -165,6 +168,7 @@ export function ContactPage() {
           )}
         </Reveal>
       </main>
+      </div>
     </div>
   )
 }

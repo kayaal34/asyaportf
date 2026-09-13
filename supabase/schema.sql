@@ -126,6 +126,36 @@ drop policy if exists "page_views read for authenticated" on public.page_views;
 create policy "page_views read for authenticated"
   on public.page_views for select to authenticated using (true);
 
+-- 6. Email notification on new lead -------------------------------------------
+--    Fires the `notify-lead` Edge Function (see supabase/functions/notify-lead)
+--    whenever a row is inserted into `leads`, which emails Asya via Resend.
+--    Uses pg_net (Supabase's built-in HTTP extension) to call the function.
+--    The `notify-lead` function must have "Enforce JWT Verification" turned
+--    off (Edge Functions → notify-lead → settings), since this call carries
+--    no auth header.
+
+create extension if not exists pg_net;
+
+create or replace function public.notify_new_lead()
+returns trigger
+language plpgsql
+security definer
+as $$
+begin
+  perform net.http_post(
+    url := 'https://fgayxfzzpouotpkxruxm.supabase.co/functions/v1/notify-lead',
+    headers := '{"Content-Type": "application/json"}'::jsonb,
+    body := jsonb_build_object('type', 'INSERT', 'table', 'leads', 'record', to_jsonb(new))
+  );
+  return new;
+end;
+$$;
+
+drop trigger if exists notify_new_lead_trigger on public.leads;
+create trigger notify_new_lead_trigger
+after insert on public.leads
+for each row execute function public.notify_new_lead();
+
 -- ============================================================================
 --  After running this:
 --   • Authentication → Sign In / Providers → enable "Allow new users to sign up"

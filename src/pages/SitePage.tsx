@@ -21,21 +21,23 @@ export function SitePage() {
       <Intro />
       <ScrollProgress />
       <Header />
-      <main>
-        <Hero />
-        <About />
-        <Marquee />
-        <GrowthChart />
-        <MinimalGrid />
-        <Services />
-        <WorkList />
-        <Testimonials />
-        <Edge />
-        <Toolbox />
-        <CaseStudies />
-        <Faq />
-      </main>
-      <Footer />
+      <div className="lg:pl-64">
+        <main>
+          <Hero />
+          <About />
+          <Marquee />
+          <GrowthChart />
+          <MinimalGrid />
+          <Services />
+          <WorkList />
+          <Testimonials />
+          <Edge />
+          <Toolbox />
+          <CaseStudies />
+          <Faq />
+        </main>
+        <Footer />
+      </div>
     </div>
   )
 }

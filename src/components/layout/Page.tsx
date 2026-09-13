@@ -13,8 +13,10 @@ export function Page({ children }: { children: ReactNode }) {
     <div className="relative min-h-screen bg-paper text-ink">
       <ScrollProgress />
       <Header />
-      <main className="pt-32 sm:pt-40">{children}</main>
-      <Footer />
+      <div className="lg:pl-64">
+        <main className="pt-28 sm:pt-32 lg:pt-24">{children}</main>
+        <Footer />
+      </div>
     </div>
   )
 }

@@ -14,7 +14,7 @@ export function Hero() {
 
   return (
     <section id="top" className="relative flex min-h-[100svh] flex-col bg-paper">
-      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-6 pt-32 pb-28 text-center sm:pt-36 sm:pb-32">
+      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-6 pt-28 pb-28 text-center sm:pt-32 sm:pb-32 lg:pt-16">
         <p
           {...reveal(0.05)}
           className="text-xs font-medium tracking-[0.26em] text-ink-faint uppercase"
