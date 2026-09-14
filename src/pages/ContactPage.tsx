@@ -74,10 +74,6 @@ export function ContactPage() {
                 <span className="w-24 shrink-0 text-xs tracking-[0.16em] text-ink-faint uppercase">Email</span>
                 {contact.email}
               </a>
-              <a href={contact.whatsappUrl} target="_blank" rel="noreferrer noopener" className="group inline-flex items-center gap-3 hover:text-accent">
-                <span className="w-24 shrink-0 text-xs tracking-[0.16em] text-ink-faint uppercase">WhatsApp</span>
-                {contact.whatsapp} <span aria-hidden>↗</span>
-              </a>
             </div>
           </Reveal>
         </div>

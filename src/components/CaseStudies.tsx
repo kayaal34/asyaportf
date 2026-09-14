@@ -22,7 +22,7 @@ export function CaseStudies() {
                 type="button"
                 onClick={() => setOpenId(isOpen ? '' : item.id)}
                 aria-expanded={isOpen}
-                className="group flex w-full items-center gap-6 py-8 text-left lg:py-10"
+                className="group flex w-full items-start gap-6 py-8 text-left lg:items-center lg:py-10"
               >
                 <span className="hidden w-24 shrink-0 text-sm text-ink-faint tabular-nums sm:block">
                   {item.period}

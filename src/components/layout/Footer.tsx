@@ -30,7 +30,6 @@ export function Footer() {
           <FooterCol title="Связь">
             <FooterLink href={contact.telegramUrl}>Telegram {contact.telegramHandle}</FooterLink>
             <FooterLink href={`mailto:${contact.email}`}>{contact.email}</FooterLink>
-            <FooterLink href={contact.whatsappUrl}>WhatsApp {contact.whatsapp}</FooterLink>
           </FooterCol>
           <FooterCol title="Ещё">
             <FooterLink href={contact.portfolioUrl}>Telegram-канал с кейсами</FooterLink>
