@@ -6,9 +6,8 @@ type LogoProps = {
 }
 
 /**
- * "ася" wordmark — lowercase, the personal name rather than initials, to match
- * the first-person voice of the site. Plain text in the display face so it uses
- * the loaded font and scales with `text-*` utilities.
+ * "Ася" wordmark. Plain text in the display face so it uses the loaded font
+ * and scales with `text-*` utilities.
  */
 export function Logo({ className, title = 'Ася' }: LogoProps) {
   return (
@@ -16,11 +15,11 @@ export function Logo({ className, title = 'Ася' }: LogoProps) {
       role="img"
       aria-label={title}
       className={cn(
-        'inline-block font-display font-extrabold lowercase leading-none tracking-[-0.04em] select-none',
+        'inline-block font-display font-extrabold leading-none tracking-[-0.04em] select-none',
         className,
       )}
     >
-      ася
+      Ася
       <span className="text-accent">.</span>
     </span>
   )

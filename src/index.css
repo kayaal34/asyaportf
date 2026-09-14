@@ -27,6 +27,21 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* Dark variant of the same studio-minimal system — warm near-black ground,
+   near-white ink, same accent (brightened slightly for contrast). */
+:root[data-theme='dark'] {
+  --paper: #171613;
+  --paper-raised: #211f1c;
+  --ink: #f4f2ee;
+  --ink-soft: #b3b0a8;
+  --ink-faint: #726e65;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.22);
+
+  --accent: #e2542f;
+  --accent-wash: rgba(226, 84, 47, 0.14);
+}
+
 /* Register tokens as Tailwind utilities: bg-paper, text-ink, font-display, text-mega … */
 @theme inline {
   --color-paper: var(--paper);
@@ -81,6 +96,10 @@
     background: var(--paper);
   }
 
+  html[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -97,6 +116,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    transition: background-color 0.5s ease, color 0.4s ease;
   }
 
   ::selection {
@@ -125,6 +145,22 @@
 
 @utility text-balance {
   text-wrap: balance;
+}
+
+/* Theme toggle: a circular wipe expanding from the button, driven by the
+   View Transition API (see useTheme.ts). Disable the browser's default
+   cross-fade so only our clip-path circle animates. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
 }
 
 @keyframes nudge {

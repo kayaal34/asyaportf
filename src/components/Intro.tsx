@@ -71,10 +71,7 @@ export function Intro() {
       )}
       style={{ transitionDuration: `${SLIDE_MS}ms`, pointerEvents: phase === 'out' ? 'none' : 'auto' }}
     >
-      <span className="intro-up text-xs tracking-[0.4em] text-ink-faint uppercase">
-        Здравствуйте
-      </span>
-      <Logo className="intro-up mt-8 text-5xl text-ink [animation-delay:0.35s] sm:text-6xl" />
+      <Logo className="intro-up text-6xl text-ink sm:text-7xl" />
       <span className="intro-line mt-9 h-px w-16 origin-center bg-line [animation-delay:0.7s]" />
       <span className="intro-up mt-9 text-[0.7rem] tracking-[0.3em] text-ink-faint uppercase [animation-delay:1s]">
         Менеджер маркетплейсов · WB / OZON

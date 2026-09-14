@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useContent } from '../../content/store'
 import { Logo } from '../Logo'
+import { ThemeToggle } from '../ThemeToggle'
 
 /** Shared with page wrappers so content can offset past the fixed rail. */
 export const SIDEBAR_WIDTH = 'lg:pl-64'
@@ -12,7 +13,7 @@ export const SIDEBAR_WIDTH = 'lg:pl-64'
  * + fullscreen overlay on narrower screens.
  */
 export function Header() {
-  const { nav: NAV, contact: CONTACT, hero: HERO } = useContent()
+  const { nav: NAV, contact: CONTACT } = useContent()
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -25,34 +26,32 @@ export function Header() {
   return (
     <>
       {/* Desktop rail */}
-      <header className="reveal fixed inset-y-0 left-0 z-50 hidden w-64 flex-col gap-14 overflow-y-auto border-r border-line bg-paper px-8 py-10 lg:flex">
+      <header className="reveal fixed inset-y-0 left-0 z-50 hidden w-64 flex-col justify-between gap-10 overflow-y-auto border-r border-line bg-paper px-8 py-10 lg:flex">
         <div>
-          <Link to="/" aria-label="На главную" className="group inline-block">
-            <Logo className="text-2xl text-ink transition-opacity group-hover:opacity-60" />
-          </Link>
+          <div className="flex items-center justify-between">
+            <Link to="/" aria-label="На главную" className="group inline-block">
+              <Logo className="text-2xl text-ink transition-opacity group-hover:opacity-60" />
+            </Link>
+            <ThemeToggle />
+          </div>
 
-          <nav className="mt-16 flex flex-col gap-1">
+          <nav className="mt-16 flex flex-col gap-3">
             {NAV.map((item, i) => (
               <Link
                 key={item.href}
                 to={item.href}
-                className="group flex items-baseline gap-3 rounded-lg py-2 text-sm text-ink-soft transition-colors hover:text-ink"
+                className="group flex items-baseline gap-4 rounded-lg py-2 text-lg text-ink-soft transition-colors hover:text-ink"
               >
                 <span className="text-xs text-ink-faint tabular-nums">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <span className="relative">
+                <span className="relative font-medium">
                   {item.label}
                   <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-ink transition-all duration-300 group-hover:w-full" />
                 </span>
               </Link>
             ))}
           </nav>
-
-          <div className="mt-14 max-w-[11rem] border-t border-line pt-6">
-            <p className="text-xs leading-relaxed text-ink-faint">{HERO.kicker}</p>
-            <p className="mt-2 text-sm font-medium text-ink">{HERO.emphasis}</p>
-          </div>
         </div>
 
         <div>
@@ -81,15 +80,18 @@ export function Header() {
         <Link to="/" aria-label="На главную" className="block" onClick={() => setOpen(false)}>
           <Logo className="text-xl text-ink" />
         </Link>
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="text-sm font-medium text-ink"
-          aria-expanded={open}
-          aria-label="Меню"
-        >
-          {open ? 'Закрыть' : 'Меню'}
-        </button>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className="text-sm font-medium text-ink"
+            aria-expanded={open}
+            aria-label="Меню"
+          >
+            {open ? 'Закрыть' : 'Меню'}
+          </button>
+        </div>
       </header>
 
       {/* Fullscreen overlay nav */}

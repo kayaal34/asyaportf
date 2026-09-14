@@ -72,7 +72,6 @@ export function Hero() {
 
         {platforms.length > 0 && (
           <div {...reveal(0.5)} className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
-            <span className="text-xs tracking-[0.2em] text-ink-faint uppercase">Площадки</span>
             {platforms.map((p) => (
               <PlatformMark key={p} name={p} />
             ))}

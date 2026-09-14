@@ -31,7 +31,7 @@ export function MinimalGrid() {
           >
             <article
               className={cn(
-                'group flex h-full flex-col justify-between rounded-3xl border border-line bg-paper-raised p-8 transition-[transform,border-color] duration-300 hover:-translate-y-1.5 hover:border-line-strong sm:p-10',
+                'group flex h-full flex-col rounded-3xl border border-line bg-paper-raised p-8 transition-[transform,border-color] duration-300 hover:-translate-y-1.5 hover:border-line-strong sm:p-10',
                 item.scale === 'tall' && 'lg:min-h-[32rem]',
                 item.scale === 'wide' && 'lg:min-h-[15rem]',
               )}
@@ -47,7 +47,7 @@ export function MinimalGrid() {
                 </div>
               ) : (
                 <div className="flex items-center gap-3">
-                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-accent-wash text-accent">
+                  <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-accent-wash text-accent">
                     {(() => {
                       const Icon = EXPERTISE_ICONS[item.index]
                       return Icon ? <Icon /> : null
@@ -58,7 +58,7 @@ export function MinimalGrid() {
                   </span>
                 </div>
               )}
-              <div className="mt-10 sm:mt-16">
+              <div className="mt-6">
                 <h3 className="text-2xl font-extrabold tracking-[-0.02em] sm:text-3xl">
                   {item.title}
                 </h3>
