@@ -3,12 +3,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ContentProvider } from './content/store'
 import { Analytics } from './components/Analytics'
 import { SitePage } from './pages/SitePage'
-import { ContactPage } from './pages/ContactPage'
-import { AboutPage } from './pages/AboutPage'
-import { ServicesPage } from './pages/ServicesPage'
-import { AiPage } from './pages/AiPage'
-import { CasesPage } from './pages/CasesPage'
 
+const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })))
+const AboutPage = lazy(() => import('./pages/AboutPage').then((m) => ({ default: m.AboutPage })))
+const ServicesPage = lazy(() => import('./pages/ServicesPage').then((m) => ({ default: m.ServicesPage })))
+const AiPage = lazy(() => import('./pages/AiPage').then((m) => ({ default: m.AiPage })))
+const CasesPage = lazy(() => import('./pages/CasesPage').then((m) => ({ default: m.CasesPage })))
 const AdminApp = lazy(() => import('./admin/AdminApp').then((m) => ({ default: m.AdminApp })))
 const AdminReset = lazy(() => import('./admin/AdminReset').then((m) => ({ default: m.AdminReset })))
 
