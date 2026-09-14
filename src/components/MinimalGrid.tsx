@@ -3,6 +3,7 @@ import { SectionHeading } from './SectionHeading'
 import { Reveal } from './Reveal'
 import { useContent } from '../content/store'
 import { cn } from '../lib/cn'
+import { EXPERTISE_ICONS } from './ExpertiseIcons'
 
 /** Asymmetrical placement on lg+, honest flow on smaller screens. */
 const PLACEMENT: Record<string, string> = {
@@ -35,10 +36,18 @@ export function MinimalGrid() {
                 item.scale === 'wide' && 'lg:min-h-[15rem]',
               )}
             >
-              <span className="font-display text-sm font-bold tracking-[0.1em] text-ink-faint">
-                {item.index}
-              </span>
-              <div className="mt-16 sm:mt-24">
+              <div className="flex items-center gap-3">
+                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-accent-wash text-accent">
+                  {(() => {
+                    const Icon = EXPERTISE_ICONS[item.index]
+                    return Icon ? <Icon /> : null
+                  })()}
+                </span>
+                <span className="font-display text-sm font-bold tracking-[0.1em] text-ink-faint">
+                  {item.index}
+                </span>
+              </div>
+              <div className="mt-10 sm:mt-16">
                 <h3 className="text-2xl font-extrabold tracking-[-0.02em] sm:text-3xl">
                   {item.title}
                 </h3>
