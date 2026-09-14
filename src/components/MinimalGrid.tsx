@@ -36,17 +36,28 @@ export function MinimalGrid() {
                 item.scale === 'wide' && 'lg:min-h-[15rem]',
               )}
             >
-              <div className="flex items-center gap-3">
-                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-accent-wash text-accent">
-                  {(() => {
-                    const Icon = EXPERTISE_ICONS[item.index]
-                    return Icon ? <Icon /> : null
-                  })()}
-                </span>
-                <span className="font-display text-sm font-bold tracking-[0.1em] text-ink-faint">
-                  {item.index}
-                </span>
-              </div>
+              {item.image ? (
+                <div className="flex items-center gap-3">
+                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-line">
+                    <img src={item.image} alt="" className="h-full w-full object-cover" />
+                  </div>
+                  <span className="font-display text-sm font-bold tracking-[0.1em] text-ink-faint">
+                    {item.index}
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-accent-wash text-accent">
+                    {(() => {
+                      const Icon = EXPERTISE_ICONS[item.index]
+                      return Icon ? <Icon /> : null
+                    })()}
+                  </span>
+                  <span className="font-display text-sm font-bold tracking-[0.1em] text-ink-faint">
+                    {item.index}
+                  </span>
+                </div>
+              )}
               <div className="mt-10 sm:mt-16">
                 <h3 className="text-2xl font-extrabold tracking-[-0.02em] sm:text-3xl">
                   {item.title}

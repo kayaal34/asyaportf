@@ -149,6 +149,8 @@ export type ExpertiseItem = {
   title: string
   body: string
   scale: 'wide' | 'tall' | 'normal'
+  /** Optional photo — replaces the default line-art badge when set. */
+  image?: string
 }
 
 export const WORK_INTRO = {

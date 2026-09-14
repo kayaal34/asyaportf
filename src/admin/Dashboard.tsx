@@ -416,6 +416,13 @@ export function Dashboard() {
                   <Field label="Текст">
                     <TextArea value={it.body} onChange={(v) => update({ body: v })} />
                   </Field>
+                  <ImageField
+                    value={it.image ?? ''}
+                    onChange={(url) => update({ image: url || undefined })}
+                  />
+                  <span className="block text-xs text-ink-faint">
+                    Без фото — стандартный значок. С фото — вместо значка покажется оно.
+                  </span>
                 </>
               )}
             />
