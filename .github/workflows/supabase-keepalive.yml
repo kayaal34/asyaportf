@@ -1,0 +1,35 @@
+# Free Supabase projects pause after ~7 days without activity, which breaks the
+# contact form and the admin. This queries the database every 3 days to keep it
+# awake. The project URL and publishable key are public (they ship in the site's
+# JS), so they are read from the live bundle instead of being stored here.
+name: Supabase keep-alive
+
+on:
+  schedule:
+    - cron: '17 6 */3 * *' # 06:17 UTC every third day
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Query site_content
+        env:
+          SITE: https://taaeyes.ru
+        run: |
+          set -euo pipefail
+          for f in $(curl -fsS --retry 3 --retry-all-errors "$SITE/" | grep -o '/assets/[^"]*\.js' | sort -u); do
+            js=$(curl -fsS --retry 3 --retry-all-errors "$SITE$f")
+            KEY=$(grep -oE 'sb_publishable_[A-Za-z0-9_-]{20,}' <<<"$js" | head -1 || true)
+            URL=$(grep -o 'https://[a-z0-9]*\.supabase\.co' <<<"$js" | head -1 || true)
+            [ -n "$KEY" ] && [ -n "$URL" ] && break
+          done
+          if [ -z "${KEY:-}" ] || [ -z "${URL:-}" ]; then
+            echo "Supabase URL/key not found in the site bundle"; exit 1
+          fi
+          code=$(curl -s -o /dev/null -w '%{http_code}' --retry 3 --retry-all-errors --retry-delay 10 \
+            "$URL/rest/v1/site_content?select=id&limit=1" \
+            -H "apikey: $KEY")
+          echo "Supabase responded with HTTP $code"
+          test "$code" = "200"
