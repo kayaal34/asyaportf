@@ -30,7 +30,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       onClick={onClick}
       aria-label={isDark ? 'Включить светлую тему' : 'Включить тёмную тему'}
       className={cn(
-        'relative grid size-9 shrink-0 place-items-center rounded-full border border-line text-ink-soft transition-colors hover:border-ink hover:text-ink',
+        'relative grid size-9 shrink-0 place-items-center rounded-full border border-current/30 transition-colors hover:border-current',
         className,
       )}
     >
