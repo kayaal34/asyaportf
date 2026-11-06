@@ -14,20 +14,24 @@ export function CaseStudies() {
       <SectionHeading kicker={CASES_INTRO.kicker} title={CASES_INTRO.title} />
 
       <div className="mt-16 border-t border-line lg:mt-24">
-        {CASES.map((item) => {
+        {CASES.map((item, idx) => {
           const isOpen = openId === item.id
           return (
-            <div key={item.id} className="border-b border-line">
+            <Reveal key={item.id} delay={idx * 0.08} className="border-b border-line">
               <button
                 type="button"
                 onClick={() => setOpenId(isOpen ? '' : item.id)}
                 aria-expanded={isOpen}
-                className="group flex w-full items-start gap-6 py-8 text-left lg:items-center lg:py-10"
+                className="group relative isolate flex w-full items-start gap-6 overflow-hidden px-2 py-8 text-left lg:items-center lg:px-4 lg:py-10"
               >
-                <span className="hidden w-24 shrink-0 text-sm text-ink-faint tabular-nums sm:block">
+                <span
+                  aria-hidden
+                  className="absolute inset-0 -z-10 origin-bottom scale-y-0 bg-accent transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-y-100"
+                />
+                <span className="hidden w-28 shrink-0 font-mono text-[0.68rem] tracking-[0.04em] text-ink-faint uppercase transition-colors group-hover:text-accent-ink sm:block">
                   {item.period}
                 </span>
-                <span className="flex-1 text-xl font-extrabold tracking-[-0.02em] sm:text-2xl lg:text-3xl">
+                <span className="flex-1 text-[clamp(1.5rem,3.6vw,3.4rem)] leading-[0.98] font-extrabold tracking-[-0.045em] transition-colors group-hover:text-accent-ink">
                   {item.label}
                 </span>
                 <span
@@ -117,7 +121,7 @@ export function CaseStudies() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Reveal>
           )
         })}
       </div>
