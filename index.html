@@ -22,6 +22,8 @@
                 : 'light';
           document.documentElement.dataset.theme = theme;
         } catch (e) {}
+        // Scroll-reveal styles only hide content when the observer that shows it exists.
+        if ('IntersectionObserver' in window) document.documentElement.classList.add('motion');
       })();
     </script>
   </head>
