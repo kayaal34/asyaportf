@@ -1,25 +1,45 @@
-import { type ReactNode } from 'react'
+import { type CSSProperties, type ReactNode, type RefObject } from 'react'
 import { cn } from '../lib/cn'
+import { useReveal } from '../lib/inview'
+
+export type RevealVariant = 'up' | 'fade' | 'blur' | 'scale' | 'left' | 'right' | 'pop'
 
 type RevealProps = {
   children: ReactNode
   className?: string
   /** Stagger delay in seconds. */
   delay?: number
-  blur?: boolean
-  as?: 'div' | 'li' | 'span' | 'figure' | 'article'
+  variant?: RevealVariant
+  /** Also reveal `.sr-c` descendants (each with its own `--d` delay). */
+  group?: boolean
+  as?: 'div' | 'li' | 'span' | 'figure' | 'article' | 'ul'
+  style?: CSSProperties
 }
 
 /**
- * Soft fade + rise entrance. Pure CSS keyframe (`reveal` utility, fill-mode
- * both) so the content is guaranteed to end fully visible in every rendering
- * context — no IntersectionObserver, no animation-library frame loop to stall.
- * Respects prefers-reduced-motion via the utility's media query.
+ * Scroll-triggered entrance. A shared IntersectionObserver flags the element
+ * with `data-shown` when it enters the viewport and CSS transitions animate it
+ * in. Content is only hidden when `html.motion` is set (observer available) and
+ * the user hasn't asked for reduced motion, so it can never get stuck invisible.
  */
-export function Reveal({ children, className, delay = 0, as = 'div' }: RevealProps) {
-  const Tag = as
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+  variant = 'up',
+  group = false,
+  as = 'div',
+  style,
+}: RevealProps) {
+  const ref = useReveal<HTMLElement>()
+  const Tag = as as 'div'
   return (
-    <Tag className={cn('reveal', className)} style={{ animationDelay: `${delay}s` }}>
+    <Tag
+      ref={ref as RefObject<HTMLDivElement>}
+      data-sr={variant}
+      className={cn(group ? 'sr-group' : 'sr', className)}
+      style={{ ...style, ['--d' as string]: `${delay}s` }}
+    >
       {children}
     </Tag>
   )
