@@ -1,45 +1,58 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 @import '@fontsource/manrope/400.css';
 @import '@fontsource/manrope/500.css';
 @import '@fontsource/manrope/700.css';
 @import '@fontsource/manrope/800.css';
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/500.css';
+@import '@fontsource/inter-tight/500.css';
+@import '@fontsource/inter-tight/600.css';
+@import '@fontsource/inter-tight/700.css';
+@import '@fontsource/inter-tight/800.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
+@import '@fontsource/cormorant-garamond/600-italic.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
 
 :root {
   /* Studio-minimal light system — restrained, work-forward (Steve Wolf Co
      reference): warm off-white ground, near-black ink, one quiet accent. */
-  --paper: #f7f6f3; /* warm off-white ground */
-  --paper-raised: #ffffff; /* cards / raised surfaces */
-  --ink: #131210; /* near-black foreground */
-  --ink-soft: #5c5a55; /* muted body text */
-  --ink-faint: #9b998f; /* captions, meta */
-  --line: rgba(19, 18, 16, 0.1); /* hairline dividers */
-  --line-strong: rgba(19, 18, 16, 0.22);
+  --paper: #f1eee7; /* newsprint ground */
+  --paper-raised: #faf8f3; /* cards / raised surfaces */
+  --ink: #0f0e0c; /* near-black foreground */
+  --ink-soft: #57544d; /* muted body text */
+  --ink-faint: #94918a; /* captions, meta */
+  --line: rgba(15, 14, 12, 0.11); /* hairline dividers */
+  --line-strong: rgba(15, 14, 12, 0.24);
 
   /* One quiet accent — used sparingly (links, deltas, the odd chip). */
-  --accent: #c1381f;
-  --accent-ink: #f7f6f3; /* text that sits on --accent */
-  --accent-wash: rgba(193, 56, 31, 0.08);
+  --accent: #ff4a1c; /* signal orange — used loud, in blocks */
+  --accent-ink: #0f0e0c; /* text that sits on --accent */
+  --accent-wash: rgba(255, 74, 28, 0.1);
 
-  --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-display: 'Inter Tight', 'Manrope', system-ui, -apple-system, sans-serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
 /* Dark variant of the same studio-minimal system — warm near-black ground,
    near-white ink, same accent (brightened slightly for contrast). */
 :root[data-theme='dark'] {
-  --paper: #171613;
-  --paper-raised: #211f1c;
-  --ink: #f4f2ee;
-  --ink-soft: #b3b0a8;
-  --ink-faint: #726e65;
-  --line: rgba(255, 255, 255, 0.1);
-  --line-strong: rgba(255, 255, 255, 0.22);
+  --paper: #0f0e0c;
+  --paper-raised: #1a1916;
+  --ink: #f1eee7;
+  --ink-soft: #b0ada5;
+  --ink-faint: #6f6c65;
+  --line: rgba(241, 238, 231, 0.1);
+  --line-strong: rgba(241, 238, 231, 0.22);
 
-  --accent: #e2542f;
-  --accent-wash: rgba(226, 84, 47, 0.14);
+  --accent: #ff5a2c;
+  --accent-ink: #0f0e0c;
+  --accent-wash: rgba(255, 90, 44, 0.14);
 }
 
 /* Register tokens as Tailwind utilities: bg-paper, text-ink, font-display, text-mega … */
@@ -57,27 +70,33 @@
 
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+
+  --text-giant: clamp(3.3rem, 11.5vw, 13rem);
+  --text-giant--line-height: 0.86;
+  --text-giant--letter-spacing: -0.055em;
 
   /* Fluid typographic scale — bold but restrained. */
   --text-mega: clamp(2rem, 4.5vw, 3.5rem);
   --text-mega--line-height: 1.05;
   --text-mega--letter-spacing: -0.02em;
 
-  --text-display: clamp(2.25rem, 5.5vw, 4.25rem);
+  --text-display: clamp(2.5rem, 6.5vw, 6rem);
   --text-display--line-height: 1.02;
-  --text-display--letter-spacing: -0.035em;
+  --text-display--letter-spacing: -0.045em;
 
   --text-work: clamp(1.5rem, 3vw, 2.5rem);
   --text-work--line-height: 1.1;
   --text-work--letter-spacing: -0.025em;
 
-  --text-figure: clamp(2.25rem, 5vw, 4rem);
+  --text-figure: clamp(3rem, 8vw, 8rem);
   --text-figure--line-height: 0.95;
-  --text-figure--letter-spacing: -0.035em;
+  --text-figure--letter-spacing: -0.05em;
 
-  --text-headline: clamp(1.75rem, 3.4vw, 2.75rem);
-  --text-headline--line-height: 1.08;
-  --text-headline--letter-spacing: -0.025em;
+  --text-headline: clamp(2.1rem, 5vw, 4.75rem);
+  --text-headline--line-height: 0.98;
+  --text-headline--letter-spacing: -0.04em;
 
   --text-lead: clamp(1rem, 1.3vw, 1.25rem);
   --text-lead--line-height: 1.5;
@@ -194,6 +213,97 @@
   animation: reveal-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* ---------- Scroll reveals (see components/Reveal.tsx + lib/inview.ts) ----------
+   `.sr` animates itself when flagged `data-shown`; `.sr-c` animates when any
+   ancestor is flagged. Hidden state only applies under `html.motion`. */
+@media (prefers-reduced-motion: no-preference) {
+  html.motion :is(.sr, .sr-c) {
+    opacity: 0;
+    transform: translate3d(0, 2.25rem, 0);
+    transition:
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1.15s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--d, 0s);
+  }
+  html.motion :is(.sr, .sr-c)[data-sr='fade'] {
+    transform: none;
+  }
+  html.motion :is(.sr, .sr-c)[data-sr='blur'] {
+    filter: blur(12px);
+    transform: translate3d(0, 1rem, 0) scale(0.98);
+  }
+  html.motion :is(.sr, .sr-c)[data-sr='scale'] {
+    transform: translate3d(0, 2.5rem, 0) scale(0.92);
+  }
+  html.motion :is(.sr, .sr-c)[data-sr='left'] {
+    transform: translate3d(-3rem, 0, 0);
+  }
+  html.motion :is(.sr, .sr-c)[data-sr='right'] {
+    transform: translate3d(3rem, 0, 0);
+  }
+  html.motion :is(.sr, .sr-c)[data-sr='pop'] {
+    transform: scale(0.5);
+    transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  html.motion :is(.sr, .sr-c)[data-sr='mask'] {
+    opacity: 1;
+    transform: translate3d(0, 110%, 0) rotate(4deg);
+    transform-origin: left bottom;
+  }
+  html.motion :is(.sr, .sr-c)[data-sr='line'] {
+    opacity: 1;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition-duration: 0.9s, 1.4s, 0.9s;
+  }
+
+  html.motion .sr[data-shown],
+  html.motion [data-shown] .sr-c {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Hero ambient light: two soft orbs drifting behind the headline. */
+@keyframes orb-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8%, -10%, 0) scale(1.15);
+  }
+}
+@keyframes orb-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.08);
+  }
+  50% {
+    transform: translate3d(-10%, 8%, 0) scale(0.92);
+  }
+}
+@utility animate-orb-a {
+  animation: orb-a 16s ease-in-out infinite;
+}
+@utility animate-orb-b {
+  animation: orb-b 19s ease-in-out infinite;
+}
+
+/* Lenis smooth scrolling (recommended base styles). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
 
 /* Intro splash entrances (CSS only). */
 @keyframes intro-up {
@@ -259,4 +369,121 @@
   .animate-seal {
     animation: none;
   }
+}
+
+/* ---------- Variant 2: editorial chrome ---------- */
+
+/* Film grain over everything — static, cheap, kills the "flat web" look. */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html[data-theme='dark'] .grain {
+  opacity: 0.1;
+  filter: invert(1);
+}
+
+@keyframes spin-badge {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@utility animate-spin-badge {
+  animation: spin-badge 18s linear infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+@utility animate-blink {
+  animation: blink 1.6s steps(2, start) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-badge,
+  .animate-blink {
+    animation: none;
+  }
+}
+
+/* Line-art illustrations (components/ExpertiseArt.tsx). The hidden state
+   only applies while the enclosing reveal group is NOT shown, so on reveal each
+   element transitions back to its own SVG attributes (opacity etc.). */
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .art .draw {
+    stroke-dasharray: 1 1;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0s);
+  }
+  html.motion .art .fade {
+    transform-box: fill-box;
+    transition:
+      opacity 0.7s ease var(--d, 0s),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s);
+  }
+  html.motion .art .grow {
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s);
+  }
+  html.motion .sr-group:not([data-shown]) .art .draw {
+    stroke-dashoffset: 1;
+  }
+  html.motion .sr-group:not([data-shown]) .art .fade {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  html.motion .sr-group:not([data-shown]) .art .grow {
+    transform: scaleY(0);
+  }
+  .art .truck {
+    animation: truck-bob 2.4s ease-in-out infinite;
+  }
+}
+@keyframes truck-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -3px;
+  }
+}
+
+/* Feels right at ~90% on desktop: scale the whole rem system down a notch. */
+@media (min-width: 64rem) {
+  html {
+    font-size: 90%;
+  }
+}
+
+/* ---------- Intro (components/Intro.tsx) ---------- */
+@keyframes intro-rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.intro-rise {
+  transform: translateY(110%);
+  animation: intro-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes intro-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-0.6em) scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.intro-pop {
+  opacity: 0;
+  animation: intro-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
