@@ -1,20 +1,22 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState, type CSSProperties } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { useContent } from '../../content/store'
 import { Logo } from '../Logo'
 import { ThemeToggle } from '../ThemeToggle'
+import { cn } from '../../lib/cn'
 
-/** Shared with page wrappers so content can offset past the fixed rail. */
-export const SIDEBAR_WIDTH = 'lg:pl-64'
+/** Kept for older imports; the layout no longer has a side rail. */
+export const SIDEBAR_WIDTH = ''
 
 /**
- * Navigation lives off to the side, not in a classic top bar — a thin fixed
- * rail on desktop (logo, numbered links, CTA), collapsing to a small top bar
- * + fullscreen overlay on narrower screens.
+ * A thin full-width bar that inverts whatever it floats over
+ * (mix-blend-difference) — black on paper, white on ink, electric on orange.
+ * Inline mono nav on desktop; a fullscreen typographic menu everywhere else.
  */
 export function Header() {
   const { nav: NAV, contact: CONTACT } = useContent()
   const [open, setOpen] = useState(false)
+  const { pathname } = useLocation()
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -25,102 +27,90 @@ export function Header() {
 
   return (
     <>
-      {/* Desktop rail */}
-      <header className="reveal fixed inset-y-0 left-0 z-50 hidden w-64 flex-col justify-between gap-10 overflow-y-auto border-r border-line bg-paper px-8 py-10 lg:flex">
-        <div>
-          <div className="flex items-center justify-between">
-            <Link to="/" aria-label="На главную" className="group inline-block">
-              <Logo className="text-2xl text-ink transition-opacity group-hover:opacity-60" />
+      {/* progressive blur so whatever scrolls under the bar stays out of its way */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-20 backdrop-blur-md [mask-image:linear-gradient(to_bottom,black_45%,transparent)] lg:h-24"
+      />
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-[60] text-white mix-blend-difference">
+        <div className="flex items-center justify-between gap-6 px-5 py-4 sm:px-8 lg:px-12 lg:py-5">
+          <div className="pointer-events-auto flex items-center gap-8">
+            <Link to="/" aria-label="На главную" onClick={() => setOpen(false)}>
+              <Logo className="text-2xl text-white [&>span]:text-white" />
             </Link>
-            <ThemeToggle />
           </div>
 
-          <nav className="mt-16 flex flex-col gap-3">
-            {NAV.map((item, i) => (
-              <Link
-                key={item.href}
-                to={item.href}
-                className="group flex items-baseline gap-4 rounded-lg py-2 text-lg text-ink-soft transition-colors hover:text-ink"
-              >
-                <span className="text-xs text-ink-faint tabular-nums">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <span className="relative font-medium">
-                  {item.label}
-                  <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-ink transition-all duration-300 group-hover:w-full" />
-                </span>
-              </Link>
-            ))}
+          <nav className="pointer-events-auto hidden items-center font-mono text-[0.72rem] tracking-[0.06em] uppercase lg:flex">
+            {NAV.map((item, i) => {
+              const active = pathname === item.href
+              return (
+                <Link key={item.href} to={item.href} className="group relative px-3 py-2">
+                  <span className="mr-1.5 opacity-40">{String(i + 1).padStart(2, '0')}</span>
+                  <span className={cn('transition-opacity', active ? 'opacity-100' : 'opacity-75 group-hover:opacity-100')}>
+                    {item.label}
+                  </span>
+                  <span
+                    className={cn(
+                      'absolute right-3 bottom-1 left-3 h-px origin-left bg-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
+                      active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
+                    )}
+                  />
+                </Link>
+              )
+            })}
           </nav>
-        </div>
 
-        <div>
-          <Link
-            to="/contact"
-            className="group flex items-center justify-between gap-2 rounded-full border border-ink px-4 py-2.5 text-sm font-medium transition-colors hover:bg-ink hover:text-paper"
-          >
-            Оставить заявку
-            <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">
-              →
-            </span>
-          </Link>
-          <a
-            href={CONTACT.telegramUrl}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="mt-4 block text-xs tracking-wide text-ink-faint transition-colors hover:text-ink"
-          >
-            {CONTACT.telegramHandle}
-          </a>
+          <div className="pointer-events-auto flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className="font-mono text-[0.72rem] tracking-[0.08em] uppercase lg:hidden"
+              aria-expanded={open}
+              aria-label="Меню"
+            >
+              {open ? '[ Закрыть ]' : '[ Меню ]'}
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Mobile / tablet top bar */}
-      <header className="reveal fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-line bg-paper/90 px-6 py-4 backdrop-blur lg:hidden">
-        <Link to="/" aria-label="На главную" className="block" onClick={() => setOpen(false)}>
-          <Logo className="text-xl text-ink" />
-        </Link>
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="text-sm font-medium text-ink"
-            aria-expanded={open}
-            aria-label="Меню"
-          >
-            {open ? 'Закрыть' : 'Меню'}
-          </button>
-        </div>
-      </header>
-
-      {/* Fullscreen overlay nav */}
+      {/* Fullscreen menu */}
       <nav
-        className={`fixed inset-0 z-40 flex flex-col justify-center gap-2 bg-paper px-8 transition-opacity duration-300 lg:hidden ${
-          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
-        }`}
+        className={cn(
+          'fixed inset-0 z-50 flex flex-col justify-between bg-accent px-5 pt-24 pb-8 text-accent-ink transition-[clip-path] duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] sm:px-8 lg:hidden',
+          open ? '[clip-path:inset(0_0_0_0)]' : 'pointer-events-none [clip-path:inset(0_0_100%_0)]',
+        )}
+        aria-hidden={!open}
       >
-        {NAV.map((item, i) => (
-          <Link
-            key={item.href}
-            to={item.href}
-            onClick={() => setOpen(false)}
-            className="flex items-baseline gap-4 border-b border-line py-4 text-3xl font-extrabold tracking-[-0.02em]"
-          >
-            <span className="text-sm font-normal text-ink-faint tabular-nums">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            {item.label}
+        <div className="flex flex-col">
+          {NAV.map((item, i) => (
+            <Link
+              key={item.href}
+              to={item.href}
+              onClick={() => setOpen(false)}
+              tabIndex={open ? 0 : -1}
+              className="group flex items-baseline gap-4 border-b border-accent-ink/20 py-3"
+              style={{ '--i': i } as CSSProperties}
+            >
+              <span className="font-mono text-xs opacity-60">{String(i + 1).padStart(2, '0')}</span>
+              <span className="font-display text-[clamp(2.4rem,11vw,4.5rem)] leading-none font-extrabold tracking-[-0.05em] transition-[font-style] group-hover:font-serif group-hover:italic">
+                {item.label}
+              </span>
+            </Link>
+          ))}
+        </div>
+        <div className="flex items-end justify-between gap-4 font-mono text-xs uppercase">
+          <a href={CONTACT.telegramUrl} target="_blank" rel="noreferrer noopener" tabIndex={open ? 0 : -1}>
+            Telegram ↗<br />
+            <span className="opacity-60">{CONTACT.telegramHandle}</span>
+          </a>
+          <Link to="/contact" onClick={() => setOpen(false)} tabIndex={open ? 0 : -1} className="text-right">
+            Оставить
+            <br />
+            заявку →
           </Link>
-        ))}
-        <a
-          href={CONTACT.telegramUrl}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="mt-8 text-sm text-ink-faint"
-        >
-          {CONTACT.telegramHandle}
-        </a>
+        </div>
       </nav>
     </>
   )
