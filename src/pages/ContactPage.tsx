@@ -48,9 +48,9 @@ export function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-paper text-ink">
+    <div className="relative min-h-screen text-ink">
       <Header />
-      <div className="lg:pl-64">
+      <div className="relative z-[1]">
       <main className="mx-auto grid max-w-[80rem] gap-14 px-6 pt-28 pb-28 sm:px-10 sm:pt-32 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:pt-24">
         <div>
           <Reveal>

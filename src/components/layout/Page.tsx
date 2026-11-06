@@ -10,10 +10,10 @@ export function Page({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <div className="relative min-h-screen bg-paper text-ink">
+    <div className="relative min-h-screen text-ink">
       <ScrollProgress />
       <Header />
-      <div className="lg:pl-64">
+      <div className="relative z-[1]">
         <main className="pt-28 sm:pt-32 lg:pt-24">{children}</main>
         <Footer />
       </div>

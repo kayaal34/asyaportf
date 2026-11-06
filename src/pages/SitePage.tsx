@@ -36,17 +36,19 @@ export function SitePage() {
   const { homeSections } = useContent()
 
   return (
-    <div className="relative min-h-screen bg-paper text-ink">
+    <div className="relative min-h-screen text-ink">
       <Intro />
       <ScrollProgress />
       <Header />
-      <div className="lg:pl-64">
+      <div className="relative z-[1]">
         <main>
           <Hero />
-          {homeSections.map((key) => {
-            const Section = SECTION_COMPONENTS[key]
-            return Section ? <Section key={key} /> : null
-          })}
+          <div className="overflow-x-clip">
+            {homeSections.map((key) => {
+              const Section = SECTION_COMPONENTS[key]
+              return Section ? <Section key={key} /> : null
+            })}
+          </div>
         </main>
         <Footer />
       </div>
