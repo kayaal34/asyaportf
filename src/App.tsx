@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ContentProvider } from './content/store'
 import { Analytics } from './components/Analytics'
 import { SitePage } from './pages/SitePage'
+import { SmoothScroll } from './components/SmoothScroll'
+import { SiteChrome } from './components/SiteChrome'
 
 const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })))
 const AboutPage = lazy(() => import('./pages/AboutPage').then((m) => ({ default: m.AboutPage })))
@@ -17,6 +19,8 @@ export default function App() {
     <ContentProvider>
       <BrowserRouter>
         <Analytics />
+        <SmoothScroll />
+        <SiteChrome />
         <Suspense fallback={<div className="min-h-screen bg-paper" />}>
           <Routes>
             <Route path="/" element={<SitePage />} />
