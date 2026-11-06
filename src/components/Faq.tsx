@@ -3,6 +3,7 @@ import { Section } from './Section'
 import { SectionHeading } from './SectionHeading'
 import { useContent } from '../content/store'
 import { cn } from '../lib/cn'
+import { Reveal } from './Reveal'
 
 export function Faq() {
   const { faq } = useContent()
@@ -16,14 +17,17 @@ export function Faq() {
         {faq.map((item, i) => {
           const isOpen = open === i
           return (
-            <div key={item.q} className="border-b border-line">
+            <Reveal key={item.q} delay={Math.min(i * 0.06, 0.4)} className="border-b border-line">
               <button
                 type="button"
                 onClick={() => setOpen(isOpen ? null : i)}
                 aria-expanded={isOpen}
                 className="group flex w-full items-start gap-6 py-6 text-left"
               >
-                <span className="flex-1 text-lg font-semibold tracking-[-0.01em] sm:text-xl">
+                <span className="w-12 shrink-0 pt-1.5 font-mono text-[0.68rem] text-accent sm:w-20">
+                  Q.{String(i + 1).padStart(2, '0')}
+                </span>
+                <span className="flex-1 text-xl font-bold tracking-[-0.03em] sm:text-2xl lg:text-3xl">
                   {item.q}
                 </span>
                 <span
@@ -43,12 +47,12 @@ export function Faq() {
                 )}
               >
                 <div className="min-h-0">
-                  <p className="max-w-2xl pb-6 text-[0.975rem] leading-relaxed text-ink-soft">
+                  <p className="max-w-2xl pb-8 pl-12 text-base leading-relaxed text-ink-soft sm:pl-20 sm:text-lg">
                     {item.a}
                   </p>
                 </div>
               </div>
-            </div>
+            </Reveal>
           )
         })}
       </div>
