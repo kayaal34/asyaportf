@@ -62,26 +62,6 @@ export function Footer() {
               <FooterLink href="/about">Обо мне</FooterLink>
               <FooterLink href="/contact">Оставить заявку</FooterLink>
             </FooterCol>
-            <FooterCol title="Колофон">
-              <span className="text-sm text-paper/60">
-                © {year} {contact.fullName}
-              </span>
-              <span className="text-sm text-paper/60">
-                {credit.label} —{' '}
-                {credit.url ? (
-                  <a
-                    href={credit.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="text-paper underline decoration-paper/30 underline-offset-4 transition-colors hover:decoration-accent"
-                  >
-                    {credit.name}
-                  </a>
-                ) : (
-                  <span className="text-paper">{credit.name}</span>
-                )}
-              </span>
-            </FooterCol>
           </div>
         </div>
       </div>
@@ -94,6 +74,35 @@ export function Footer() {
         >
           Ася<span className="text-accent">.</span>
         </motion.div>
+      </div>
+
+      {/* bottom line: copyright and the developer credit */}
+      <div className="relative border-t border-paper/15 px-5 py-5 sm:px-8 lg:px-12">
+        <div className="mx-auto flex w-full max-w-[100rem] flex-wrap items-center justify-between gap-x-6 gap-y-2 font-mono text-[0.66rem] tracking-[0.08em] text-paper/50 uppercase">
+          <span>
+            © {year} {contact.fullName}
+          </span>
+          {credit.url ? (
+            <a
+              href={credit.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="group inline-flex items-center gap-1.5 transition-colors hover:text-paper"
+            >
+              Designed by
+              <span className="text-paper normal-case underline decoration-paper/30 underline-offset-4 transition-colors group-hover:decoration-accent">
+                {credit.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+              </span>
+              <span aria-hidden className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                ↗
+              </span>
+            </a>
+          ) : (
+            <span>
+              Designed by <span className="text-paper normal-case">{credit.name}</span>
+            </span>
+          )}
+        </div>
       </div>
     </footer>
   )
