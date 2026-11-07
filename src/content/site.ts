@@ -391,9 +391,9 @@ export type Channel = {
  * Telegram / portfolio link; leave it empty to render as plain muted text.
  */
 export const CREDIT = {
-  label: 'Дизайн и разработка сайта',
-  name: 'Yahya',
-  url: '',
+  label: 'Designed by',
+  name: 'kayaal.is-a.dev',
+  url: 'https://kayaal.is-a.dev/',
 }
 
 /**
